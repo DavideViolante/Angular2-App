@@ -1,0 +1,25 @@
+<table class="table table-bordered table-striped">
+	<thead class="thead-default">
+		<tr>
+			<th class="text-center" colspan="2">{{file?.name | uppercase}}</th>
+		</tr>
+	</thead>
+
+	<tbody *ngIf="!file">
+		<tr>
+			<td><img src="images/loading.gif" alt="Loading" /> Loading...</td>
+		</tr>
+	</tbody>
+
+	<tbody *ngIf="file">
+		<tr>
+			<td class="text-center" colspan="2"><img [src]="file.imgurl" /></td>
+		</tr>
+		<tr>
+			<td>Author:</td><td>{{file.author}}</td>
+		</tr>
+		<tr>
+			<td>Downloads:</td><td>{{file.dls | number}}</td>
+		</tr>
+	</tbody>
+</table>

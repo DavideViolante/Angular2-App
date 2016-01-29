@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Set the base href -->
+    <base href="/">
+    
+    <title>Angular 2 App</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    <!-- IE required polyfills, in this exact order -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.16/system-polyfills.js"></script>
+    
+    <script src="https://code.angularjs.org/2.0.0-beta.0/angular2-polyfills.js"></script>
+    <script src="https://code.angularjs.org/tools/system.js"></script>
+    <script src="https://code.angularjs.org/tools/typescript.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.0/Rx.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.0/angular2.dev.js"></script>
+    
+    <!-- Additional Angular2 libraries -->
+    <script src="https://code.angularjs.org/2.0.0-beta.0/router.dev.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.0/http.dev.js"></script>
+
+    <!-- jQuery and Bootstrap libraries -->
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
+    <script>
+      System.config({
+        transpiler: 'typescript', 
+        typescriptOptions: { emitDecoratorMetadata: true }, 
+        packages: {'app': {defaultExtension: 'ts'}} 
+      });
+      System.import('app/boot')
+            .then(null, console.error.bind(console));
+    </script>
+  </head>
+
+  <body>
+    <app>Loading...</app>
+  </body>
+
+</html>
+
+

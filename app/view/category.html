@@ -1,0 +1,20 @@
+<table class="table table-bordered table-hover">
+	<thead class="thead-default">
+		<tr>
+			<th colspan="2">Category: {{catname | initCase}}</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr *ngIf="!files">
+			<td><img src="images/loading.gif" alt="Loading" /> Loading...</td>
+		</tr>
+		<tr *ngIf="files && files.length<1">
+			<td>This category is empty.</td>
+		</tr>
+		<tr *ngFor="#file of files">
+			<td><a href="javascript:false" (click)="gotoFile(file.cat,file.id,file.name)">{{file.name}}</a></td>
+			<td>{{file.cat}}</td>
+		</tr>
+	</tbody>
+</table>

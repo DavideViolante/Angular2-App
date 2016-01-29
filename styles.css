@@ -1,0 +1,35 @@
+body {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+ul {
+    list-style: none;
+    margin-left: -30px;
+}
+
+table thead th {
+    background-color: #DDD;
+}
+
+/*
+li {
+    padding: 5px;
+}
+
+li:hover {
+    display: inline-block;
+    background-color: #eee;
+    cursor: pointer;
+}
+
+li.selected {
+    background-color: #ff0000;
+}
+
+nav a {
+    font-weight: bold;
+    padding: 10px;
+    background-color: #eee;
+}
+*/

@@ -1,0 +1,16 @@
+<table class="table table-bordered table-hover">
+	<thead class="thead-default">
+		<tr>
+			<th>Category</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr *ngIf="!cats">
+			<td><img src="images/loading.gif" alt="Loading" /> Loading...</td>
+		</tr>
+		<tr *ngFor="#cat of cats">
+			<td><a href="javascript:false" (click)="gotoCat(cat.catname)">{{cat.catname | initCase}}</a></td>
+		</tr>
+	</tbody>
+</table>
