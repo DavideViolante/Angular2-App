@@ -9,30 +9,28 @@ System.register(['angular2/core'], function(exports_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var InitCasePipe;
+    var TrimLowerCasePipe;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            InitCasePipe = (function () {
-                function InitCasePipe() {
+            TrimLowerCasePipe = (function () {
+                function TrimLowerCasePipe() {
                 }
-                InitCasePipe.prototype.transform = function (value) {
+                TrimLowerCasePipe.prototype.transform = function (value) {
                     if (value)
-                        return value.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
-                            return m.toUpperCase();
-                        });
+                        return value.toLowerCase().replace(/ /g, "-");
                 };
-                InitCasePipe = __decorate([
-                    core_1.Pipe({ name: 'initCase' }), 
+                TrimLowerCasePipe = __decorate([
+                    core_1.Pipe({ name: 'trimLowerCase' }), 
                     __metadata('design:paramtypes', [])
-                ], InitCasePipe);
-                return InitCasePipe;
+                ], TrimLowerCasePipe);
+                return TrimLowerCasePipe;
             })();
-            exports_1("InitCasePipe", InitCasePipe);
+            exports_1("TrimLowerCasePipe", TrimLowerCasePipe);
         }
     }
 });
-//# sourceMappingURL=init-case-pipe.js.map
+//# sourceMappingURL=trim-lowercase-pipe.js.map

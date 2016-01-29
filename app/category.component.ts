@@ -1,15 +1,18 @@
 import {Component} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
+import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from './mongoapi.service';
 
 import {InitCasePipe} from './init-case-pipe';
+import {TrimLowerCasePipe} from './trim-lowercase-pipe';
+
 
 @Component({
     selector: 'category',
     templateUrl: 'app/view/category.html',
-    pipes: [InitCasePipe],
-    providers: [MongoAPIService]
+    pipes: [InitCasePipe, TrimLowerCasePipe],
+    providers: [MongoAPIService],
+    directives: [ROUTER_DIRECTIVES]
 })
 
 export class CategoryComponent {
@@ -18,19 +21,28 @@ export class CategoryComponent {
 	private catname = "";
 
 	constructor(private service: MongoAPIService,
-				private router: Router,
 				private routeParams: RouteParams) {
 
 		this.catname = this.routeParams.get("catname");
 
-		this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(
-			data => this.files = data
-		);
-		
+		if (fileCache.cat.indexOf(this.catname) === -1)
+			this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(
+				data => {
+					this.files = data;
+					fileCache.files.push({ cat: this.catname, data: data });
+					fileCache.cat.push(this.catname);
+				}
+			);
+		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;		
 	}
-
-	gotoFile(catname: string, fileid: string, filename: string) {
-		filename = filename.replace(/ /g,"-").toLowerCase();
-		this.router.navigate(['File', { catname: catname, fileid: fileid, filename: filename }]);
-    }
 }
+
+var fileCache = {
+	files: [
+			{
+				cat: "",
+				data: {}
+			}
+		],
+	cat: []
+};

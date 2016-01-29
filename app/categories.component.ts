@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from './mongoapi.service';
 
@@ -9,7 +9,8 @@ import {InitCasePipe} from './init-case-pipe';
     selector: 'categories',
     templateUrl: 'app/view/categories.html',
     pipes: [InitCasePipe],
-    providers: [MongoAPIService]
+    providers: [MongoAPIService],
+    directives: [ROUTER_DIRECTIVES]
 })
 
 
@@ -17,8 +18,7 @@ export class CategoriesComponent {
 
 	private cats = null;
 
-	constructor(private service: MongoAPIService,
-				private router: Router) {
+	constructor(private service: MongoAPIService) {
 
         if (!catsCache)
 			this.service.mongoGet('cats', '').subscribe(
@@ -26,12 +26,7 @@ export class CategoriesComponent {
 			);
 		else this.cats = catsCache;
 		
-	}
-
-    gotoCat(catname: string) {
-		this.router.navigate(['Category', {catname: catname}]);
-    }
-	
+	}	
 }
 
 var catsCache;

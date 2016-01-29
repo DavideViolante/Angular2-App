@@ -13,7 +13,7 @@
 			<td>This category is empty.</td>
 		</tr>
 		<tr *ngFor="#file of files">
-			<td><a href="javascript:false" (click)="gotoFile(file.cat,file.id,file.name)">{{file.name}}</a></td>
+			<td><a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a></td>
 			<td>{{file.cat}}</td>
 		</tr>
 	</tbody>

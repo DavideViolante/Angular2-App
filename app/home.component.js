@@ -19,7 +19,6 @@ System.register(['angular2/core'], function(exports_1) {
             HomeComponent = (function () {
                 function HomeComponent() {
                 }
-                HomeComponent.prototype.ngOnInit = function () { };
                 HomeComponent = __decorate([
                     core_1.Component({
                         selector: 'home',

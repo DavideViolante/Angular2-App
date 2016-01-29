@@ -26,27 +26,24 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
             }],
         execute: function() {
             CategoriesComponent = (function () {
-                function CategoriesComponent(service, router) {
+                function CategoriesComponent(service) {
                     var _this = this;
                     this.service = service;
-                    this.router = router;
                     this.cats = null;
                     if (!catsCache)
                         this.service.mongoGet('cats', '').subscribe(function (data) { catsCache = data; _this.cats = catsCache; });
                     else
                         this.cats = catsCache;
                 }
-                CategoriesComponent.prototype.gotoCat = function (catname) {
-                    this.router.navigate(['Category', { catname: catname }]);
-                };
                 CategoriesComponent = __decorate([
                     core_1.Component({
                         selector: 'categories',
                         templateUrl: 'app/view/categories.html',
                         pipes: [init_case_pipe_1.InitCasePipe],
-                        providers: [mongoapi_service_1.MongoAPIService]
+                        providers: [mongoapi_service_1.MongoAPIService],
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router])
+                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService])
                 ], CategoriesComponent);
                 return CategoriesComponent;
             })();

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './mongoapi.service', './init-case-pipe'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './mongoapi.service', './init-case-pipe', './trim-lowercase-pipe'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,8 +8,8 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, init_case_pipe_1;
-    var CategoryComponent;
+    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1;
+    var CategoryComponent, fileCache;
     return {
         setters:[
             function (core_1_1) {
@@ -23,35 +23,50 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
             },
             function (init_case_pipe_1_1) {
                 init_case_pipe_1 = init_case_pipe_1_1;
+            },
+            function (trim_lowercase_pipe_1_1) {
+                trim_lowercase_pipe_1 = trim_lowercase_pipe_1_1;
             }],
         execute: function() {
             CategoryComponent = (function () {
-                function CategoryComponent(service, router, routeParams) {
+                function CategoryComponent(service, routeParams) {
                     var _this = this;
                     this.service = service;
-                    this.router = router;
                     this.routeParams = routeParams;
                     this.files = null;
                     this.catname = "";
                     this.catname = this.routeParams.get("catname");
-                    this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(function (data) { return _this.files = data; });
+                    if (fileCache.cat.indexOf(this.catname) === -1)
+                        this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
+                            _this.files = data;
+                            fileCache.files.push({ cat: _this.catname, data: data });
+                            fileCache.cat.push(_this.catname);
+                        });
+                    else
+                        this.files = fileCache.files.find(function (obj) { return obj.cat === _this.catname; }).data;
                 }
-                CategoryComponent.prototype.gotoFile = function (catname, fileid, filename) {
-                    filename = filename.replace(/ /g, "-").toLowerCase();
-                    this.router.navigate(['File', { catname: catname, fileid: fileid, filename: filename }]);
-                };
                 CategoryComponent = __decorate([
                     core_1.Component({
                         selector: 'category',
                         templateUrl: 'app/view/category.html',
-                        pipes: [init_case_pipe_1.InitCasePipe],
-                        providers: [mongoapi_service_1.MongoAPIService]
+                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe],
+                        providers: [mongoapi_service_1.MongoAPIService],
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router, router_1.RouteParams])
+                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams])
                 ], CategoryComponent);
                 return CategoryComponent;
             })();
             exports_1("CategoryComponent", CategoryComponent);
+            fileCache = {
+                files: [
+                    {
+                        cat: "",
+                        data: {}
+                    }
+                ],
+                cat: []
+            };
         }
     }
 });
