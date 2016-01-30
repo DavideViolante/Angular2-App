@@ -12,7 +12,7 @@ export class MongoAPIService {
 	private mongoURL: string = "https://api.mongolab.com/api/1/databases/masterthesis/collections/";
 	private apiKey: string = "DrWjz1L1mpb4g0701x7BS7VAC-vxBlpr";
 
-	constructor(private http: Http) { }
+	constructor(private http: Http) {}
 
 
 	// SELECT

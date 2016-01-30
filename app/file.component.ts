@@ -1,12 +1,13 @@
 import {Component} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
+import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from './service/mongoapi.service';
 
 @Component({
     selector: 'file',
     templateUrl: 'app/view/file.html',
-    providers: [MongoAPIService]
+    providers: [MongoAPIService],
+    directives: [ROUTER_DIRECTIVES]
 })
 
 export class FileComponent {

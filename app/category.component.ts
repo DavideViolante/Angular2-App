@@ -5,12 +5,14 @@ import {MongoAPIService} from './service/mongoapi.service';
 
 import {InitCasePipe} from './pipe/init-case-pipe';
 import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
+import {SortByNamePipe} from './pipe/sort-by-name-pipe';
+import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
 
 
 @Component({
     selector: 'category',
     templateUrl: 'app/view/category.html',
-    pipes: [InitCasePipe, TrimLowerCasePipe],
+    pipes: [InitCasePipe, TrimLowerCasePipe, SortByNamePipe, SortByDLSPipe],
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
@@ -19,6 +21,9 @@ export class CategoryComponent {
 
 	private files = null;
 	private catname = "";
+
+	private defaultSort = 1;
+	private defaultSortDLS = 0;
 
 	constructor(private service: MongoAPIService,
 				private routeParams: RouteParams) {
@@ -35,6 +40,14 @@ export class CategoryComponent {
 			);
 		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;		
 	}
+
+	changeSort() {
+		this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
+	}
+	changeSortDLS() {
+		this.defaultSortDLS > 0 ? this.defaultSortDLS = -1 : this.defaultSortDLS = 1;
+	}
+
 }
 
 var fileCache = {

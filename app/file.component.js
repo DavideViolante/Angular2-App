@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './mongoapi.service'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './service/mongoapi.service'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,8 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service'], func
                     core_1.Component({
                         selector: 'file',
                         templateUrl: 'app/view/file.html',
-                        providers: [mongoapi_service_1.MongoAPIService]
+                        providers: [mongoapi_service_1.MongoAPIService],
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router, router_1.RouteParams])
                 ], FileComponent);

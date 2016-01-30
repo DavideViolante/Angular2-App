@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './mongoapi.service', './init-case-pipe', './trim-lowercase-pipe'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './pipe/init-case-pipe', './pipe/trim-lowercase-pipe', './pipe/sort-by-name-pipe', './pipe/sort-by-dls-pipe'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1;
+    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1, sort_by_name_pipe_1, sort_by_dls_pipe_1;
     var CategoryComponent, fileCache;
     return {
         setters:[
@@ -26,6 +26,12 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
             },
             function (trim_lowercase_pipe_1_1) {
                 trim_lowercase_pipe_1 = trim_lowercase_pipe_1_1;
+            },
+            function (sort_by_name_pipe_1_1) {
+                sort_by_name_pipe_1 = sort_by_name_pipe_1_1;
+            },
+            function (sort_by_dls_pipe_1_1) {
+                sort_by_dls_pipe_1 = sort_by_dls_pipe_1_1;
             }],
         execute: function() {
             CategoryComponent = (function () {
@@ -35,6 +41,8 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
                     this.routeParams = routeParams;
                     this.files = null;
                     this.catname = "";
+                    this.defaultSort = 1;
+                    this.defaultSortDLS = 0;
                     this.catname = this.routeParams.get("catname");
                     if (fileCache.cat.indexOf(this.catname) === -1)
                         this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
@@ -45,11 +53,17 @@ System.register(['angular2/core', 'angular2/router', './mongoapi.service', './in
                     else
                         this.files = fileCache.files.find(function (obj) { return obj.cat === _this.catname; }).data;
                 }
+                CategoryComponent.prototype.changeSort = function () {
+                    this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
+                };
+                CategoryComponent.prototype.changeSortDLS = function () {
+                    this.defaultSortDLS > 0 ? this.defaultSortDLS = -1 : this.defaultSortDLS = 1;
+                };
                 CategoryComponent = __decorate([
                     core_1.Component({
                         selector: 'category',
                         templateUrl: 'app/view/category.html',
-                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe],
+                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe, sort_by_name_pipe_1.SortByNamePipe, sort_by_dls_pipe_1.SortByDLSPipe],
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 

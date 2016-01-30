@@ -1,16 +1,26 @@
 <table class="table table-bordered table-hover">
 	<thead class="thead-default">
 		<tr>
-			<th>Category</th>
+			<th>
+				<a href="javascript:false" (click)="changeSort()">Category</a> 
+				<i *ngIf="defaultSort>=0">&#9660;</i><i *ngIf="defaultSort<0">&#9650;</i>
+			</th>
+			<th>
+				Files
+			</th>
 		</tr>
 	</thead>
 
-	<tbody>
-		<tr *ngIf="!cats">
-			<td><img src="images/loading.gif" alt="Loading" /> Loading...</td>
+	<tbody *ngIf="!cats">
+		<tr>
+			<td colspan="2"><img src="images/loading.gif" alt="Loading" /> Loading...</td>
 		</tr>
-		<tr *ngFor="#cat of cats">
-			<td><a [routerLink]="['Category', {catname: cat.catname}]">{{cat.catname | initCase}}</a></td>
+	</tbody>
+
+	<tbody *ngIf="cats">
+		<tr *ngFor="#cat of cats | sortByName:defaultSort">
+			<td><a [routerLink]="['Category', {catname: cat.name}]">{{cat.name | initCase}}</a></td>
+			<td>...</td>
 		</tr>
 	</tbody>
 </table>

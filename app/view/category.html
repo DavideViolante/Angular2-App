@@ -1,20 +1,34 @@
 <table class="table table-bordered table-hover">
 	<thead class="thead-default">
 		<tr>
-			<th colspan="2">Category: {{catname | initCase}}</th>
+			<th>
+				<a href="javascript:false" (click)="changeSort()">{{catname | initCase}}</a> 
+				<i *ngIf="defaultSort>=0">&#9660;</i><i *ngIf="defaultSort<0">&#9650;</i>
+			</th>
+			<th>
+				<a href="javascript:false" (click)="changeSortDLS()">Downloads</a> 
+				<i *ngIf="defaultSortDLS>=0">&#9660;</i><i *ngIf="defaultSortDLS<0">&#9650;</i>
+			</th>
 		</tr>
 	</thead>
 
-	<tbody>
-		<tr *ngIf="!files">
-			<td><img src="images/loading.gif" alt="Loading" /> Loading...</td>
-		</tr>
-		<tr *ngIf="files && files.length<1">
-			<td>This category is empty.</td>
-		</tr>
-		<tr *ngFor="#file of files">
-			<td><a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a></td>
-			<td>{{file.cat}}</td>
+	<tbody *ngIf="!files">
+		<tr>
+			<td colspan="2"><img src="images/loading.gif" alt="Loading" /> Loading...</td>
 		</tr>
 	</tbody>
+
+	<tbody *ngIf="files && files.length<1">
+		<tr>
+			<td colspan="2">This category is empty.</td>
+		</tr>
+	</tbody>
+
+	<tbody *ngIf="files">
+		<tr *ngFor="#file of files | sortByName:defaultSort | sortByDLS:defaultSortDLS">
+			<td><a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a></td>
+			<td>{{file.dls | number}}</td>
+		</tr>
+	</tbody>
+
 </table>
