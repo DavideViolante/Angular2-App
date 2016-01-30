@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 
-import {MongoAPIService} from './mongoapi.service';
+import {MongoAPIService} from './service/mongoapi.service';
 
 @Component({
     selector: 'file',

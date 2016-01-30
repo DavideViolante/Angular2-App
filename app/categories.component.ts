@@ -1,9 +1,9 @@
 import {Component} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {MongoAPIService} from './mongoapi.service';
+import {MongoAPIService} from './service/mongoapi.service';
 
-import {InitCasePipe} from './init-case-pipe';
+import {InitCasePipe} from './pipe/init-case-pipe';
 
 @Component({
     selector: 'categories',
