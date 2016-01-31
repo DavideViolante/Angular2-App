@@ -14,7 +14,6 @@ export class MongoAPIService {
 
 	constructor(private http: Http) {}
 
-
 	// SELECT
 	mongoGet(collection: string, query: string) {
 		return this.http.get(this.mongoURL + collection + '?q=' + query + '&apiKey=' + this.apiKey)
@@ -22,14 +21,15 @@ export class MongoAPIService {
 	}
 
 	// INSERT TEST
-	/*mongoPostTest() {
+	mongoPostTest(collection: string, fileObject) {
 		var headers = new Headers();
 		headers.append("Content-Type", "application/json");
 
-		return this.http.post(this.mongoURL + this.collCats + "?apiKey=" + this.apiKey,
-			JSON.stringify({ x: 1, y: 2 }),
+		return this.http.post(this.mongoURL + collection + "?apiKey=" + this.apiKey,
+			//JSON.stringify({ x: 1, y: 2 }),
+			JSON.stringify(fileObject),
 			{ headers: headers }
 		).map(res => res.json());
 
-	}*/
+	}
 }

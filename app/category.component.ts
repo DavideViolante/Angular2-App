@@ -26,7 +26,8 @@ export class CategoryComponent {
 	private defaultSortDLS = 0;
 
 	constructor(private service: MongoAPIService,
-				private routeParams: RouteParams) {
+				private routeParams: RouteParams,
+				private router: Router) {
 
 		this.catname = this.routeParams.get("catname");
 
@@ -38,17 +39,44 @@ export class CategoryComponent {
 					fileCache.cat.push(this.catname);
 				}
 			);
-		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;		
+		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;
+
+		// cache
+		this.defaultSort = defaultSort;
+		this.defaultSortDLS = defaultSortDLS;
+
 	}
 
-	changeSort() {
+	/*changeSort() {
 		this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
 	}
 	changeSortDLS() {
 		this.defaultSortDLS > 0 ? this.defaultSortDLS = -1 : this.defaultSortDLS = 1;
+	}*/
+	changeSort() {
+		if (this.defaultSort > 0) {
+			this.defaultSort = -1;
+			defaultSort = this.defaultSort;
+		} else {
+			this.defaultSort = 1;
+			defaultSort = this.defaultSort;
+		}
+	}
+	changeSortDLS() {
+		if (this.defaultSortDLS > 0) {
+			this.defaultSortDLS = -1;
+			defaultSortDLS = this.defaultSortDLS;
+		} else {
+			this.defaultSortDLS = 1;
+			defaultSortDLS = this.defaultSortDLS;
+		}
 	}
 
+
 }
+
+var defaultSort = 1;
+var defaultSortDLS = 0;
 
 var fileCache = {
 	files: [

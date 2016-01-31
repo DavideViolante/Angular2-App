@@ -1,6 +1,10 @@
 body {
-    margin: 0 auto;
+    margin: 50px auto;
     max-width: 800px;
+}
+
+input[type="text"], select, button {
+    margin: 10px;
 }
 
 ul {

@@ -1,11 +1,14 @@
 import {Component} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
+import {InitCasePipe} from './pipe/init-case-pipe';
+
 import {MongoAPIService} from './service/mongoapi.service';
 
 @Component({
     selector: 'file',
     templateUrl: 'app/view/file.html',
+    pipes: [InitCasePipe],
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
@@ -13,6 +16,8 @@ import {MongoAPIService} from './service/mongoapi.service';
 export class FileComponent {
 
 	private file = null;
+
+	private catname = "";
 
 	private mainScreen;
 	private isSelected = false;
@@ -23,6 +28,7 @@ export class FileComponent {
 
 		// get the file clicked from the URL
 		var fileid = this.routeParams.get("fileid");
+		this.catname = this.routeParams.get("catname");
 
 		// get the file from the ID
 		this.service.mongoGet('files', '{id:' + fileid + '}').subscribe(

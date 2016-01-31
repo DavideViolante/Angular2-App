@@ -28,6 +28,7 @@ export class CategoriesComponent {
 				data => { catsCache = data;	this.cats = catsCache; }
 			);
 		else this.cats = catsCache;
+
 	}
 
 	changeSort() {

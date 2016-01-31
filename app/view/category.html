@@ -1,8 +1,9 @@
+<a [routerLink]="['Categories']">&#x21D0; Back</a>
 <table class="table table-bordered table-hover">
 	<thead class="thead-default">
 		<tr>
 			<th>
-				<a href="javascript:false" (click)="changeSort()">{{catname | initCase}}</a> 
+				<a href="javascript:false" (click)="changeSort()">File name</a> 
 				<i *ngIf="defaultSort>=0">&#9660;</i><i *ngIf="defaultSort<0">&#9650;</i>
 			</th>
 			<th>
@@ -30,5 +31,4 @@
 			<td>{{file.dls | number}}</td>
 		</tr>
 	</tbody>
-
 </table>

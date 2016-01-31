@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, http_1, http_2;
     var MongoAPIService;
     return {
         setters:[
@@ -17,6 +17,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+                http_2 = http_1_1;
             },
             function (_1) {}],
         execute: function() {
@@ -30,6 +31,14 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
                 MongoAPIService.prototype.mongoGet = function (collection, query) {
                     return this.http.get(this.mongoURL + collection + '?q=' + query + '&apiKey=' + this.apiKey)
                         .map(function (res) { return res.json(); });
+                };
+                // INSERT TEST
+                MongoAPIService.prototype.mongoPostTest = function (collection, fileObject) {
+                    var headers = new http_2.Headers();
+                    headers.append("Content-Type", "application/json");
+                    return this.http.post(this.mongoURL + collection + "?apiKey=" + this.apiKey, 
+                    //JSON.stringify({ x: 1, y: 2 }),
+                    JSON.stringify(fileObject), { headers: headers }).map(function (res) { return res.json(); });
                 };
                 MongoAPIService = __decorate([
                     core_1.Injectable(), 
