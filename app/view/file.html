@@ -13,13 +13,23 @@
 
 	<tbody *ngIf="file">
 		<tr>
-			<td class="text-center" colspan="2"><img [src]="file.imgurl" /></td>
+			<td class="text-center" colspan="2">
+				<img [src]="mainScreen" />
+			</td>
+		</tr>
+		<tr>
+			<td *ngIf="file.imgurl.length>1" class="text-center" colspan="2">
+				<img class="fileThumbImg" [class.isSelected]="image==mainScreen" *ngFor="#image of file.imgurl" [src]="image" (click)="setMainScreen(image)" />
+			</td>
 		</tr>
 		<tr>
 			<td>Author:</td><td>{{file.author}}</td>
 		</tr>
 		<tr>
 			<td>Downloads:</td><td>{{file.dls | number}}</td>
+		</tr>
+		<tr>
+			<td>URL:</td><td><a target="_blank" href="{{file.url}}">{{file.url}}</a></td>
 		</tr>
 	</tbody>
 </table>

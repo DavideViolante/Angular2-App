@@ -29,11 +29,19 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.router = router;
                     this.routeParams = routeParams;
                     this.file = null;
+                    this.isSelected = false;
                     // get the file clicked from the URL
                     var fileid = this.routeParams.get("fileid");
                     // get the file from the ID
-                    this.service.mongoGet('files', '{id:' + fileid + '}').subscribe(function (data) { return _this.file = data[0]; });
+                    this.service.mongoGet('files', '{id:' + fileid + '}').subscribe(function (data) {
+                        _this.file = data[0];
+                        _this.mainScreen = _this.file.imgurl[0];
+                    });
                 }
+                FileComponent.prototype.setMainScreen = function (screen) {
+                    this.mainScreen = screen;
+                    this.isSelected = true;
+                };
                 FileComponent = __decorate([
                     core_1.Component({
                         selector: 'file',

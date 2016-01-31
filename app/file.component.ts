@@ -14,6 +14,9 @@ export class FileComponent {
 
 	private file = null;
 
+	private mainScreen;
+	private isSelected = false;
+
 	constructor(private service: MongoAPIService, 
 				private router: Router,				
 				private routeParams: RouteParams) {
@@ -23,9 +26,16 @@ export class FileComponent {
 
 		// get the file from the ID
 		this.service.mongoGet('files', '{id:' + fileid + '}').subscribe(
-			data => this.file = data[0]
+			data => {
+				this.file = data[0];
+				this.mainScreen = this.file.imgurl[0];
+			}
 		);
+	}
 
+	setMainScreen(screen) {
+		this.mainScreen = screen;
+		this.isSelected = true;
 	}
 
 }
