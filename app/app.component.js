@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './upload/upload.component', './upload/add-file.component', './upload/edit-file.component', './categories.component', './category.component', './file.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './upload/upload.component', './upload/add-file.component', './categories.component', './category.component', './file.component'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/router', './upload/upload.component'
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, upload_component_1, add_file_component_1, edit_file_component_1, categories_component_1, category_component_1, file_component_1;
+    var core_1, router_1, upload_component_1, add_file_component_1, categories_component_1, category_component_1, file_component_1;
     var AppComponent;
     return {
         setters:[
@@ -23,9 +23,6 @@ System.register(['angular2/core', 'angular2/router', './upload/upload.component'
             },
             function (add_file_component_1_1) {
                 add_file_component_1 = add_file_component_1_1;
-            },
-            function (edit_file_component_1_1) {
-                edit_file_component_1 = edit_file_component_1_1;
             },
             function (categories_component_1_1) {
                 categories_component_1 = categories_component_1_1;
@@ -50,7 +47,6 @@ System.register(['angular2/core', 'angular2/router', './upload/upload.component'
                         { path: '/', redirectTo: ['Categories'] },
                         { path: '/upload', name: 'Upload', component: upload_component_1.UploadComponent },
                         { path: '/upload/addFile', name: 'AddFile', component: add_file_component_1.AddFileComponent },
-                        { path: '/upload/editFile', name: 'EditFile', component: edit_file_component_1.EditFileComponent },
                         { path: '/category', name: 'Categories', component: categories_component_1.CategoriesComponent },
                         { path: '/category/:catname', name: 'Category', component: category_component_1.CategoryComponent },
                         { path: '/category/:catname/:fileid/:filename', name: 'File', component: file_component_1.FileComponent }

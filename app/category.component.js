@@ -46,7 +46,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.defaultSortDLS = 0;
                     this.catname = this.routeParams.get("catname");
                     if (fileCache.cat.indexOf(this.catname) === -1)
-                        this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
+                        this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
                             _this.files = data;
                             fileCache.files.push({ cat: _this.catname, data: data });
                             fileCache.cat.push(_this.catname);

@@ -27,18 +27,28 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
                     this.mongoURL = "https://api.mongolab.com/api/1/databases/masterthesis/collections/";
                     this.apiKey = "DrWjz1L1mpb4g0701x7BS7VAC-vxBlpr";
                 }
-                // SELECT
-                MongoAPIService.prototype.mongoGet = function (collection, query) {
+                // f: fields to include: {id:1}  1 yes, 0 no
+                // s: sort direction: {id:-1}    1 ASC -1 DESC
+                MongoAPIService.prototype.mongoSelectOne = function (collection, field, sort) {
+                    return this.http.get(this.mongoURL + collection + '?f=' + field + '&s=' + sort + '&l=1&apiKey=' + this.apiKey)
+                        .map(function (res) { return res.json(); });
+                };
+                MongoAPIService.prototype.mongoSelect = function (collection, query) {
                     return this.http.get(this.mongoURL + collection + '?q=' + query + '&apiKey=' + this.apiKey)
                         .map(function (res) { return res.json(); });
                 };
-                // INSERT TEST
-                MongoAPIService.prototype.mongoPostTest = function (collection, fileObject) {
+                MongoAPIService.prototype.mongoInsert = function (collection, fileObj) {
                     var headers = new http_2.Headers();
                     headers.append("Content-Type", "application/json");
-                    return this.http.post(this.mongoURL + collection + "?apiKey=" + this.apiKey, 
-                    //JSON.stringify({ x: 1, y: 2 }),
-                    JSON.stringify(fileObject), { headers: headers }).map(function (res) { return res.json(); });
+                    return this.http.post(this.mongoURL + collection + "?apiKey=" + this.apiKey, JSON.stringify(fileObj), // {"x":1, "y":2}
+                    { headers: headers }).map(function (res) { return res.json(); });
+                };
+                MongoAPIService.prototype.mongoUpdate = function (collection, fileID, newValueObj) {
+                    var headers = new http_2.Headers();
+                    headers.append("Content-Type", "application/json");
+                    return this.http.put(this.mongoURL + collection + '?q=' + fileID + '&apiKey=' + this.apiKey, //{"_id":123}
+                    JSON.stringify({ "$set": newValueObj }), //{ "x": 3 }
+                    { headers: headers }).map(function (res) { return res.json(); });
                 };
                 MongoAPIService = __decorate([
                     core_1.Injectable(), 

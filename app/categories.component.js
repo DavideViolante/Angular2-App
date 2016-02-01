@@ -35,7 +35,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.cats = null;
                     this.defaultSort = 1;
                     if (!catsCache)
-                        this.service.mongoGet('cats', '').subscribe(function (data) { catsCache = data; _this.cats = catsCache; });
+                        this.service.mongoSelect('cats', '').subscribe(function (data) { catsCache = data; _this.cats = catsCache; });
                     else
                         this.cats = catsCache;
                 }

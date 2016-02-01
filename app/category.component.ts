@@ -32,7 +32,7 @@ export class CategoryComponent {
 		this.catname = this.routeParams.get("catname");
 
 		if (fileCache.cat.indexOf(this.catname) === -1)
-			this.service.mongoGet('files', '{cat:"' + this.catname + '"}').subscribe(
+			this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 				data => {
 					this.files = data;
 					fileCache.files.push({ cat: this.catname, data: data });

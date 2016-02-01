@@ -1,25 +1,26 @@
 <a [routerLink]="['Category', {catname: catname}]">&#x21D0; Back</a>
-<table class="table table-bordered table-striped">
+<table *ngIf="!isEditing" class="table table-bordered table-striped">
 	<thead class="thead-default">
 		<tr>
-			<th colspan="2">{{file?.name | uppercase}}</th>
+			<th>{{file.name | uppercase}}</th>
+			<th class="pull-right"><a href="javascript:false" (click)="editFile(file.id)">Edit file</a></th>
 		</tr>
 	</thead>
 
-	<tbody *ngIf="!file">
+	<tbody *ngIf="!file.id">
 		<tr>
-			<td><img src="images/loading.gif" alt="Loading" /> Loading...</td>
+			<td colspan="2"><img src="images/loading.gif" alt="Loading" /> Loading...</td>
 		</tr>
 	</tbody>
 
-	<tbody *ngIf="file">
+	<tbody *ngIf="file.id">
 		<tr>
 			<td class="text-center" colspan="2">
 				<img [src]="mainScreen" />
 			</td>
 		</tr>
 		<tr>
-			<td *ngIf="file.imgurl.length>1" class="text-center" colspan="2">
+			<td *ngIf="file.imgurl?.length>1" class="text-center" colspan="2">
 				<img class="fileThumbImg" [class.isSelected]="image==mainScreen" *ngFor="#image of file.imgurl" [src]="image" (click)="setMainScreen(image)" />
 			</td>
 		</tr>
@@ -34,3 +35,64 @@
 		</tr>
 	</tbody>
 </table>
+
+
+<form *ngIf="isEditing" (ngSubmit)="isEditingDone(file)" #fileFormEdit="ngForm">
+	<table class="table table-bordered table-striped">
+		<thead class="thead-default">
+			<tr>
+				<th>
+					<div [ngClass]="{'has-success':name.valid}">
+						<input class="form-control" type="text" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required />
+					</div>
+				</th>
+				<th class="pull-right">
+					<button type="submit" class="btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid">Done</button>
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td colspan="2">
+					<span *ngFor="#image of file.imgurl">
+						<img class="fileThumbImg" [src]="image" />
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Category:</td>
+				<td>
+					<div [ngClass]="{'has-success':cat.valid}">
+						<select class="form-control" [(ngModel)]="file.cat" ngControl="cat" #cat="ngForm" required>
+							<option value="vehicles">Vehicles</option>
+							<option value="architecture">Architecture</option>
+						</select>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>Author:</td>
+				<td>
+					<div [ngClass]="{'has-success':author.valid}">
+						<input class="form-control" type="text" [(ngModel)]="file.author" ngControl="author" #author="ngForm" required />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>Downloads:</td>
+				<td>
+					<div [ngClass]="{'has-success':dls.valid}">
+						<input class="form-control" type="number" [(ngModel)]="file.dls" ngControl="dls" #dls="ngForm" required readonly />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>URL:</td>
+				<td>
+					<a target="_blank" href="{{file.url}}">{{file.url}}</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>

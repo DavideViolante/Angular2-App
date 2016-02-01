@@ -14,22 +14,33 @@ export class MongoAPIService {
 
 	constructor(private http: Http) {}
 
-	// SELECT
-	mongoGet(collection: string, query: string) {
+	// f: fields to include: {id:1}  1 yes, 0 no
+	// s: sort direction: {id:-1}    1 ASC -1 DESC
+	mongoSelectOne(collection: string, field: string, sort: string) {
+		return this.http.get(this.mongoURL + collection + '?f=' + field + '&s=' + sort + '&l=1&apiKey=' + this.apiKey)
+			.map(res => res.json());
+	}
+
+	mongoSelect(collection: string, query: string) {
 		return this.http.get(this.mongoURL + collection + '?q=' + query + '&apiKey=' + this.apiKey)
 			.map(res => res.json());
 	}
 
-	// INSERT TEST
-	mongoPostTest(collection: string, fileObject) {
+	mongoInsert(collection: string, fileObj) {
 		var headers = new Headers();
 		headers.append("Content-Type", "application/json");
-
 		return this.http.post(this.mongoURL + collection + "?apiKey=" + this.apiKey,
-			//JSON.stringify({ x: 1, y: 2 }),
-			JSON.stringify(fileObject),
+			JSON.stringify(fileObj), // {"x":1, "y":2}
 			{ headers: headers }
 		).map(res => res.json());
+	}
 
+	mongoUpdate(collection: string, fileID: string, newValueObj) {
+		var headers = new Headers();
+		headers.append("Content-Type", "application/json");
+		return this.http.put(this.mongoURL + collection + '?q=' + fileID + '&apiKey=' + this.apiKey, //{"_id":123}
+			JSON.stringify({ "$set": newValueObj }), //{ "x": 3 }
+			{ headers: headers }
+		).map(res => res.json());
 	}
 }

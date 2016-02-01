@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './pipe/init-case-pipe', './service/mongoapi.service'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './file-model', './pipe/init-case-pipe', './service/mongoapi.service'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/router', './pipe/init-case-pipe', '.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, init_case_pipe_1, mongoapi_service_1;
+    var core_1, router_1, file_model_1, init_case_pipe_1, mongoapi_service_1;
     var FileComponent;
     return {
         setters:[
@@ -17,6 +17,9 @@ System.register(['angular2/core', 'angular2/router', './pipe/init-case-pipe', '.
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (file_model_1_1) {
+                file_model_1 = file_model_1_1;
             },
             function (init_case_pipe_1_1) {
                 init_case_pipe_1 = init_case_pipe_1_1;
@@ -31,14 +34,15 @@ System.register(['angular2/core', 'angular2/router', './pipe/init-case-pipe', '.
                     this.service = service;
                     this.router = router;
                     this.routeParams = routeParams;
-                    this.file = null;
+                    this.file = new file_model_1.File();
                     this.catname = "";
                     this.isSelected = false;
+                    this.isEditing = false;
                     // get the file clicked from the URL
                     var fileid = this.routeParams.get("fileid");
                     this.catname = this.routeParams.get("catname");
                     // get the file from the ID
-                    this.service.mongoGet('files', '{id:' + fileid + '}').subscribe(function (data) {
+                    this.service.mongoSelect('files', '{id:' + fileid + '}').subscribe(function (data) {
                         _this.file = data[0];
                         _this.mainScreen = _this.file.imgurl[0];
                     });
@@ -46,6 +50,13 @@ System.register(['angular2/core', 'angular2/router', './pipe/init-case-pipe', '.
                 FileComponent.prototype.setMainScreen = function (screen) {
                     this.mainScreen = screen;
                     this.isSelected = true;
+                };
+                FileComponent.prototype.editFile = function (fileid) {
+                    this.isEditing = true;
+                };
+                FileComponent.prototype.isEditingDone = function (fileEdited) {
+                    this.service.mongoUpdate("files", "{id:" + fileEdited.id + "}", fileEdited).subscribe();
+                    this.isEditing = false;
                 };
                 FileComponent = __decorate([
                     core_1.Component({

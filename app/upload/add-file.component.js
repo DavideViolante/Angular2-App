@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', './file-model'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', '../file-model'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -27,13 +27,17 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
         execute: function() {
             AddFileComponent = (function () {
                 function AddFileComponent(service) {
+                    var _this = this;
                     this.service = service;
-                    this.file = new file_model_1.File(-1, "", "", "");
+                    this.file = new file_model_1.File();
                     this.formSubmitted = false;
+                    // Select the max file ID
+                    this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(function (data) { return _this.file.setID(data[0].id + 1); } // the new file will have maxID+1
+                     // the new file will have maxID+1
+                    );
                 }
                 AddFileComponent.prototype.onSubmit = function (fileForm) {
-                    fileForm.form.value.id = 51;
-                    this.service.mongoPostTest("files", fileForm.form.value).subscribe();
+                    this.service.mongoInsert("files", fileForm.form.value).subscribe();
                     this.formSubmitted = true;
                 };
                 AddFileComponent = __decorate([

@@ -24,7 +24,7 @@ export class CategoriesComponent {
 	constructor(private service: MongoAPIService) {
 
         if (!catsCache)
-			this.service.mongoGet('cats', '').subscribe(
+			this.service.mongoSelect('cats', '').subscribe(
 				data => { catsCache = data;	this.cats = catsCache; }
 			);
 		else this.cats = catsCache;

@@ -1,5 +1,8 @@
 <form *ngIf="!formSubmitted" (ngSubmit)="onSubmit(fileForm)" #fileForm="ngForm">
 	<div class="form-group">
+		<div [ngClass]="{'has-success':id.valid}">
+		    <input placeholder="File ID" type="text" class="form-control" [(ngModel)]="file.id" ngControl="id" #id="ngForm" readonly required>
+		</div>
 		<div [ngClass]="{'has-success':name.valid}">
 		    <input placeholder="Name" type="text" class="form-control" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required>
 		</div>
