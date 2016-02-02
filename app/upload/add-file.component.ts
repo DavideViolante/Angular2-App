@@ -25,7 +25,7 @@ export class AddFileComponent {
 	}
 
 	onSubmit(fileForm) {
-		this.service.mongoInsert("files", fileForm.form.value).subscribe();
+		this.service.mongoInsert("files", fileForm).subscribe();
 		this.formSubmitted = true;
 	}
 

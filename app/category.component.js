@@ -1,4 +1,5 @@
 System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './pipe/init-case-pipe', './pipe/trim-lowercase-pipe', './pipe/sort-by-name-pipe', './pipe/sort-by-dls-pipe'], function(exports_1) {
+    "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -94,7 +95,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams, router_1.Router])
                 ], CategoryComponent);
                 return CategoryComponent;
-            })();
+            }());
             exports_1("CategoryComponent", CategoryComponent);
             defaultSort = 1;
             defaultSortDLS = 0;

@@ -1,9 +1,8 @@
 import {Component} from 'angular2/core';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
-import {AddFileComponent} from './add-file.component';
 
 @Component({
     selector: 'upload',

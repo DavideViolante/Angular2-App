@@ -1,4 +1,5 @@
 System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', '../file-model'], function(exports_1) {
+    "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -37,7 +38,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                     );
                 }
                 AddFileComponent.prototype.onSubmit = function (fileForm) {
-                    this.service.mongoInsert("files", fileForm.form.value).subscribe();
+                    this.service.mongoInsert("files", fileForm).subscribe();
                     this.formSubmitted = true;
                 };
                 AddFileComponent = __decorate([
@@ -50,7 +51,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService])
                 ], AddFileComponent);
                 return AddFileComponent;
-            })();
+            }());
             exports_1("AddFileComponent", AddFileComponent);
         }
     }

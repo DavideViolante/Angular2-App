@@ -3,7 +3,7 @@ body {
     max-width: 800px;
 }
 
-input[type="text"], select, button {
+input, select, button {
     margin: 10px;
 }
 

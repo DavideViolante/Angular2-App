@@ -1,4 +1,5 @@
 System.register([], function(exports_1) {
+    "use strict";
     var File;
     return {
         setters:[],
@@ -25,7 +26,7 @@ System.register([], function(exports_1) {
                 File.prototype.getCat = function () { return this.cat; };
                 File.prototype.setCat = function (cat) { this.cat = cat; };
                 return File;
-            })();
+            }());
             exports_1("File", File);
         }
     }
