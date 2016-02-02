@@ -60,7 +60,7 @@ System.register(['angular2/core', 'angular2/router', './file-model', './pipe/ini
                 FileComponent = __decorate([
                     core_1.Component({
                         selector: 'file',
-                        templateUrl: 'app/view/file.html',
+                        templateUrl: 'template/file.html',
                         pipes: [init_case_pipe_1.InitCasePipe],
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]

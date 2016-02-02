@@ -10,7 +10,7 @@ import {FileComponent} from './file.component';
 
 @Component({
     selector: 'app',
-    templateUrl: 'app/view/app.html',
+    templateUrl: 'template/app.html',
     directives: [ROUTER_DIRECTIVES]
 })
 

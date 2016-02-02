@@ -7,7 +7,7 @@ import {File} from '../file-model';
 
 @Component({
     selector: 'add-file',
-    templateUrl: 'app/view/addFile.html',
+    templateUrl: 'template/addFile.html',
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })

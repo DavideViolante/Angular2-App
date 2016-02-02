@@ -8,7 +8,7 @@ import {SortByNamePipe} from './pipe/sort-by-name-pipe';
 
 @Component({
     selector: 'categories',
-    templateUrl: 'app/view/categories.html',
+    templateUrl: 'template/categories.html',
     pipes: [InitCasePipe, SortByNamePipe],
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]

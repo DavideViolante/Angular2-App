@@ -9,7 +9,7 @@ import {MongoAPIService} from './service/mongoapi.service';
 
 @Component({
     selector: 'file',
-    templateUrl: 'app/view/file.html',
+    templateUrl: 'template/file.html',
     pipes: [InitCasePipe],
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]

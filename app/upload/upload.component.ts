@@ -6,7 +6,7 @@ import {MongoAPIService} from '../service/mongoapi.service';
 
 @Component({
     selector: 'upload',
-    templateUrl: 'app/view/upload.html',
+    templateUrl: 'template/upload.html',
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })

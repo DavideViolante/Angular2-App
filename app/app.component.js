@@ -44,7 +44,7 @@ System.register(['angular2/core', 'angular2/router', './upload/upload.component'
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        templateUrl: 'app/view/app.html',
+                        templateUrl: 'template/app.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
