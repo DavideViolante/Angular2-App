@@ -3,7 +3,7 @@
 	<thead class="thead-default">
 		<tr>
 			<th>{{file.name | uppercase}}</th>
-			<th class="pull-right"><a href="javascript:false" (click)="editFile(file.id)">Edit file</a></th>
+			<th class="pull-right"><button type="button" class="btn btn-primary" (click)="editFile(file.id)">Edit file</button></th>
 		</tr>
 	</thead>
 
@@ -47,6 +47,7 @@
 					</div>
 				</th>
 				<th class="pull-right">
+					<button type="button" class="btn btn-warning" (click)="isEditingCancel()">Cancel</button>
 					<button type="submit" class="btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid">Done</button>
 				</th>
 			</tr>

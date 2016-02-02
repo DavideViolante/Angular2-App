@@ -26,8 +26,7 @@ export class FileComponent {
 
 	private isEditing = false;
 
-	constructor(private service: MongoAPIService, 
-				private router: Router,				
+	constructor(private service: MongoAPIService, 				
 				private routeParams: RouteParams) {
 
 		// get the file clicked from the URL
@@ -48,13 +47,14 @@ export class FileComponent {
 		this.isSelected = true;
 	}
 
-	editFile(fileid) {
-		this.isEditing = true;
-	}
+	editFile(fileid) { this.isEditing = true; }
+	isEditingCancel() { this.isEditing = false; }
 
 	isEditingDone(fileEdited) {
 		this.service.mongoUpdate("files", "{id:"+fileEdited.id+"}", fileEdited).subscribe();
 		this.isEditing = false;
 	}
+
+	
 
 }

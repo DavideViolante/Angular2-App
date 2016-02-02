@@ -29,10 +29,9 @@ System.register(['angular2/core', 'angular2/router', './file-model', './pipe/ini
             }],
         execute: function() {
             FileComponent = (function () {
-                function FileComponent(service, router, routeParams) {
+                function FileComponent(service, routeParams) {
                     var _this = this;
                     this.service = service;
-                    this.router = router;
                     this.routeParams = routeParams;
                     this.file = new file_model_1.File();
                     this.catname = "";
@@ -51,9 +50,8 @@ System.register(['angular2/core', 'angular2/router', './file-model', './pipe/ini
                     this.mainScreen = screen;
                     this.isSelected = true;
                 };
-                FileComponent.prototype.editFile = function (fileid) {
-                    this.isEditing = true;
-                };
+                FileComponent.prototype.editFile = function (fileid) { this.isEditing = true; };
+                FileComponent.prototype.isEditingCancel = function () { this.isEditing = false; };
                 FileComponent.prototype.isEditingDone = function (fileEdited) {
                     this.service.mongoUpdate("files", "{id:" + fileEdited.id + "}", fileEdited).subscribe();
                     this.isEditing = false;
@@ -66,7 +64,7 @@ System.register(['angular2/core', 'angular2/router', './file-model', './pipe/ini
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router, router_1.RouteParams])
+                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams])
                 ], FileComponent);
                 return FileComponent;
             })();
