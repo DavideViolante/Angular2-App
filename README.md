@@ -6,3 +6,5 @@ Project for Master's Degree thesis in [Computer Engineering](http://informatica.
 
 ### Run
 `npm install`
+
+`npm start`
