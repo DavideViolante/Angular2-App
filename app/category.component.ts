@@ -11,7 +11,7 @@ import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
 
 @Component({
     selector: 'category',
-    templateUrl: 'template/category.html',
+    templateUrl: 'app/template/category.html',
     pipes: [InitCasePipe, TrimLowerCasePipe, SortByNamePipe, SortByDLSPipe],
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]

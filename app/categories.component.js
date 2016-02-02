@@ -46,7 +46,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                 CategoriesComponent = __decorate([
                     core_1.Component({
                         selector: 'categories',
-                        templateUrl: 'template/categories.html',
+                        templateUrl: 'app/template/categories.html',
                         pipes: [init_case_pipe_1.InitCasePipe, sort_by_name_pipe_1.SortByNamePipe],
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]

@@ -30,7 +30,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                 UploadComponent = __decorate([
                     core_1.Component({
                         selector: 'upload',
-                        templateUrl: 'template/upload.html',
+                        templateUrl: 'app/template/upload.html',
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 

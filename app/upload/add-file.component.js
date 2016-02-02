@@ -44,7 +44,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                 AddFileComponent = __decorate([
                     core_1.Component({
                         selector: 'add-file',
-                        templateUrl: 'template/addFile.html',
+                        templateUrl: 'app/template/addFile.html',
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 

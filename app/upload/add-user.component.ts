@@ -7,7 +7,7 @@ import {User} from '../user-model';
 
 @Component({
     selector: 'add-user',
-    templateUrl: 'template/addUser.html',
+    templateUrl: 'app/template/addUser.html',
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
