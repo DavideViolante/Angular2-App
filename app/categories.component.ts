@@ -22,18 +22,12 @@ export class CategoriesComponent {
 	private defaultSort = 1;
 
 	constructor(private service: MongoAPIService) {
-
-        if (!catsCache)
-			this.service.mongoSelect('cats', '').subscribe(
-				data => { catsCache = data;	this.cats = catsCache; }
-			);
-		else this.cats = catsCache;
-
+		this.service.mongoSelect('cats', '').subscribe(
+			data => this.cats = data
+		);
 	}
 
 	changeSort() {
 		this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
 	}
 }
-
-var catsCache;

@@ -51,7 +51,7 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                     this.mainScreen = screen;
                     this.isSelected = true;
                 };
-                FileComponent.prototype.editFile = function (fileid) { this.isEditing = true; };
+                FileComponent.prototype.editFile = function () { this.isEditing = true; };
                 FileComponent.prototype.isEditingCancel = function () { this.isEditing = false; };
                 FileComponent.prototype.isEditingDone = function (fileEdited) {
                     this.service.mongoUpdate("files", "{id:" + fileEdited.id + "}", fileEdited).subscribe();

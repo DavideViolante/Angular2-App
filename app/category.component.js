@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1, sort_by_name_pipe_1, sort_by_dls_pipe_1, filter_pipe_1;
-    var CategoryComponent, defaultSort, defaultSortDLS, fileCache;
+    var CategoryComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -50,43 +50,22 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.defaultSortDLS = 0;
                     this.query = "";
                     this.catname = this.routeParams.get("catname");
-                    if (fileCache.cat.indexOf(this.catname) === -1)
-                        this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
-                            _this.files = data;
-                            fileCache.files.push({ cat: _this.catname, data: data });
-                            fileCache.cat.push(_this.catname);
-                        });
-                    else
-                        this.files = fileCache.files.find(function (obj) { return obj.cat === _this.catname; }).data;
-                    // cache
-                    this.defaultSort = defaultSort;
-                    this.defaultSortDLS = defaultSortDLS;
+                    this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) { return _this.files = data; });
+                    /*if (fileCache.cat.indexOf(this.catname) === -1)
+                        this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
+                            data => {
+                                this.files = data;
+                                fileCache.files.push({ cat: this.catname, data: data });
+                                fileCache.cat.push(this.catname);
+                            }
+                        );
+                    else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;*/
                 }
-                /*changeSort() {
-                    this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
-                }
-                changeSortDLS() {
-                    this.defaultSortDLS > 0 ? this.defaultSortDLS = -1 : this.defaultSortDLS = 1;
-                }*/
                 CategoryComponent.prototype.changeSort = function () {
-                    if (this.defaultSort > 0) {
-                        this.defaultSort = -1;
-                        defaultSort = this.defaultSort;
-                    }
-                    else {
-                        this.defaultSort = 1;
-                        defaultSort = this.defaultSort;
-                    }
+                    this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
                 };
                 CategoryComponent.prototype.changeSortDLS = function () {
-                    if (this.defaultSortDLS > 0) {
-                        this.defaultSortDLS = -1;
-                        defaultSortDLS = this.defaultSortDLS;
-                    }
-                    else {
-                        this.defaultSortDLS = 1;
-                        defaultSortDLS = this.defaultSortDLS;
-                    }
+                    this.defaultSortDLS < 0 ? this.defaultSortDLS = 1 : this.defaultSortDLS = -1;
                 };
                 CategoryComponent = __decorate([
                     core_1.Component({
@@ -101,18 +80,17 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                 return CategoryComponent;
             }());
             exports_1("CategoryComponent", CategoryComponent);
-            defaultSort = 1;
-            defaultSortDLS = 0;
-            fileCache = {
-                files: [
-                    {
-                        cat: "",
-                        data: {}
-                    }
-                ],
-                cat: []
-            };
         }
     }
 });
+/*var fileCache = {
+    files: [
+            {
+                cat: "",
+                data: {}
+            }
+        ],
+    cat: []
+};
+*/ 
 //# sourceMappingURL=category.component.js.map

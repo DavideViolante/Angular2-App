@@ -47,14 +47,11 @@ export class FileComponent {
 		this.isSelected = true;
 	}
 
-	editFile(fileid) { this.isEditing = true; }
+	editFile() { this.isEditing = true; }
 	isEditingCancel() { this.isEditing = false; }
 
 	isEditingDone(fileEdited) {
 		this.service.mongoUpdate("files", "{id:"+fileEdited.id+"}", fileEdited).subscribe();
 		this.isEditing = false;
 	}
-
-	
-
 }

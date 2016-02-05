@@ -30,8 +30,8 @@ export class RegisterComponent {
 		}
 	}
 
-	onSubmit(fileForm) {
-		this.service.mongoSelect("users", "{username:'" + fileForm.username + "'}").subscribe(
+	onSubmit(userForm) {
+		this.service.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
 			data => {
 				if (data.length > 0) {
 					this.usernameAlreadyExists = true;
@@ -39,11 +39,11 @@ export class RegisterComponent {
 					// Select the max user ID
 					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
 						data => {
-							fileForm.id = data[0].id + 1; // the new user will have maxID+1
-							fileForm.role = "user";
-							fileForm.session = "";
-							fileForm.password = this.simpleHash(fileForm.password);
-							this.service.mongoInsert("users", fileForm).subscribe();
+							userForm.id = data[0].id + 1; // the new user will have maxID+1
+							userForm.role = "user";
+							userForm.session = "";
+							userForm.password = this.simpleHash(userForm.password);
+							this.service.mongoInsert("users", userForm).subscribe();
 						}
 					);
 					this.formSubmitted = true;

@@ -2,8 +2,7 @@
 <table *ngIf="!isEditing" class="table table-bordered table-striped">
 	<thead class="thead-default">
 		<tr>
-			<th>{{file.name | uppercase}}</th>
-			<th class="pull-right"><button type="button" class="btn btn-primary" (click)="editFile(file.id)">Edit file</button></th>
+			<th colspan="2" class="text-center fileTitle">{{file.name}} <button type="button" class="pull-right btn btn-primary" (click)="editFile()">Edit file</button></th>
 		</tr>
 	</thead>
 
@@ -16,12 +15,14 @@
 	<tbody *ngIf="file.id">
 		<tr>
 			<td class="text-center" colspan="2">
-				<img [src]="mainScreen" />
+				<img class="center-block fileMainScreen" [src]="mainScreen" alt="{{file.name}} screenshot" />
 			</td>
 		</tr>
 		<tr>
-			<td *ngIf="file.imgurl?.length>1" class="text-center" colspan="2">
-				<img class="fileThumbImg" [class.isSelected]="image==mainScreen" *ngFor="#image of file.imgurl" [src]="image" (click)="setMainScreen(image)" />
+			<td *ngIf="file.imgurl?.length>1" colspan="2">
+				<div class="fileThumbImgs">
+					<img class="fileThumbImg" [class.isSelected]="image==mainScreen" *ngFor="#image of file.imgurl" [src]="image" (click)="setMainScreen(image)" alt="{{file.name}} screenshot" />
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -41,14 +42,13 @@
 	<table class="table table-bordered table-striped">
 		<thead class="thead-default">
 			<tr>
-				<th>
+				<th colspan="2">
+					<button type="button" class="pull-right btn btn-warning" (click)="isEditingCancel()">Cancel</button>
+					<button type="submit" class="pull-right btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid" style="margin-right:7px">Save</button>
+					<br /><br />
 					<div [ngClass]="{'has-success':name.valid}">
 						<input class="form-control" type="text" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required />
 					</div>
-				</th>
-				<th class="pull-right">
-					<button type="button" class="btn btn-warning" (click)="isEditingCancel()">Cancel</button>
-					<button type="submit" class="btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid">Done</button>
 				</th>
 			</tr>
 		</thead>
@@ -57,7 +57,7 @@
 			<tr>
 				<td colspan="2">
 					<span *ngFor="#image of file.imgurl">
-						<img class="fileThumbImg" [src]="image" />
+						<img class="fileThumbImg" [src]="image" alt="{{file.name}} screenshot" />
 					</span>
 				</td>
 			</tr>

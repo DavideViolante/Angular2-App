@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1, mongoapi_service_1, init_case_pipe_1, sort_by_name_pipe_1;
-    var CategoriesComponent, catsCache;
+    var CategoriesComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -35,10 +35,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.service = service;
                     this.cats = null;
                     this.defaultSort = 1;
-                    if (!catsCache)
-                        this.service.mongoSelect('cats', '').subscribe(function (data) { catsCache = data; _this.cats = catsCache; });
-                    else
-                        this.cats = catsCache;
+                    this.service.mongoSelect('cats', '').subscribe(function (data) { return _this.cats = data; });
                 }
                 CategoriesComponent.prototype.changeSort = function () {
                     this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;

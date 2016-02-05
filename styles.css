@@ -1,6 +1,6 @@
 body {
-    margin: 40px 20px 20px 20px;
-    /*max-width: 800px;*/
+    margin: 40px auto 20px auto;
+    max-width: 992px;
 }
 
 .col-centered {
@@ -8,20 +8,39 @@ body {
     margin: 0 auto;
 }
 
+.text-center {
+    text-align: center;
+}
+
+th.fileTitle {
+    font-size: 24px;
+    font-weight: bold;
+}
+
 ul {
     list-style: none;
     margin-left: -30px;
 }
 
+img.fileMainScreen {
+    border-radius: 5px;
+}
+
 img.fileThumbImg {
+    margin: 5px;
     width: 20%;
     cursor: pointer;
     opacity: 0.8;
-    padding: 5px;
+    transition: box-shadow 250ms;
+    border-radius: 4px;
 }
 img.fileThumbImg:hover {
-    opacity: 1.0;
+    box-shadow: 0 0 7px #000;
 }
 img.isSelected {
     opacity: 1.0;
+}
+
+div.fileThumbImgs {
+    text-align: center;
 }

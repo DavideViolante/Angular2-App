@@ -34,7 +34,11 @@ export class CategoryComponent {
 
 		this.catname = this.routeParams.get("catname");
 
-		if (fileCache.cat.indexOf(this.catname) === -1)
+		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
+			data => this.files = data
+		);
+
+		/*if (fileCache.cat.indexOf(this.catname) === -1)
 			this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 				data => {
 					this.files = data;
@@ -42,46 +46,20 @@ export class CategoryComponent {
 					fileCache.cat.push(this.catname);
 				}
 			);
-		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;
-
-		// cache
-		this.defaultSort = defaultSort;
-		this.defaultSortDLS = defaultSortDLS;
+		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;*/
 
 	}
 
-	/*changeSort() {
+	changeSort() {
 		this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
 	}
 	changeSortDLS() {
-		this.defaultSortDLS > 0 ? this.defaultSortDLS = -1 : this.defaultSortDLS = 1;
-	}*/
-	changeSort() {
-		if (this.defaultSort > 0) {
-			this.defaultSort = -1;
-			defaultSort = this.defaultSort;
-		} else {
-			this.defaultSort = 1;
-			defaultSort = this.defaultSort;
-		}
+		this.defaultSortDLS < 0 ? this.defaultSortDLS = 1 : this.defaultSortDLS = -1;
 	}
-	changeSortDLS() {
-		if (this.defaultSortDLS > 0) {
-			this.defaultSortDLS = -1;
-			defaultSortDLS = this.defaultSortDLS;
-		} else {
-			this.defaultSortDLS = 1;
-			defaultSortDLS = this.defaultSortDLS;
-		}
-	}
-
 
 }
 
-var defaultSort = 1;
-var defaultSortDLS = 0;
-
-var fileCache = {
+/*var fileCache = {
 	files: [
 			{
 				cat: "",
@@ -90,3 +68,4 @@ var fileCache = {
 		],
 	cat: []
 };
+*/
