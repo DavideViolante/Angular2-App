@@ -1,17 +1,38 @@
-<form *ngIf="!formSubmitted" (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
-	<div class="form-group">
-		<div [ngClass]="{'has-success':username.valid}">
-		    <input placeholder="Username" type="text" class="form-control" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
-		</div>
-		<div [ngClass]="{'has-success':password.valid}">
-		    <input placeholder="Password" type="password" class="form-control" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
-		</div>
-		<div [ngClass]="{'has-success':email.valid}">
-		    <input placeholder="Email" type="email" class="form-control" [(ngModel)]="user.email" ngControl="email" #email="ngForm" required>
-		</div>
+<div class="container">
+
+	<div class="col-md-5 col-centered">
+
+		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
+			<div class="input-group" [ngClass]="{'has-success':username.valid}">
+				<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
+			</div>
+			<br />
+			
+			<div class="input-group" [ngClass]="{'has-success':password.valid}">
+				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+					<input type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
+			</div>
+			<br />
+
+			<div class="input-group" [ngClass]="{'has-success':email.valid}">
+				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-at"></i></span>
+					<input type="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" ngControl="email" #email="ngForm" required>
+			</div>
+			<br />
+
+			<button type="submit" class="btn center-block" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Register</button>
+		</form>
+
+		<br />
+
 	</div>
 
-	<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Submit</button>
-</form>
-<h3 [hidden]="!usernameAlreadyExists">Username already exists! Try another one.</h3>
-<h3 [hidden]="!formSubmitted">You successfully registered! <a [routerLink]="['Login']">Login</a></h3>
+	<div [hidden]="!usernameAlreadyExists || formSubmitted" class="alert alert-danger" role="alert">
+		<i class="fa fa-exclamation-circle"></i> Username already exists!
+	</div>
+	<div [hidden]="!formSubmitted" class="alert alert-success" role="alert">
+		<i class="fa fa-check-circle"></i> You successfully registered! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+	</div>
+
+</div>

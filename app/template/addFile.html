@@ -1,22 +1,42 @@
-<form *ngIf="!formSubmitted" (ngSubmit)="onSubmit(fileForm.form.value)" #fileForm="ngForm">
-	<div class="form-group">
-		<div [ngClass]="{'has-success':id.valid}">
-		    <input placeholder="File ID" type="text" class="form-control" [(ngModel)]="file.id" ngControl="id" #id="ngForm" readonly required>
-		</div>
-		<div [ngClass]="{'has-success':name.valid}">
-		    <input placeholder="Name" type="text" class="form-control" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required>
-		</div>
-		<div [ngClass]="{'has-success':author.valid}">
-		    <input placeholder="Author" type="text" class="form-control" [(ngModel)]="file.author" ngControl="author" #author="ngForm" required>
-		</div>
-		<div [ngClass]="{'has-success':cat.valid}">
-			<select class="form-control" [(ngModel)]="file.cat" ngControl="cat" #cat="ngForm" required>
-				<option value="vehicles">Vehicles</option>
-				<option value="architecture">Architecture</option>
-			</select>
-		</div>
+<div class="container">
+
+	<div class="col-md-6 col-centered">
+
+		<form (ngSubmit)="onSubmit(fileForm.form.value)" #fileForm="ngForm">
+
+			<div class="input-group" [ngClass]="{'has-success':name.valid}">
+				<span class="input-group-addon"><i class="fa fa-file"></i></span>
+					<input type="text" class="form-control" placeholder="Name" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required>
+			</div>
+			<br />
+
+			<div class="input-group" [ngClass]="{'has-success':author.valid}">
+				<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="Author" [(ngModel)]="file.author" ngControl="author" #author="ngForm" required>
+			</div>
+			<br />
+
+			<div class="input-group" [ngClass]="{'has-success':cat.valid}">
+				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-list"></i></span>
+					<select class="form-control" [(ngModel)]="file.cat" ngControl="cat" #cat="ngForm" required>
+						<option value="" disabled>Select the category</option>
+						<option value="vehicles">Vehicles</option>
+						<option value="architecture">Architecture</option>
+					</select>
+			</div>
+			<br />
+
+			<button type="submit" class="btn" [ngClass]="{'btn-primary':fileForm.form.valid}" [disabled]="!fileForm.form.valid">Submit</button>
+			<button type="reset" class="btn btn-warning">Reset</button>
+
+		</form>
+
+		<br />
+
 	</div>
 
-	<button type="submit" class="btn" [ngClass]="{'btn-primary':fileForm.form.valid}" [disabled]="!fileForm.form.valid">Submit</button>
-</form>
-<h3 [hidden]="!formSubmitted">File uploaded successfully! <a [routerLink]="['Upload']">Back</a></h3>
+	<div [hidden]="!formSubmitted" class="alert alert-success" role="alert">
+		<i class="fa fa-check-circle"></i> File added successfully!
+	</div>
+
+</div>

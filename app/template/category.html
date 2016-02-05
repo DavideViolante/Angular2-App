@@ -1,21 +1,30 @@
-<a [routerLink]="['Categories']">&#x21D0; Back</a>
+<a [routerLink]="['Categories']">&#x21D0; Back</a><br /><br />
+
+<div class="input-group">
+  <span class="input-group-addon search-input" id="basic-addon1"><i class="fa fa-search"></i></span>
+  <input [(ngModel)]="query" type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1">
+</div>
+<br />
+
 <table class="table table-bordered table-hover">
 	<thead class="thead-default">
 		<tr>
 			<th>
 				<a href="javascript:false" (click)="changeSort()">File name</a> 
-				<i *ngIf="defaultSort>=0">&#9660;</i><i *ngIf="defaultSort<0">&#9650;</i>
+				<i *ngIf="defaultSort>=0" class="fa fa-sort-alpha-asc"></i>
+				<i *ngIf="defaultSort<0" class="fa fa-sort-alpha-desc"></i>
 			</th>
 			<th>
 				<a href="javascript:false" (click)="changeSortDLS()">Downloads</a> 
-				<i *ngIf="defaultSortDLS>=0">&#9660;</i><i *ngIf="defaultSortDLS<0">&#9650;</i>
+				<i *ngIf="defaultSortDLS>=0" class="fa fa-sort-numeric-asc"></i>
+				<i *ngIf="defaultSortDLS<0" class="fa fa-sort-numeric-desc"></i>
 			</th>
 		</tr>
 	</thead>
 
 	<tbody *ngIf="!files">
 		<tr>
-			<td colspan="2"><img src="app/images/loading.gif" alt="Loading" /> Loading...</td>
+			<td colspan="2"><i class="fa fa-spinner fa-spin"></i> Loading...</td>
 		</tr>
 	</tbody>
 
@@ -26,7 +35,7 @@
 	</tbody>
 
 	<tbody *ngIf="files">
-		<tr *ngFor="#file of files | sortByName:defaultSort | sortByDLS:defaultSortDLS">
+		<tr *ngFor="#file of files | filter:query | sortByName:defaultSort | sortByDLS:defaultSortDLS">
 			<td><a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a></td>
 			<td>{{file.dls | number}}</td>
 		</tr>

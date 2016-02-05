@@ -1,19 +1,16 @@
 body {
-    margin: 50px auto;
-    max-width: 800px;
+    margin: 40px 20px 20px 20px;
+    /*max-width: 800px;*/
 }
 
-input, select, button {
-    margin: 10px;
+.col-centered {
+    float: none;
+    margin: 0 auto;
 }
 
 ul {
     list-style: none;
     margin-left: -30px;
-}
-
-table thead tr {
-    background-color: #DDD;
 }
 
 img.fileThumbImg {
@@ -28,25 +25,3 @@ img.fileThumbImg:hover {
 img.isSelected {
     opacity: 1.0;
 }
-
-/*
-li {
-    padding: 5px;
-}
-
-li:hover {
-    display: inline-block;
-    background-color: #eee;
-    cursor: pointer;
-}
-
-li.selected {
-    background-color: #ff0000;
-}
-
-nav a {
-    font-weight: bold;
-    padding: 10px;
-    background-color: #eee;
-}
-*/

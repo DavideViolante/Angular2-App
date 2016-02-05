@@ -28,19 +28,28 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
         execute: function() {
             AddUserComponent = (function () {
                 function AddUserComponent(service) {
-                    var _this = this;
                     this.service = service;
                     this.user = new user_model_1.User();
                     this.formSubmitted = false;
-                    // Select the max user ID
-                    this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(function (data) { return _this.user.setID(data[0].id + 1); } // the new user will have maxID+1
-                     // the new user will have maxID+1
-                    );
+                    this.usernameAlreadyExists = false;
                 }
-                AddUserComponent.prototype.onSubmit = function (fileForm) {
-                    fileForm.password = this.simpleHash(fileForm.password);
-                    this.service.mongoInsert("users", fileForm).subscribe();
-                    this.formSubmitted = true;
+                AddUserComponent.prototype.onSubmit = function (userForm) {
+                    var _this = this;
+                    this.service.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(function (data) {
+                        if (data.length > 0) {
+                            _this.usernameAlreadyExists = true;
+                        }
+                        else {
+                            // Select the max user ID
+                            _this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(function (data) {
+                                userForm.id = data[0].id + 1; // the new user will have maxID+1
+                                userForm.password = _this.simpleHash(userForm.password);
+                                userForm.session = "";
+                                _this.service.mongoInsert("users", userForm).subscribe();
+                            });
+                            _this.formSubmitted = true;
+                        }
+                    });
                 };
                 AddUserComponent.prototype.simpleHash = function (psw) {
                     var hash = 0, i, chr, len;

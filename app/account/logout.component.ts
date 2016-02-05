@@ -1,16 +1,19 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     selector: 'logout',
-    template: '<h3>You successfully logged out. <a [routerLink]="[\'Categories\']">Home</a></h3>',
+    template: `<div class="alert alert-success" role="alert">
+			     <i class="fa fa-check-circle"></i> You successfully logged out! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+			   </div>`,
     directives: [ROUTER_DIRECTIVES]
 })
 
 export class LogoutComponent {
 
-	constructor() { 
+	constructor(private router: Router) { 
 		localStorage.removeItem("session");
 		localStorage.removeItem("id");
+		setTimeout(() => this.router.navigate(['Categories']), 2000);
 	}
 }

@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
@@ -17,7 +17,18 @@ export class RegisterComponent {
 	private formSubmitted = false;
 	private usernameAlreadyExists = false;
 
-	constructor(private service: MongoAPIService) {	}
+	constructor(private service: MongoAPIService,
+				private router: Router) { 
+		if (localStorage.getItem("id")) {
+			this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
+				data => {
+					if (data[0].id === +localStorage.getItem("id") &&
+						data[0].session === localStorage.getItem("session"))
+						this.router.navigate(['Categories']);
+				}
+			);
+		}
+	}
 
 	onSubmit(fileForm) {
 		this.service.mongoSelect("users", "{username:'" + fileForm.username + "'}").subscribe(
@@ -36,6 +47,7 @@ export class RegisterComponent {
 						}
 					);
 					this.formSubmitted = true;
+					setTimeout(() => this.router.navigate(['Login']), 3000);
 				}
 			}
 		);

@@ -1,18 +1,32 @@
-<form *ngIf="!loggedin && !alreadyLoggedin" (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
-	<div class="form-group">
-		<div [ngClass]="{'has-success':username.valid}">
-		    <input placeholder="Username" type="text" class="form-control" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
-		</div>
-		<div [ngClass]="{'has-success':password.valid}">
-		    <input placeholder="Password" type="password" class="form-control" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
-		</div>
+<div class="container">
+
+	<div class="col-md-4 col-centered">
+
+		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
+			<div class="input-group" [ngClass]="{'has-success':username.valid}">
+				<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
+			</div>
+			<br />
+			
+			<div class="input-group" [ngClass]="{'has-success':password.valid}">
+				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+					<input type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
+			</div>
+			<br />
+
+			<button type="submit" class="btn center-block" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Login</button>
+		</form>
+
+		<br />
+
 	</div>
 
-	<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Submit</button>
-</form>
+	<div [hidden]="!wrongUsername && !wrongPassword || loggedin" class="alert alert-danger" role="alert">
+		<i class="fa fa-exclamation-circle"></i> Wrong username or password!
+	</div>
+	<div [hidden]="!loggedin" class="alert alert-success" role="alert">
+		<i class="fa fa-check-circle"></i> You successfully logged in! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+	</div>
 
-<h3 [hidden]="!alreadyLoggedin">You are already logged in! <a [routerLink]="['Categories']">Home</a></h3>
-
-<h3 [hidden]="!wrongUsername || !wrongPassword">Wrong username or password!</h3>
-
-<h3 [hidden]="!loggedin">You successfully logged in! <a [routerLink]="['Categories']">Home</a></h3>
+</div>

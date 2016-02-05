@@ -7,12 +7,13 @@ import {InitCasePipe} from './pipe/init-case-pipe';
 import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
 import {SortByNamePipe} from './pipe/sort-by-name-pipe';
 import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
+import {FilterPipe} from './pipe/filter-pipe';
 
 
 @Component({
     selector: 'category',
     templateUrl: 'app/template/category.html',
-    pipes: [InitCasePipe, TrimLowerCasePipe, SortByNamePipe, SortByDLSPipe],
+    pipes: [InitCasePipe, TrimLowerCasePipe, SortByNamePipe, SortByDLSPipe, FilterPipe],
     providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
@@ -24,6 +25,8 @@ export class CategoryComponent {
 
 	private defaultSort = 1;
 	private defaultSortDLS = 0;
+
+	private query = "";
 
 	constructor(private service: MongoAPIService,
 				private routeParams: RouteParams,

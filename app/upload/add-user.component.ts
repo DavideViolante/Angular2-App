@@ -16,18 +16,29 @@ export class AddUserComponent {
 
 	private user = new User();
 	private formSubmitted = false;
+	private usernameAlreadyExists = false;
 
-	constructor(private service: MongoAPIService) {
-		// Select the max user ID
-		this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
-			data => this.user.setID(data[0].id + 1) // the new user will have maxID+1
+	constructor(private service: MongoAPIService) { }
+
+	onSubmit(userForm) {
+		this.service.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
+			data => {
+				if (data.length > 0) {
+					this.usernameAlreadyExists = true;
+				} else {
+					// Select the max user ID
+					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
+						data => {
+							userForm.id = data[0].id + 1; // the new user will have maxID+1
+							userForm.password = this.simpleHash(userForm.password);
+							userForm.session = "";
+							this.service.mongoInsert("users", userForm).subscribe();
+						}
+					);
+					this.formSubmitted = true;
+				}
+			}
 		);
-	}
-
-	onSubmit(fileForm) {
-		fileForm.password = this.simpleHash(fileForm.password);
-		this.service.mongoInsert("users", fileForm).subscribe();
-		this.formSubmitted = true;
 	}
 
 	simpleHash(psw: string) : string {

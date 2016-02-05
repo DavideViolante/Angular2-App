@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './pipe/init-case-pipe', './pipe/trim-lowercase-pipe', './pipe/sort-by-name-pipe', './pipe/sort-by-dls-pipe'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './pipe/init-case-pipe', './pipe/trim-lowercase-pipe', './pipe/sort-by-name-pipe', './pipe/sort-by-dls-pipe', './pipe/filter-pipe'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1, sort_by_name_pipe_1, sort_by_dls_pipe_1;
+    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1, sort_by_name_pipe_1, sort_by_dls_pipe_1, filter_pipe_1;
     var CategoryComponent, defaultSort, defaultSortDLS, fileCache;
     return {
         setters:[
@@ -33,6 +33,9 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
             },
             function (sort_by_dls_pipe_1_1) {
                 sort_by_dls_pipe_1 = sort_by_dls_pipe_1_1;
+            },
+            function (filter_pipe_1_1) {
+                filter_pipe_1 = filter_pipe_1_1;
             }],
         execute: function() {
             CategoryComponent = (function () {
@@ -45,6 +48,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.catname = "";
                     this.defaultSort = 1;
                     this.defaultSortDLS = 0;
+                    this.query = "";
                     this.catname = this.routeParams.get("catname");
                     if (fileCache.cat.indexOf(this.catname) === -1)
                         this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
@@ -88,7 +92,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     core_1.Component({
                         selector: 'category',
                         templateUrl: 'app/template/category.html',
-                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe, sort_by_name_pipe_1.SortByNamePipe, sort_by_dls_pipe_1.SortByDLSPipe],
+                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe, sort_by_name_pipe_1.SortByNamePipe, sort_by_dls_pipe_1.SortByDLSPipe, filter_pipe_1.FilterPipe],
                         providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 

@@ -13,21 +13,20 @@ import {File} from '../model/file-model';
 })
 
 export class AddFileComponent {
-
 	private file = new File();
 	private formSubmitted = false;
 
-	constructor(private service: MongoAPIService) {
-		// Select the max file ID
-		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
-			data => this.file.setID(data[0].id + 1) // the new file will have maxID+1
-		);
-	}
+	constructor(private service: MongoAPIService) { }
 
 	onSubmit(fileForm) {
-		this.service.mongoInsert("files", fileForm).subscribe();
-		this.formSubmitted = true;
+		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
+			data => {
+				// the new file will have maxID+1
+				fileForm.id = data[0].id + 1;
+				this.service.mongoInsert("files", fileForm).subscribe();
+				this.formSubmitted = true;
+			}
+		);
 	}
-
 
 }

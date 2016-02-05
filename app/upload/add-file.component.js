@@ -28,18 +28,18 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
         execute: function() {
             AddFileComponent = (function () {
                 function AddFileComponent(service) {
-                    var _this = this;
                     this.service = service;
                     this.file = new file_model_1.File();
                     this.formSubmitted = false;
-                    // Select the max file ID
-                    this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(function (data) { return _this.file.setID(data[0].id + 1); } // the new file will have maxID+1
-                     // the new file will have maxID+1
-                    );
                 }
                 AddFileComponent.prototype.onSubmit = function (fileForm) {
-                    this.service.mongoInsert("files", fileForm).subscribe();
-                    this.formSubmitted = true;
+                    var _this = this;
+                    this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(function (data) {
+                        // the new file will have maxID+1
+                        fileForm.id = data[0].id + 1;
+                        _this.service.mongoInsert("files", fileForm).subscribe();
+                        _this.formSubmitted = true;
+                    });
                 };
                 AddFileComponent = __decorate([
                     core_1.Component({

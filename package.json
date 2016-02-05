@@ -2,9 +2,9 @@
   "name": "angular2app",
   "version": "1.0.0",
   "author": "Davide Violante",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/DavideViolante/Angular2-App.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavideViolante/Angular2-App.git"
   },
   "scripts": {
     "tsc": "tsc",
@@ -16,14 +16,16 @@
   "dependencies": {
     "angular-dialog-service": "0.0.1",
     "angular2": "2.0.0-beta.3",
-    "bootstrap": "^3.3.6",
+    "bootstrap": "4.0.0-alpha.2",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
+    "font-awesome": "^4.5.0",
     "jquery": "^2.2.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.0",
     "systemjs": "0.19.6",
-    "zone.js": "0.5.10"
+    "tether": "^1.1.1",
+    "zone.js": "0.5.11"
   },
   "devDependencies": {
     "concurrently": "^1.0.0",
