@@ -3,7 +3,7 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
-import {File} from '../file-model';
+import {File} from '../model/file-model';
 
 @Component({
     selector: 'add-file',

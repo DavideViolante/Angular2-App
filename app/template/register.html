@@ -1,8 +1,5 @@
 <form *ngIf="!formSubmitted" (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
 	<div class="form-group">
-		<div [ngClass]="{'has-success':id.valid}">
-		    <input placeholder="User ID" type="text" class="form-control" [(ngModel)]="user.id" ngControl="id" #id="ngForm" readonly required>
-		</div>
 		<div [ngClass]="{'has-success':username.valid}">
 		    <input placeholder="Username" type="text" class="form-control" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
 		</div>
@@ -12,14 +9,9 @@
 		<div [ngClass]="{'has-success':email.valid}">
 		    <input placeholder="Email" type="email" class="form-control" [(ngModel)]="user.email" ngControl="email" #email="ngForm" required>
 		</div>
-		<div [ngClass]="{'has-success':role.valid}">
-			<select class="form-control" [(ngModel)]="user.role" ngControl="role" #role="ngForm" required>
-				<option value="user">User</option>
-				<option value="admin">Admin</option>
-			</select>
-		</div>
 	</div>
 
 	<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Submit</button>
 </form>
-<h3 [hidden]="!formSubmitted">User added successfully! <a [routerLink]="['Upload']">Back</a></h3>
+<h3 [hidden]="!usernameAlreadyExists">Username already exists! Try another one.</h3>
+<h3 [hidden]="!formSubmitted">You successfully registered! <a [routerLink]="['Login']">Login</a></h3>

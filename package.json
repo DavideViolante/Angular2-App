@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "angular-dialog-service": "0.0.1",
-    "angular2": "2.0.0-beta.2",
+    "angular2": "2.0.0-beta.3",
     "bootstrap": "^3.3.6",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",

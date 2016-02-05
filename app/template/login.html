@@ -1,0 +1,18 @@
+<form *ngIf="!loggedin && !alreadyLoggedin" (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
+	<div class="form-group">
+		<div [ngClass]="{'has-success':username.valid}">
+		    <input placeholder="Username" type="text" class="form-control" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
+		</div>
+		<div [ngClass]="{'has-success':password.valid}">
+		    <input placeholder="Password" type="password" class="form-control" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
+		</div>
+	</div>
+
+	<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Submit</button>
+</form>
+
+<h3 [hidden]="!alreadyLoggedin">You are already logged in! <a [routerLink]="['Categories']">Home</a></h3>
+
+<h3 [hidden]="!wrongUsername || !wrongPassword">Wrong username or password!</h3>
+
+<h3 [hidden]="!loggedin">You successfully logged in! <a [routerLink]="['Categories']">Home</a></h3>

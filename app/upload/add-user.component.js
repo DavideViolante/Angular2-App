@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', '../user-model'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', '../model/user-model'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -45,15 +45,14 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                 AddUserComponent.prototype.simpleHash = function (psw) {
                     var hash = 0, i, chr, len;
                     if (psw.length === 0)
-                        return hash;
+                        return hash.toString();
                     for (i = 0, len = psw.length; i < len; i++) {
                         chr = psw.charCodeAt(i);
                         hash = ((hash << 5) - hash) + chr;
                         hash |= 0;
                     }
-                    return hash;
+                    return hash.toString();
                 };
-                ;
                 AddUserComponent = __decorate([
                     core_1.Component({
                         selector: 'add-user',

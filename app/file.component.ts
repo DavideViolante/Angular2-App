@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {File} from './file-model';
+import {File} from './model/file-model';
 
 import {InitCasePipe} from './pipe/init-case-pipe';
 

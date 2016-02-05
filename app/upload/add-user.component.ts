@@ -3,7 +3,7 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
-import {User} from '../user-model';
+import {User} from '../model/user-model';
 
 @Component({
     selector: 'add-user',
@@ -30,15 +30,15 @@ export class AddUserComponent {
 		this.formSubmitted = true;
 	}
 
-	simpleHash(psw: string) {
+	simpleHash(psw: string) : string {
 		var hash = 0, i, chr, len;
-		if (psw.length === 0) return hash;
+		if (psw.length === 0) return hash.toString();
 		for (i = 0, len = psw.length; i < len; i++) {
 			chr = psw.charCodeAt(i);
 			hash = ((hash << 5) - hash) + chr;
 			hash |= 0;
 		}
-		return hash;
-	};
+		return hash.toString();
+	}
 
 }
