@@ -46,26 +46,55 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.router = router;
                     this.files = null;
                     this.catname = "";
-                    this.defaultSort = 1;
-                    this.defaultSortDLS = 0;
+                    this.sortByName = 1;
+                    this.sortByDLS = 0;
                     this.query = "";
+                    this.totFiles = 0;
+                    this.skip = 0;
+                    this.filesPerPage = 10;
+                    this.noMoreNext = false;
+                    this.noMorePrev = true;
                     this.catname = this.routeParams.get("catname");
+                    // Counting the total number of files
+                    this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(function (data) { return _this.setTotFiles(data); });
+                    /*// Fetching only X files per page
+                    this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
+                        data => this.files = data
+                    );*/
                     this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) { return _this.files = data; });
-                    /*if (fileCache.cat.indexOf(this.catname) === -1)
-                        this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
-                            data => {
-                                this.files = data;
-                                fileCache.files.push({ cat: this.catname, data: data });
-                                fileCache.cat.push(this.catname);
-                            }
-                        );
-                    else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;*/
                 }
+                CategoryComponent.prototype.test = function () {
+                    this.filesPerPage += 10;
+                };
+                CategoryComponent.prototype.setTotFiles = function (totFiles) {
+                    this.totFiles = totFiles;
+                };
                 CategoryComponent.prototype.changeSort = function () {
-                    this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
+                    this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
                 };
                 CategoryComponent.prototype.changeSortDLS = function () {
-                    this.defaultSortDLS < 0 ? this.defaultSortDLS = 1 : this.defaultSortDLS = -1;
+                    this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
+                };
+                CategoryComponent.prototype.nextPage = function () {
+                    var _this = this;
+                    if ((this.skip + this.filesPerPage) <= this.totFiles) {
+                        this.skip += this.filesPerPage;
+                        this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(function (data) { return _this.files = data; });
+                        // Last page
+                        if ((this.skip + this.filesPerPage) >= this.totFiles) {
+                            this.noMoreNext = true;
+                        }
+                    }
+                    this.noMorePrev = false;
+                };
+                CategoryComponent.prototype.prevPage = function () {
+                    var _this = this;
+                    // Back on first page
+                    if (this.skip - this.filesPerPage === 0)
+                        this.noMorePrev = true;
+                    this.skip -= this.filesPerPage;
+                    this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(function (data) { return _this.files = data; });
+                    this.noMoreNext = false;
                 };
                 CategoryComponent = __decorate([
                     core_1.Component({
@@ -83,6 +112,15 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
         }
     }
 });
+/*if (fileCache.cat.indexOf(this.catname) === -1)
+    this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
+        data => {
+            this.files = data;
+            fileCache.files.push({ cat: this.catname, data: data });
+            fileCache.cat.push(this.catname);
+        }
+    );
+else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;*/
 /*var fileCache = {
     files: [
             {

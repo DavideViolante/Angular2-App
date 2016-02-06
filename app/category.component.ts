@@ -23,10 +23,16 @@ export class CategoryComponent {
 	private files = null;
 	private catname = "";
 
-	private defaultSort = 1;
-	private defaultSortDLS = 0;
+	private sortByName = 1;
+	private sortByDLS = 0;
 
 	private query = "";
+
+	private totFiles = 0;
+	private skip = 0;
+	private filesPerPage = 10;
+	private noMoreNext = false;
+	private noMorePrev = true;
 
 	constructor(private service: MongoAPIService,
 				private routeParams: RouteParams,
@@ -34,30 +40,73 @@ export class CategoryComponent {
 
 		this.catname = this.routeParams.get("catname");
 
+		// Counting the total number of files
+		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(
+			data => this.setTotFiles(data)
+		);
+
+		/*// Fetching only X files per page
+		this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
+			data => this.files = data
+		);*/
+		
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => this.files = data
 		);
 
-		/*if (fileCache.cat.indexOf(this.catname) === -1)
-			this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
-				data => {
-					this.files = data;
-					fileCache.files.push({ cat: this.catname, data: data });
-					fileCache.cat.push(this.catname);
-				}
-			);
-		else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;*/
+	}
 
+	test() {
+		this.filesPerPage += 10;
+	}
+
+	setTotFiles(totFiles) {
+		this.totFiles = totFiles;
 	}
 
 	changeSort() {
-		this.defaultSort > 0 ? this.defaultSort = -1 : this.defaultSort = 1;
+		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
 	}
 	changeSortDLS() {
-		this.defaultSortDLS < 0 ? this.defaultSortDLS = 1 : this.defaultSortDLS = -1;
+		this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
+	}
+
+	nextPage() {
+		if ((this.skip + this.filesPerPage) <= this.totFiles) {
+			this.skip += this.filesPerPage;
+			this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
+				data => this.files = data
+			);
+			// Last page
+			if((this.skip + this.filesPerPage) >= this.totFiles) {
+				this.noMoreNext = true;
+			}		
+		}
+		this.noMorePrev = false;
+	}
+
+	prevPage() {
+		// Back on first page
+		if (this.skip - this.filesPerPage === 0) this.noMorePrev = true;
+		this.skip -= this.filesPerPage;
+		this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
+			data => this.files = data
+		);
+		this.noMoreNext = false;
 	}
 
 }
+
+/*if (fileCache.cat.indexOf(this.catname) === -1)
+	this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
+		data => {
+			this.files = data;
+			fileCache.files.push({ cat: this.catname, data: data });
+			fileCache.cat.push(this.catname);
+		}
+	);
+else this.files = fileCache.files.find(obj => obj.cat === this.catname).data;*/
+
 
 /*var fileCache = {
 	files: [

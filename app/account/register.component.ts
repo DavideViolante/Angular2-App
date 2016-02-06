@@ -16,6 +16,7 @@ export class RegisterComponent {
 	private user = new User();
 	private formSubmitted = false;
 	private usernameAlreadyExists = false;
+	private passwordTooShort = false;
 
 	constructor(private service: MongoAPIService,
 				private router: Router) { 
@@ -35,6 +36,8 @@ export class RegisterComponent {
 			data => {
 				if (data.length > 0) {
 					this.usernameAlreadyExists = true;
+				} else if (userForm.password.length < 6) {
+					this.passwordTooShort = true;
 				} else {
 					// Select the max user ID
 					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
@@ -51,6 +54,8 @@ export class RegisterComponent {
 				}
 			}
 		);
+		this.usernameAlreadyExists = false;
+		this.passwordTooShort = false;
 	}
 
 	simpleHash(psw: string): string {

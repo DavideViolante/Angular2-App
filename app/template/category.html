@@ -1,23 +1,24 @@
 <a [routerLink]="['Categories']">&#x21D0; Back</a><br /><br />
 
 <div class="input-group">
-  <span class="input-group-addon search-input" id="basic-addon1"><i class="fa fa-search"></i></span>
-  <input [(ngModel)]="query" type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1">
+	<span class="input-group-addon search-input" id="basic-addon1"><i class="fa fa-search"></i></span>
+	<input [(ngModel)]="query" type="text" class="form-control" placeholder="Search">
 </div>
+
 <br />
 
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover table-sm">
 	<thead class="thead-default">
 		<tr>
 			<th>
 				<a href="javascript:false" (click)="changeSort()">File name</a> 
-				<i *ngIf="defaultSort>=0" class="fa fa-sort-alpha-asc"></i>
-				<i *ngIf="defaultSort<0" class="fa fa-sort-alpha-desc"></i>
+				<i *ngIf="sortByName>=0" class="fa fa-sort-alpha-asc"></i>
+				<i *ngIf="sortByName<0" class="fa fa-sort-alpha-desc"></i>
 			</th>
 			<th>
 				<a href="javascript:false" (click)="changeSortDLS()">Downloads</a> 
-				<i *ngIf="defaultSortDLS>=0" class="fa fa-sort-numeric-asc"></i>
-				<i *ngIf="defaultSortDLS<0" class="fa fa-sort-numeric-desc"></i>
+				<i *ngIf="sortByDLS>=0" class="fa fa-sort-numeric-asc"></i>
+				<i *ngIf="sortByDLS<0" class="fa fa-sort-numeric-desc"></i>
 			</th>
 		</tr>
 	</thead>
@@ -35,9 +36,17 @@
 	</tbody>
 
 	<tbody *ngIf="files">
-		<tr *ngFor="#file of files | filter:query | sortByName:defaultSort | sortByDLS:defaultSortDLS">
-			<td><a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a></td>
-			<td>{{file.dls | number}}</td>
+		<tr *ngFor="#file of files | filter:query | sortByName:sortByName | sortByDLS:sortByDLS #i=index;">
+			<td *ngIf="i<filesPerPage">
+				<a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a> {{i}}
+			</td>
+			<td *ngIf="i<filesPerPage">{{file.dls | number}}</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="text-center">
+				<button type="button" class="btn btn-primary" (click)="test()" [disabled]="">TEST</button>
+				<button type="button" class="btn btn-primary" (click)="prevPage()" [disabled]="noMorePrev">Prev page</button> <button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="noMoreNext">Next page</button>
+			</td>
 		</tr>
 	</tbody>
 </table>
