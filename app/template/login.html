@@ -1,32 +1,37 @@
-<div class="container">
+<div class="card text-xs-center">
+	<div class="card-header">
+		Login
+	</div>
+	<div class="card-block">
 
-	<div class="col-md-4 col-centered">
+		<div class="col-md-4 col-centered">
 
-		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
-			<div class="input-group" [ngClass]="{'has-success':username.valid}">
-				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
-			</div>
+			<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
+				<div class="input-group" [ngClass]="{'has-success':username.valid}">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
+				</div>
+				<br />
+				
+				<div class="input-group" [ngClass]="{'has-success':pswEl.value.length>5}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+						<input #pswEl type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
+				</div>
+				<br />
+
+				<button type="submit" class="btn center-block" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Login</button>
+			</form>
+
 			<br />
-			
-			<div class="input-group" [ngClass]="{'has-success':password.valid}">
-				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-					<input type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
-			</div>
-			<br />
 
-			<button type="submit" class="btn center-block" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Login</button>
-		</form>
+		</div>
 
-		<br />
+		<div [hidden]="!wrongUsername && !wrongPassword || loggedin" class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-circle"></i> Wrong username or password!
+		</div>
+		<div [hidden]="!loggedin" class="alert alert-success" role="alert">
+			<i class="fa fa-check-circle"></i> You successfully logged in! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+		</div>
 
 	</div>
-
-	<div [hidden]="!wrongUsername && !wrongPassword || loggedin" class="alert alert-danger" role="alert">
-		<i class="fa fa-exclamation-circle"></i> Wrong username or password!
-	</div>
-	<div [hidden]="!loggedin" class="alert alert-success" role="alert">
-		<i class="fa fa-check-circle"></i> You successfully logged in! Redirecting... <i class="fa fa-spinner fa-spin"></i>
-	</div>
-
 </div>

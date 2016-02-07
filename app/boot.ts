@@ -4,4 +4,6 @@ import {HTTP_PROVIDERS}	  from 'angular2/http';
 
 import {AppComponent}     from './app.component';
 
-bootstrap(AppComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS]);
+import {MongoAPIService}  from './service/mongoapi.service';
+
+bootstrap(AppComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, MongoAPIService]);

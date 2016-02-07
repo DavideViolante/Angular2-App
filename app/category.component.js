@@ -46,8 +46,8 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.router = router;
                     this.files = null;
                     this.catname = "";
-                    this.sortByName = 1;
-                    this.sortByDLS = 0;
+                    this.sortByName = 1; // ASCending order
+                    this.sortByDLS = 0; // no order
                     this.query = "";
                     this.totFiles = 0;
                     this.skip = 0;
@@ -56,7 +56,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.noMorePrev = true;
                     this.catname = this.routeParams.get("catname");
                     // Counting the total number of files
-                    this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(function (data) {
+                    this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
                         _this.setTotFiles(data);
                         if ((_this.skip + _this.filesPerPage) <= _this.totFiles)
                             _this.noMoreNext = false;
@@ -100,7 +100,6 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                         selector: 'category',
                         templateUrl: 'app/template/category.html',
                         pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe, sort_by_name_pipe_1.SortByNamePipe, sort_by_dls_pipe_1.SortByDLSPipe, filter_pipe_1.FilterPipe],
-                        providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams, router_1.Router])

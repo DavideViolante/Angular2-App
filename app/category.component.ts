@@ -13,7 +13,6 @@ import {FilterPipe} from './pipe/filter-pipe';
     selector: 'category',
     templateUrl: 'app/template/category.html',
     pipes: [InitCasePipe, TrimLowerCasePipe, SortByNamePipe, SortByDLSPipe, FilterPipe],
-    providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -22,8 +21,8 @@ export class CategoryComponent {
 	private files = null;
 	private catname = "";
 
-	private sortByName = 1;
-	private sortByDLS = 0;
+	private sortByName = 1; // ASCending order
+	private sortByDLS = 0; // no order
 
 	private query = "";
 
@@ -40,7 +39,7 @@ export class CategoryComponent {
 		this.catname = this.routeParams.get("catname");
 
 		// Counting the total number of files
-		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(
+		this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => {
 				this.setTotFiles(data);
 				if ((this.skip + this.filesPerPage) <= this.totFiles)

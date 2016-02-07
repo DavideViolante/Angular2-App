@@ -26,6 +26,11 @@ export class MongoAPIService {
 			.map(res => res.json());
 	}
 
+	mongoCount(collection: string, query: string) {
+		return this.http.get(this.mongoURL + collection + '?q=' + query + '&c=true&apiKey=' + this.apiKey)
+			.map(res => res.json());
+	}
+
 	// sk: results to skip
 	// l: limit
 	/*mongoSelectSkip(collection: string, query: string, sk: number, l: number) {

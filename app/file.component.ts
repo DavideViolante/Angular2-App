@@ -11,7 +11,6 @@ import {MongoAPIService} from './service/mongoapi.service';
     selector: 'file',
     templateUrl: 'app/template/file.html',
     pipes: [InitCasePipe],
-    providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
 

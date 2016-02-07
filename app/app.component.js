@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './account/login.component', './account/logout.component', './account/register.component', './upload/upload.component', './upload/add-user.component', './upload/add-file.component', './categories.component', './category.component', './file.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './home.component', './account/login.component', './account/logout.component', './account/register.component', './upload/upload.component', './upload/add-user.component', './upload/add-file.component', './categories.component', './category.component', './file.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', './account/login.component'
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, login_component_1, logout_component_1, register_component_1, upload_component_1, add_user_component_1, add_file_component_1, categories_component_1, category_component_1, file_component_1;
+    var core_1, router_1, home_component_1, login_component_1, logout_component_1, register_component_1, upload_component_1, add_user_component_1, add_file_component_1, categories_component_1, category_component_1, file_component_1;
     var AppComponent;
     return {
         setters:[
@@ -18,6 +18,9 @@ System.register(['angular2/core', 'angular2/router', './account/login.component'
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (home_component_1_1) {
+                home_component_1 = home_component_1_1;
             },
             function (login_component_1_1) {
                 login_component_1 = login_component_1_1;
@@ -57,7 +60,7 @@ System.register(['angular2/core', 'angular2/router', './account/login.component'
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
-                        { path: '/', redirectTo: ['Categories'] },
+                        { path: '/', name: 'Home', component: home_component_1.HomeComponent },
                         { path: '/account/login', name: 'Login', component: login_component_1.LoginComponent },
                         { path: '/account/logout', name: 'Logout', component: logout_component_1.LogoutComponent },
                         { path: '/account/register', name: 'Register', component: register_component_1.RegisterComponent },

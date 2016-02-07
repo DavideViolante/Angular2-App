@@ -31,7 +31,6 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                     core_1.Component({
                         selector: 'upload',
                         templateUrl: 'app/template/upload.html',
-                        providers: [mongoapi_service_1.MongoAPIService],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService])

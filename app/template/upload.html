@@ -1,5 +1,18 @@
-<ul>
-	<li><a [routerLink]="['AddFile']">Add file</a></li>
-	<li><a [routerLink]="['AddUser']">Add user</a></li>
-	<li>...</li>
-</ul>
+<table class="table table-bordered table-hover">
+	<thead class="thead-default">
+		<tr>
+			<th>
+				Actions
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><a [routerLink]="['AddFile']">Add file</a></td>
+		</tr>
+		<tr>
+			<td><a [routerLink]="['AddUser']">Add user</a></td>
+		</tr>
+	</tbody>
+</table>
