@@ -2,7 +2,7 @@
 
 <div class="input-group">
 	<span class="input-group-addon search-input" id="basic-addon1"><i class="fa fa-search"></i></span>
-	<input [(ngModel)]="query" type="text" class="form-control" placeholder="Search">
+	<input [(ngModel)]="query" type="text" class="form-control" placeholder="Search (2+ characters)">
 </div>
 
 <br />
@@ -37,15 +37,16 @@
 
 	<tbody *ngIf="files">
 		<tr *ngFor="#file of files | filter:query | sortByName:sortByName | sortByDLS:sortByDLS #i=index;">
-			<td *ngIf="i<filesPerPage">
-				<a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a> {{i}}
+			<td *ngIf="i>=skip && i<(skip+filesPerPage)">
+				<a [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">{{file.name}}</a>
 			</td>
-			<td *ngIf="i<filesPerPage">{{file.dls | number}}</td>
+			<td *ngIf="i>=skip && i<(skip+filesPerPage)">{{file.dls | number}}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="text-center">
-				<button type="button" class="btn btn-primary" (click)="test()" [disabled]="">TEST</button>
-				<button type="button" class="btn btn-primary" (click)="prevPage()" [disabled]="noMorePrev">Prev page</button> <button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="noMoreNext">Next page</button>
+			<td *ngIf="query.length<2" colspan="2" class="text-center">
+				<button type="button" class="btn btn-primary" (click)="prevPage()" [disabled]="noMorePrev">Prev</button>
+				<button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="noMoreNext">Next</button>
+				Showing {{skip+1}}-{{(skip+1+filesPerPage)>totFiles ? totFiles : skip+filesPerPage}} of {{totFiles}}
 			</td>
 		</tr>
 	</tbody>

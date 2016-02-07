@@ -46,55 +46,53 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.router = router;
                     this.files = null;
                     this.catname = "";
-                    this.sortByName = 1;
+                    this.sortByName = 0;
                     this.sortByDLS = 0;
                     this.query = "";
                     this.totFiles = 0;
                     this.skip = 0;
                     this.filesPerPage = 10;
-                    this.noMoreNext = false;
+                    this.noMoreNext = true;
                     this.noMorePrev = true;
                     this.catname = this.routeParams.get("catname");
                     // Counting the total number of files
-                    this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(function (data) { return _this.setTotFiles(data); });
-                    /*// Fetching only X files per page
-                    this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
-                        data => this.files = data
-                    );*/
+                    this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(function (data) {
+                        _this.setTotFiles(data);
+                        if ((_this.skip + _this.filesPerPage) <= _this.totFiles)
+                            _this.noMoreNext = false;
+                    });
                     this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) { return _this.files = data; });
                 }
-                CategoryComponent.prototype.test = function () {
-                    this.filesPerPage += 10;
-                };
                 CategoryComponent.prototype.setTotFiles = function (totFiles) {
                     this.totFiles = totFiles;
                 };
-                CategoryComponent.prototype.changeSort = function () {
-                    this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
-                };
-                CategoryComponent.prototype.changeSortDLS = function () {
-                    this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
-                };
                 CategoryComponent.prototype.nextPage = function () {
-                    var _this = this;
-                    if ((this.skip + this.filesPerPage) <= this.totFiles) {
+                    if ((this.skip + this.filesPerPage) <= this.totFiles)
                         this.skip += this.filesPerPage;
-                        this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(function (data) { return _this.files = data; });
-                        // Last page
-                        if ((this.skip + this.filesPerPage) >= this.totFiles) {
-                            this.noMoreNext = true;
-                        }
-                    }
+                    if ((this.skip + this.filesPerPage) >= this.totFiles)
+                        this.noMoreNext = true;
                     this.noMorePrev = false;
                 };
                 CategoryComponent.prototype.prevPage = function () {
-                    var _this = this;
                     // Back on first page
                     if (this.skip - this.filesPerPage === 0)
                         this.noMorePrev = true;
                     this.skip -= this.filesPerPage;
-                    this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(function (data) { return _this.files = data; });
                     this.noMoreNext = false;
+                };
+                CategoryComponent.prototype.changeSort = function () {
+                    this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
+                    // Back on first page
+                    this.skip = 0;
+                    this.noMoreNext = false;
+                    this.noMorePrev = true;
+                };
+                CategoryComponent.prototype.changeSortDLS = function () {
+                    this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
+                    // Back on first page
+                    this.skip = 0;
+                    this.noMoreNext = false;
+                    this.noMorePrev = true;
                 };
                 CategoryComponent = __decorate([
                     core_1.Component({

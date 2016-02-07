@@ -40,10 +40,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
                 };
                 // sk: results to skip
                 // l: limit
-                MongoAPIService.prototype.mongoSelectSkip = function (collection, query, sk, l) {
+                /*mongoSelectSkip(collection: string, query: string, sk: number, l: number) {
                     return this.http.get(this.mongoURL + collection + '?q=' + query + '&sk=' + sk + '&l=' + l + '&apiKey=' + this.apiKey)
-                        .map(function (res) { return res.json(); });
-                };
+                        .map(res => res.json());
+                }*/
                 MongoAPIService.prototype.mongoInsert = function (collection, fileObj) {
                     var headers = new http_2.Headers();
                     headers.append("Content-Type", "application/json");

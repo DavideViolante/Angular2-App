@@ -28,11 +28,10 @@ export class MongoAPIService {
 
 	// sk: results to skip
 	// l: limit
-	mongoSelectSkip(collection: string, query: string, sk: number, l: number) {
+	/*mongoSelectSkip(collection: string, query: string, sk: number, l: number) {
 		return this.http.get(this.mongoURL + collection + '?q=' + query + '&sk=' + sk + '&l=' + l + '&apiKey=' + this.apiKey)
 			.map(res => res.json());
-	}
-	
+	}*/
 
 	mongoInsert(collection: string, fileObj) {
 		var headers = new Headers();

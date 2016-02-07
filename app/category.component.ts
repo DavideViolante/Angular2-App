@@ -23,7 +23,7 @@ export class CategoryComponent {
 	private files = null;
 	private catname = "";
 
-	private sortByName = 1;
+	private sortByName = 0;
 	private sortByDLS = 0;
 
 	private query = "";
@@ -31,7 +31,7 @@ export class CategoryComponent {
 	private totFiles = 0;
 	private skip = 0;
 	private filesPerPage = 10;
-	private noMoreNext = false;
+	private noMoreNext = true;
 	private noMorePrev = true;
 
 	constructor(private service: MongoAPIService,
@@ -42,13 +42,12 @@ export class CategoryComponent {
 
 		// Counting the total number of files
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}&c=true').subscribe(
-			data => this.setTotFiles(data)
+			data => {
+				this.setTotFiles(data);
+				if ((this.skip + this.filesPerPage) <= this.totFiles)
+					this.noMoreNext = false;
+			}
 		);
-
-		/*// Fetching only X files per page
-		this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
-			data => this.files = data
-		);*/
 		
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => this.files = data
@@ -56,43 +55,37 @@ export class CategoryComponent {
 
 	}
 
-	test() {
-		this.filesPerPage += 10;
-	}
-
 	setTotFiles(totFiles) {
 		this.totFiles = totFiles;
 	}
 
-	changeSort() {
-		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
-	}
-	changeSortDLS() {
-		this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
-	}
-
 	nextPage() {
-		if ((this.skip + this.filesPerPage) <= this.totFiles) {
+		if ((this.skip + this.filesPerPage) <= this.totFiles)
 			this.skip += this.filesPerPage;
-			this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
-				data => this.files = data
-			);
-			// Last page
-			if((this.skip + this.filesPerPage) >= this.totFiles) {
+			if ((this.skip + this.filesPerPage) >= this.totFiles) // Last page
 				this.noMoreNext = true;
-			}		
-		}
 		this.noMorePrev = false;
 	}
-
 	prevPage() {
 		// Back on first page
 		if (this.skip - this.filesPerPage === 0) this.noMorePrev = true;
 		this.skip -= this.filesPerPage;
-		this.service.mongoSelectSkip('files', '{cat:"' + this.catname + '"}', this.skip, this.filesPerPage).subscribe(
-			data => this.files = data
-		);
 		this.noMoreNext = false;
+	}
+
+	changeSort() {
+		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
+		// Back on first page
+		this.skip = 0;
+		this.noMoreNext = false;
+		this.noMorePrev = true;
+	}
+	changeSortDLS() {
+		this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
+		// Back on first page
+		this.skip = 0;
+		this.noMoreNext = false;
+		this.noMorePrev = true;
 	}
 
 }
