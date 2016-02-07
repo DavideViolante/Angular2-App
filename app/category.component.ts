@@ -9,7 +9,6 @@ import {SortByNamePipe} from './pipe/sort-by-name-pipe';
 import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
 import {FilterPipe} from './pipe/filter-pipe';
 
-
 @Component({
     selector: 'category',
     templateUrl: 'app/template/category.html',
@@ -23,7 +22,7 @@ export class CategoryComponent {
 	private files = null;
 	private catname = "";
 
-	private sortByName = 0;
+	private sortByName = 1;
 	private sortByDLS = 0;
 
 	private query = "";
@@ -59,6 +58,12 @@ export class CategoryComponent {
 		this.totFiles = totFiles;
 	}
 
+	firstPageValues() {
+		this.skip = 0;
+		this.noMoreNext = false;
+		this.noMorePrev = true;
+	}
+	
 	nextPage() {
 		if ((this.skip + this.filesPerPage) <= this.totFiles)
 			this.skip += this.filesPerPage;
@@ -73,21 +78,16 @@ export class CategoryComponent {
 		this.noMoreNext = false;
 	}
 
-	changeSort() {
+	changeSortByName() {
 		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
 		// Back on first page
-		this.skip = 0;
-		this.noMoreNext = false;
-		this.noMorePrev = true;
+		this.firstPageValues();
 	}
-	changeSortDLS() {
+	changeSortByDLS() {
 		this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
 		// Back on first page
-		this.skip = 0;
-		this.noMoreNext = false;
-		this.noMorePrev = true;
+		this.firstPageValues();
 	}
-
 }
 
 /*if (fileCache.cat.indexOf(this.catname) === -1)

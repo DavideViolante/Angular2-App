@@ -46,7 +46,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.router = router;
                     this.files = null;
                     this.catname = "";
-                    this.sortByName = 0;
+                    this.sortByName = 1;
                     this.sortByDLS = 0;
                     this.query = "";
                     this.totFiles = 0;
@@ -66,6 +66,11 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                 CategoryComponent.prototype.setTotFiles = function (totFiles) {
                     this.totFiles = totFiles;
                 };
+                CategoryComponent.prototype.firstPageValues = function () {
+                    this.skip = 0;
+                    this.noMoreNext = false;
+                    this.noMorePrev = true;
+                };
                 CategoryComponent.prototype.nextPage = function () {
                     if ((this.skip + this.filesPerPage) <= this.totFiles)
                         this.skip += this.filesPerPage;
@@ -80,19 +85,15 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.skip -= this.filesPerPage;
                     this.noMoreNext = false;
                 };
-                CategoryComponent.prototype.changeSort = function () {
+                CategoryComponent.prototype.changeSortByName = function () {
                     this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
                     // Back on first page
-                    this.skip = 0;
-                    this.noMoreNext = false;
-                    this.noMorePrev = true;
+                    this.firstPageValues();
                 };
-                CategoryComponent.prototype.changeSortDLS = function () {
+                CategoryComponent.prototype.changeSortByDLS = function () {
                     this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
                     // Back on first page
-                    this.skip = 0;
-                    this.noMoreNext = false;
-                    this.noMorePrev = true;
+                    this.firstPageValues();
                 };
                 CategoryComponent = __decorate([
                     core_1.Component({

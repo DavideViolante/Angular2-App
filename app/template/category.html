@@ -1,8 +1,8 @@
 <a [routerLink]="['Categories']">&#x21D0; Back</a><br /><br />
 
 <div class="input-group">
-	<span class="input-group-addon search-input" id="basic-addon1"><i class="fa fa-search"></i></span>
-	<input [(ngModel)]="query" type="text" class="form-control" placeholder="Search (2+ characters)">
+	<span class="input-group-addon search-input"><i class="fa fa-search"></i></span>
+	<input [(ngModel)]="query" (click)="firstPageValues()" type="text" class="form-control" placeholder="Search">
 </div>
 
 <br />
@@ -11,12 +11,12 @@
 	<thead class="thead-default">
 		<tr>
 			<th>
-				<a href="javascript:false" (click)="changeSort()">File name</a> 
+				<a href="javascript:false" (click)="changeSortByName()">File name</a> 
 				<i *ngIf="sortByName>=0" class="fa fa-sort-alpha-asc"></i>
 				<i *ngIf="sortByName<0" class="fa fa-sort-alpha-desc"></i>
 			</th>
 			<th>
-				<a href="javascript:false" (click)="changeSortDLS()">Downloads</a> 
+				<a href="javascript:false" (click)="changeSortByDLS()">Downloads</a> 
 				<i *ngIf="sortByDLS>=0" class="fa fa-sort-numeric-asc"></i>
 				<i *ngIf="sortByDLS<0" class="fa fa-sort-numeric-desc"></i>
 			</th>
