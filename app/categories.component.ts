@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from './service/mongoapi.service';
 
@@ -10,7 +10,6 @@ import {SortByNamePipe} from './pipe/sort-by-name-pipe';
     selector: 'categories',
     templateUrl: 'app/template/categories.html',
     pipes: [InitCasePipe, SortByNamePipe],
-    providers: [MongoAPIService],
     directives: [ROUTER_DIRECTIVES]
 })
 

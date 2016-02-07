@@ -10,22 +10,21 @@
 
 			<div class="input-group" [ngClass]="{'has-success':name.valid}">
 				<span class="input-group-addon"><i class="fa fa-file"></i></span>
-					<input type="text" class="form-control" placeholder="Name" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required>
+					<input type="text" class="form-control" placeholder="Name" ngControl="name" #name="ngForm" required>
 			</div>
 			<br />
 
 			<div class="input-group" [ngClass]="{'has-success':author.valid}">
 				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Author" [(ngModel)]="file.author" ngControl="author" #author="ngForm" required>
+					<input type="text" class="form-control" placeholder="Author" ngControl="author" #author="ngForm" required>
 			</div>
 			<br />
 
 			<div class="input-group" [ngClass]="{'has-success':cat.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-list"></i></span>
-					<select class="form-control" [(ngModel)]="file.cat" ngControl="cat" #cat="ngForm" required>
+					<select class="form-control" ngControl="cat" #cat="ngForm" required>
 						<option value="" disabled>Select the category</option>
-						<option value="vehicles">Vehicles</option>
-						<option value="architecture">Architecture</option>
+						<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
 					</select>
 			</div>
 			<br />

@@ -3,8 +3,6 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
-import {User} from '../model/user-model';
-
 @Component({
     selector: 'add-user',
     templateUrl: 'app/template/addUser.html',
@@ -13,7 +11,6 @@ import {User} from '../model/user-model';
 
 export class AddUserComponent {
 
-	private user = new User();
 	private formSubmitted = false;
 	private usernameAlreadyExists = false;
 

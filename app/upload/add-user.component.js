@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', '../model/user-model'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, user_model_1;
+    var core_1, router_1, mongoapi_service_1;
     var AddUserComponent;
     return {
         setters:[
@@ -21,15 +21,11 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
             },
             function (mongoapi_service_1_1) {
                 mongoapi_service_1 = mongoapi_service_1_1;
-            },
-            function (user_model_1_1) {
-                user_model_1 = user_model_1_1;
             }],
         execute: function() {
             AddUserComponent = (function () {
                 function AddUserComponent(service) {
                     this.service = service;
-                    this.user = new user_model_1.User();
                     this.formSubmitted = false;
                     this.usernameAlreadyExists = false;
                 }

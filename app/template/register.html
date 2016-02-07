@@ -9,13 +9,13 @@
 		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
 			<div class="input-group" [ngClass]="{'has-success':username.valid}">
 				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
+					<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" required>
 			</div>
 			<br />
 			
 			<div class="input-group" [ngClass]="{'has-success':pswEl.value.length>5}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-					<input #pswEl type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
+					<input #pswEl type="password" class="form-control" placeholder="Password" ngControl="password" #password="ngForm" required>
 				<span class="input-group-addon" (click)="pswEl.type==='password' ? pswEl.type='text' : pswEl.type='password'" title="Show/Hide">
 		        	<i *ngIf="pswEl.type==='password'" class="fa fa-eye"></i>
 		        	<i *ngIf="pswEl.type==='text'" class="fa fa-eye-slash"></i>
@@ -25,7 +25,7 @@
 
 			<div class="input-group" [ngClass]="{'has-success':email.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-at"></i></span>
-					<input type="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" ngControl="email" #email="ngForm" required>
+					<input type="email" class="form-control" placeholder="Email" ngControl="email" #email="ngForm" required>
 			</div>
 			<br />
 

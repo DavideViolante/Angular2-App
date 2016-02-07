@@ -19,11 +19,13 @@ export class FileComponent {
 	private file = new File();
 
 	private catname = "";
+	private cats = null;
 
 	private mainScreen;
 	private isSelected = false;
 
 	private isEditing = false;
+	private editingComplete = false;
 
 	constructor(private service: MongoAPIService, 				
 				private routeParams: RouteParams) {
@@ -36,9 +38,14 @@ export class FileComponent {
 		this.service.mongoSelect('files', '{id:' + fileid + '}').subscribe(
 			data => {
 				this.file = data[0];
-				this.mainScreen = this.file.imgurl[0];
+				this.mainScreen = data[0].imgurl[0];
 			}
 		);
+
+		this.service.mongoSelect('cats', '').subscribe(
+			data => this.cats = data
+		);
+
 	}
 
 	setMainScreen(screen) {
@@ -46,11 +53,18 @@ export class FileComponent {
 		this.isSelected = true;
 	}
 
-	editFile() { this.isEditing = true; }
-	isEditingCancel() { this.isEditing = false; }
+	editFile() {
+		this.isEditing = true;
+	}
+
+	isEditingCancel() {
+		this.isEditing = false;
+	}
 
 	isEditingDone(fileEdited) {
 		this.service.mongoUpdate("files", "{id:"+fileEdited.id+"}", fileEdited).subscribe();
 		this.isEditing = false;
+		this.editingComplete = true;
+		setTimeout(() => this.editingComplete = false, 2500);
 	}
 }

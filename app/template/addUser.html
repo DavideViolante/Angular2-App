@@ -9,25 +9,25 @@
 		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
 			<div class="input-group" [ngClass]="{'has-success':username.valid}">
 				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" ngControl="username" #username="ngForm" required>
+					<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" required>
 			</div>
 			<br />
 			
 			<div class="input-group" [ngClass]="{'has-success':password.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-					<input type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" ngControl="password" #password="ngForm" required>
+					<input type="password" class="form-control" placeholder="Password" ngControl="password" #password="ngForm" required>
 			</div>
 			<br />
 
 			<div class="input-group" [ngClass]="{'has-success':email.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-at"></i></span>
-					<input type="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" ngControl="email" #email="ngForm" required>
+					<input type="email" class="form-control" placeholder="Email" ngControl="email" #email="ngForm" required>
 			</div>
 			<br />
 
 			<div class="input-group" [ngClass]="{'has-success':role.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-users"></i></span>
-					<select class="form-control" [(ngModel)]="user.role" ngControl="role" #role="ngForm" required>
+					<select class="form-control" ngControl="role" #role="ngForm" required>
 						<option value="" disabled>Select the role</option>
 						<option value="user">User</option>
 						<option value="admin">Admin</option>

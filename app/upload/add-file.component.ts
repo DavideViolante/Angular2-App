@@ -1,9 +1,7 @@
 import {Component} from 'angular2/core';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
-
-import {File} from '../model/file-model';
 
 @Component({
     selector: 'add-file',
@@ -12,12 +10,17 @@ import {File} from '../model/file-model';
 })
 
 export class AddFileComponent {
-	private file = new File();
+	private cats = new Array<string>();
 	private formSubmitted = false;
 
-	constructor(private service: MongoAPIService) { }
+	constructor(private service: MongoAPIService) {
+		this.service.mongoSelect('cats', '').subscribe(
+			data => this.cats = data
+		);
+	}
 
 	onSubmit(fileForm) {
+		console.log(fileForm);
 		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
 			data => {
 				// the new file will have maxID+1

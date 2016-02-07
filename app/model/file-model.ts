@@ -1,14 +1,15 @@
 export class File {
 	private id: number;
-	private author: string;
+	private authors: Array<string> = [];
 	//private dls: number,
-	public imgurl: Array<string> = [];
+	private imgurl: Array<string> = [];
+
 	private name: string;
 	private cat: string;
 
-	constructor(id?: number, author?: string, imgurl?: Array<string>, name?: string, cat?: string) {
+	constructor(id?: number, authors?: Array<string>, imgurl?: Array<string>, name?: string, cat?: string) {
 		this.id = id;
-		this.author = author;
+		this.authors = authors;
 		this.imgurl = imgurl;
 		this.name = name;
 		this.cat = cat;
@@ -17,9 +18,9 @@ export class File {
 	getID() { return this.id; }
 	setID(id) { this.id = id; }
 
-	getAuthor() { return this.author; }
+	/*getAuthor() { return this.author; }
 	setAuthor(author) { this.author = author; }
-
+*/
 	addImgUrl(url: string) {
 		this.imgurl.push(url);
 	}

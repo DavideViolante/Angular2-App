@@ -36,26 +36,36 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                     this.routeParams = routeParams;
                     this.file = new file_model_1.File();
                     this.catname = "";
+                    this.cats = null;
                     this.isSelected = false;
                     this.isEditing = false;
+                    this.editingComplete = false;
                     // get the file clicked from the URL
                     var fileid = this.routeParams.get("fileid");
                     this.catname = this.routeParams.get("catname");
                     // get the file from the ID
                     this.service.mongoSelect('files', '{id:' + fileid + '}').subscribe(function (data) {
                         _this.file = data[0];
-                        _this.mainScreen = _this.file.imgurl[0];
+                        _this.mainScreen = data[0].imgurl[0];
                     });
+                    this.service.mongoSelect('cats', '').subscribe(function (data) { return _this.cats = data; });
                 }
                 FileComponent.prototype.setMainScreen = function (screen) {
                     this.mainScreen = screen;
                     this.isSelected = true;
                 };
-                FileComponent.prototype.editFile = function () { this.isEditing = true; };
-                FileComponent.prototype.isEditingCancel = function () { this.isEditing = false; };
+                FileComponent.prototype.editFile = function () {
+                    this.isEditing = true;
+                };
+                FileComponent.prototype.isEditingCancel = function () {
+                    this.isEditing = false;
+                };
                 FileComponent.prototype.isEditingDone = function (fileEdited) {
+                    var _this = this;
                     this.service.mongoUpdate("files", "{id:" + fileEdited.id + "}", fileEdited).subscribe();
                     this.isEditing = false;
+                    this.editingComplete = true;
+                    setTimeout(function () { return _this.editingComplete = false; }, 2500);
                 };
                 FileComponent = __decorate([
                     core_1.Component({

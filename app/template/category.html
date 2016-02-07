@@ -5,7 +5,7 @@
 
 <br />
 
-<table class="table table-bordered table-hover table-sm">
+<table class="table table-bordered table-hover">
 	<thead class="thead-default">
 		<tr>
 			<th>
@@ -44,6 +44,7 @@
 			<td *ngIf="query.length<2" colspan="2" class="text-center">
 				<button type="button" class="btn btn-primary" (click)="prevPage()" [disabled]="noMorePrev">Prev</button>
 				<button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="noMoreNext">Next</button>
+				<br />
 				Showing {{skip+1}}-{{(skip+1+filesPerPage)>totFiles ? totFiles : skip+filesPerPage}} of {{totFiles}}
 			</td>
 		</tr>

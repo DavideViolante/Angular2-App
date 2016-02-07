@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', '../model/file-model'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, file_model_1;
+    var core_1, router_1, mongoapi_service_1;
     var AddFileComponent;
     return {
         setters:[
@@ -21,19 +21,19 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
             },
             function (mongoapi_service_1_1) {
                 mongoapi_service_1 = mongoapi_service_1_1;
-            },
-            function (file_model_1_1) {
-                file_model_1 = file_model_1_1;
             }],
         execute: function() {
             AddFileComponent = (function () {
                 function AddFileComponent(service) {
+                    var _this = this;
                     this.service = service;
-                    this.file = new file_model_1.File();
+                    this.cats = new Array();
                     this.formSubmitted = false;
+                    this.service.mongoSelect('cats', '').subscribe(function (data) { return _this.cats = data; });
                 }
                 AddFileComponent.prototype.onSubmit = function (fileForm) {
                     var _this = this;
+                    console.log(fileForm);
                     this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(function (data) {
                         // the new file will have maxID+1
                         fileForm.id = data[0].id + 1;
