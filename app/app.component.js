@@ -52,6 +52,7 @@ System.register(['angular2/core', 'angular2/router', './home.component', './acco
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
+                    this.isLoggedIn = false;
                 }
                 AppComponent = __decorate([
                     core_1.Component({

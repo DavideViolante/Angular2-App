@@ -18,7 +18,7 @@ import {FilterPipe} from './pipe/filter-pipe';
 
 export class CategoryComponent {
 
-	private files = null;
+	private files = new Array<Object>();
 	private catname = "";
 
 	private sortByName = 1; // ASCending order
@@ -28,7 +28,7 @@ export class CategoryComponent {
 
 	private totFiles = 0;
 	private skip = 0;
-	private filesPerPage = 10;
+	private filesPerPage = 9;
 	private noMoreNext = true;
 	private noMorePrev = true;
 
@@ -47,6 +47,7 @@ export class CategoryComponent {
 			}
 		);
 		
+		//this.files.push({ dummy: 1 });
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => this.files = data
 		);
@@ -59,8 +60,8 @@ export class CategoryComponent {
 
 	firstPageValues() {
 		this.skip = 0;
-		this.noMoreNext = false;
 		this.noMorePrev = true;
+		(this.totFiles < this.filesPerPage) ? this.noMoreNext = true : this.noMoreNext = false;
 	}
 	
 	nextPage() {
@@ -81,6 +82,7 @@ export class CategoryComponent {
 		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
 		// Back on first page
 		this.firstPageValues();
+		
 	}
 	changeSortByDLS() {
 		this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;

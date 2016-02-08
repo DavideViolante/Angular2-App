@@ -44,14 +44,14 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.service = service;
                     this.routeParams = routeParams;
                     this.router = router;
-                    this.files = null;
+                    this.files = new Array();
                     this.catname = "";
                     this.sortByName = 1; // ASCending order
                     this.sortByDLS = 0; // no order
                     this.query = "";
                     this.totFiles = 0;
                     this.skip = 0;
-                    this.filesPerPage = 10;
+                    this.filesPerPage = 9;
                     this.noMoreNext = true;
                     this.noMorePrev = true;
                     this.catname = this.routeParams.get("catname");
@@ -61,6 +61,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                         if ((_this.skip + _this.filesPerPage) <= _this.totFiles)
                             _this.noMoreNext = false;
                     });
+                    //this.files.push({ dummy: 1 });
                     this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) { return _this.files = data; });
                 }
                 CategoryComponent.prototype.setTotFiles = function (totFiles) {
@@ -68,8 +69,8 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                 };
                 CategoryComponent.prototype.firstPageValues = function () {
                     this.skip = 0;
-                    this.noMoreNext = false;
                     this.noMorePrev = true;
+                    (this.totFiles < this.filesPerPage) ? this.noMoreNext = true : this.noMoreNext = false;
                 };
                 CategoryComponent.prototype.nextPage = function () {
                     if ((this.skip + this.filesPerPage) <= this.totFiles)

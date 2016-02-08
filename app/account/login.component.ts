@@ -3,8 +3,6 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
-import {User} from '../model/user-model';
-
 @Component({
     selector: 'login',
     templateUrl: 'app/template/login.html',
@@ -12,8 +10,7 @@ import {User} from '../model/user-model';
 })
 
 export class LoginComponent {
-	private user = new User();
-	private loggedin = false;
+	private loggedIn = false;
 	private wrongUsername = false;
 	private wrongPassword = false;
 
@@ -39,7 +36,7 @@ export class LoginComponent {
 					localStorage.setItem("session", Math.random().toString(36).slice(2));
 					localStorage.setItem("id", data[0].id);
 					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe();
-					this.loggedin = true;
+					this.loggedIn = true;
 					setTimeout(() => this.router.navigate(['Categories']), 2000);
 
 				} else {

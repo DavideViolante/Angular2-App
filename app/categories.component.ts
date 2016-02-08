@@ -13,7 +13,6 @@ import {SortByNamePipe} from './pipe/sort-by-name-pipe';
     directives: [ROUTER_DIRECTIVES]
 })
 
-
 export class CategoriesComponent {
 
 	private cats = null;

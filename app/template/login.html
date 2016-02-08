@@ -1,6 +1,6 @@
 <div class="card text-xs-center">
 	<div class="card-header">
-		Login
+		Login {{loggedIn}}
 	</div>
 	<div class="card-block">
 
@@ -26,10 +26,10 @@
 
 		</div>
 
-		<div [hidden]="!wrongUsername && !wrongPassword || loggedin" class="alert alert-danger" role="alert">
+		<div [hidden]="!wrongUsername && !wrongPassword || loggedIn" class="alert alert-danger" role="alert">
 			<i class="fa fa-exclamation-circle"></i> Wrong username or password!
 		</div>
-		<div [hidden]="!loggedin" class="alert alert-success" role="alert">
+		<div [hidden]="!loggedIn" class="alert alert-success" role="alert">
 			<i class="fa fa-check-circle"></i> You successfully logged in! Redirecting... <i class="fa fa-spinner fa-spin"></i>
 		</div>
 

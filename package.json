@@ -16,6 +16,7 @@
   "dependencies": {
     "angular-dialog-service": "0.0.1",
     "angular2": "2.0.0-beta.3",
+    "angular2-jwt": "^0.1.6",
     "bootstrap": "4.0.0-alpha.2",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
@@ -25,6 +26,7 @@
     "rxjs": "5.0.0-beta.0",
     "systemjs": "0.19.6",
     "tether": "^1.1.1",
+    "three": "^0.73.2",
     "zone.js": "0.5.11"
   },
   "devDependencies": {
