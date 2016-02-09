@@ -14,6 +14,6 @@ export class LogoutComponent {
 	constructor(private router: Router) { 
 		localStorage.removeItem("session");
 		localStorage.removeItem("id");
-		setTimeout(() => this.router.navigate(['Categories']), 2000);
+		setTimeout(() => this.router.navigate(['Home']), 2000);
 	}
 }

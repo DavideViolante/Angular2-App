@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './home.component', './account/login.component', './account/logout.component', './account/register.component', './upload/upload.component', './upload/add-user.component', './upload/add-file.component', './categories.component', './category.component', './file.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './home.component', './account/login.component', './account/logout.component', './account/register.component', './upload/upload.component', './upload/add-user.component', './upload/add-file.component', './categories.component', './category.component', './file.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', './home.component', './acco
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, home_component_1, login_component_1, logout_component_1, register_component_1, upload_component_1, add_user_component_1, add_file_component_1, categories_component_1, category_component_1, file_component_1;
+    var core_1, router_1, mongoapi_service_1, home_component_1, login_component_1, logout_component_1, register_component_1, upload_component_1, add_user_component_1, add_file_component_1, categories_component_1, category_component_1, file_component_1;
     var AppComponent;
     return {
         setters:[
@@ -18,6 +18,9 @@ System.register(['angular2/core', 'angular2/router', './home.component', './acco
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (mongoapi_service_1_1) {
+                mongoapi_service_1 = mongoapi_service_1_1;
             },
             function (home_component_1_1) {
                 home_component_1 = home_component_1_1;
@@ -51,13 +54,13 @@ System.register(['angular2/core', 'angular2/router', './home.component', './acco
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
-                    this.isLoggedIn = false;
+                function AppComponent(service) {
+                    this.service = service;
                 }
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        templateUrl: 'app/template/app.html',
+                        templateUrl: 'app/template/home.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
@@ -72,7 +75,7 @@ System.register(['angular2/core', 'angular2/router', './home.component', './acco
                         { path: '/category/:catname', name: 'Category', component: category_component_1.CategoryComponent },
                         { path: '/category/:catname/:fileid/:filename', name: 'File', component: file_component_1.FileComponent }
                     ]), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService])
                 ], AppComponent);
                 return AppComponent;
             }());

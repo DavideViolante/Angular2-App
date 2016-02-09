@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
-//import {MongoAPIService} from './service/mongoapi.service';
+import {MongoAPIService} from './service/mongoapi.service';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './account/login.component';
@@ -16,7 +16,7 @@ import {FileComponent} from './file.component';
 
 @Component({
     selector: 'app',
-    templateUrl: 'app/template/app.html',
+    templateUrl: 'app/template/home.html',
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -34,46 +34,7 @@ import {FileComponent} from './file.component';
 ])
 
 export class AppComponent {
-
-    private isLoggedIn = false;
-
-    constructor() {}
-
-
-
-
-/*    private loggedIn = false;
-    private admin = false;
-
     constructor(private service: MongoAPIService) {
-
-        this.isLoggedIn();
-        this.isAdmin();
- 
+        
     }
-
-    isLoggedIn() {
-        if ((localStorage.getItem("id") && localStorage.getItem("session")) !== null)
-            this.loggedIn = true;
-        else this.loggedIn = false;
-        console.log(this.loggedIn);
-    }
-
-    isAdmin() {
-        if (this.isLoggedIn()) {
-            this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
-                data => data[0].role === "admin" ? this.setAdmin(true) : this.setAdmin(false)
-            );
-            console.log(this.admin);
-        } else
-            this.admin = false;
-    }
-
-    setAdmin(admin) {
-        this.admin = admin;
-    }
-    setLoggedIn(loggedIn) {
-        this.loggedIn = loggedIn;
-    }*/
-
 }

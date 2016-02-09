@@ -3,8 +3,6 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
-import {User} from '../model/user-model';
-
 @Component({
     selector: 'register',
     templateUrl: 'app/template/register.html',
@@ -12,7 +10,6 @@ import {User} from '../model/user-model';
 })
 
 export class RegisterComponent {
-	private user = new User();
 	private formSubmitted = false;
 	private usernameAlreadyExists = false;
 	private passwordTooShort = false;
@@ -24,7 +21,7 @@ export class RegisterComponent {
 				data => {
 					if (data[0].id === +localStorage.getItem("id") &&
 						data[0].session === localStorage.getItem("session"))
-						this.router.navigate(['Categories']);
+						this.router.navigate(['Home']);
 				}
 			);
 		}

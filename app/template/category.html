@@ -30,13 +30,14 @@
 <div class="row container">
 	<div *ngIf="files.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
 	<span *ngFor="#file of files | filter:query | sortByName:sortByName | sortByDLS:sortByDLS #i=index">
-		<div *ngIf="i>=skip && i<(skip+filesPerPage)" class="col-md-4 thumbImg" style="background-image:url({{file.imgurl[0]}})" >
-			<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
-			<div class="infoBg">
-				{{file.name}}<br />
-				<i class="fa fa-user"></i> {{file.author}} <i class="fa fa-download"></i> {{file.dls | number}}
+		<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
+			<div *ngIf="i>=skip && i<(skip+filesPerPage)" class="col-md-4 thumbImg" style="background-image:url({{file.imgurl[0]}})" >
+				<div class="infoBg">
+					{{file.name}}<br />
+					<i class="fa fa-user"></i> {{file.author}} &nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="fa fa-download"></i> {{file.dls | number}}
+				</div>
 			</div>
-			</a>
-		</div>
+		</a>
 	</span>
 </div>
