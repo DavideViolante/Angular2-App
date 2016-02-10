@@ -1,7 +1,11 @@
-import {Component, Injector} from 'angular2/core';
-import {Router, ROUTER_DIRECTIVES, CanActivate, ComponentInstruction} from 'angular2/router';
+import {Component} from 'angular2/core';
+import {Router, RouteConfig, ROUTER_DIRECTIVES, ComponentInstruction, CanActivate} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
+
+import {UploadHomeComponent} from './upload-home.component';
+import {AddUserComponent} from './add-user.component';
+import {AddFileComponent} from './add-file.component';
 
 @Component({
     selector: 'upload',
@@ -9,12 +13,17 @@ import {MongoAPIService} from '../service/mongoapi.service';
     directives: [ROUTER_DIRECTIVES]
 })
 
+@RouteConfig([
+	{ path: '/', name: 'UploadHome', component: UploadHomeComponent, useAsDefault: true},
+	{ path: '/addFile', name: 'AddFile', component: AddFileComponent },
+	{ path: '/addUser', name: 'AddUser', component: AddUserComponent }
+])
 /*@CanActivate((next: ComponentInstruction, previous: ComponentInstruction) => {
 	return new Promise((resolve) => {
 		resolve(true);
 	});
-})*/
-
+})
+*/
 export class UploadComponent {
 	private isLoggedIn = false;
 	private isAdmin = false;
@@ -41,5 +50,6 @@ export class UploadComponent {
             }
         );
     }
+
 }
 

@@ -40,6 +40,7 @@ export class LoginComponent {
 					this.isLoggedIn = true;
 					setTimeout(() => {
 						this.router.navigate(['Home']);
+						// TO CHANGE
 						location.reload(); // cannot figure out how to update menu...
 					}, 2000);
 				} else {
@@ -49,7 +50,7 @@ export class LoginComponent {
 		);
 	}
 
-
+	// TO CHANGE
 	simpleHash(psw: string): string {
 		var hash = 0, i, chr, len;
 		if (psw.length === 0) return hash.toString();

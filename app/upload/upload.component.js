@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', './upload-home.component', './add-user.component', './add-file.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1;
+    var core_1, router_1, mongoapi_service_1, upload_home_component_1, add_user_component_1, add_file_component_1;
     var UploadComponent;
     return {
         setters:[
@@ -21,6 +21,15 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
             },
             function (mongoapi_service_1_1) {
                 mongoapi_service_1 = mongoapi_service_1_1;
+            },
+            function (upload_home_component_1_1) {
+                upload_home_component_1 = upload_home_component_1_1;
+            },
+            function (add_user_component_1_1) {
+                add_user_component_1 = add_user_component_1_1;
+            },
+            function (add_file_component_1_1) {
+                add_file_component_1 = add_file_component_1_1;
             }],
         execute: function() {
             UploadComponent = (function () {
@@ -54,7 +63,12 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                         selector: 'upload',
                         templateUrl: 'app/template/upload.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
-                    }), 
+                    }),
+                    router_1.RouteConfig([
+                        { path: '/', name: 'UploadHome', component: upload_home_component_1.UploadHomeComponent, useAsDefault: true },
+                        { path: '/addFile', name: 'AddFile', component: add_file_component_1.AddFileComponent },
+                        { path: '/addUser', name: 'AddUser', component: add_user_component_1.AddUserComponent }
+                    ]), 
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router])
                 ], UploadComponent);
                 return UploadComponent;

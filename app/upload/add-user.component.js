@@ -47,6 +47,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                         }
                     });
                 };
+                // TO CHANGE
                 AddUserComponent.prototype.simpleHash = function (psw) {
                     var hash = 0, i, chr, len;
                     if (psw.length === 0)

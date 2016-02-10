@@ -54,6 +54,7 @@ export class RegisterComponent {
 		this.passwordTooShort = false;
 	}
 
+	// TO CHANGE
 	simpleHash(psw: string): string {
 		var hash = 0, i, chr, len;
 		if (psw.length === 0) return hash.toString();
