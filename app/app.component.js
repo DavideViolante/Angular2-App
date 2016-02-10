@@ -56,7 +56,23 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
             AppComponent = (function () {
                 function AppComponent(service) {
                     this.service = service;
+                    this.isLoggedIn = false;
+                    this.isAdmin = false;
+                    this.checkUser();
                 }
+                AppComponent.prototype.checkUser = function () {
+                    var _this = this;
+                    this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(function (data) {
+                        if (data.length > 0) {
+                            (data[0].session === localStorage.getItem("session")) ? _this.isLoggedIn = true : _this.isLoggedIn = false;
+                            (data[0].role === "admin") ? _this.isAdmin = true : _this.isAdmin = false;
+                        }
+                        else {
+                            _this.isLoggedIn = false;
+                            _this.isAdmin = false;
+                        }
+                    });
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',

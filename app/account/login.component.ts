@@ -10,7 +10,7 @@ import {MongoAPIService} from '../service/mongoapi.service';
 })
 
 export class LoginComponent {
-	private loggedIn = false;
+	private isLoggedIn = false;
 	private wrongUsername = false;
 	private wrongPassword = false;
 
@@ -20,7 +20,7 @@ export class LoginComponent {
 			this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
 				data => {
 					if (data[0].session === localStorage.getItem("session")) {
-						this.loggedIn = true;
+						this.isLoggedIn = true;
 						this.router.navigate(['Home']);
 					}
 				}
@@ -37,15 +37,18 @@ export class LoginComponent {
 					localStorage.setItem("session", Math.random().toString(36).slice(2));
 					localStorage.setItem("id", data[0].id);
 					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe();
-					this.loggedIn = true;
-					setTimeout(() => this.router.navigate(['Home']), 2000);
-
+					this.isLoggedIn = true;
+					setTimeout(() => {
+						this.router.navigate(['Home']);
+						location.reload(); // cannot figure out how to update menu...
+					}, 2000);
 				} else {
 					this.wrongPassword = true;
 				}
 			}
 		);
 	}
+
 
 	simpleHash(psw: string): string {
 		var hash = 0, i, chr, len;

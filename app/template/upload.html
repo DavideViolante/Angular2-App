@@ -2,17 +2,17 @@
 	<thead class="thead-default">
 		<tr>
 			<th>
-				Actions
+				Actions available
 			</th>
 		</tr>
 	</thead>
 
 	<tbody>
-		<tr>
-			<td><a [routerLink]="['AddFile']">Add file</a></td>
+		<tr *ngIf="isLoggedIn" >
+			<td><a [routerLink]="['AddFile']">Add new file</a></td>
 		</tr>
-		<tr>
-			<td><a [routerLink]="['AddUser']">Add user</a></td>
+		<tr *ngIf="isLoggedIn && isAdmin" >
+			<td><a [routerLink]="['AddUser']">Add new user</a></td>
 		</tr>
 	</tbody>
 </table>

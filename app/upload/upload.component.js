@@ -24,16 +24,38 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
             }],
         execute: function() {
             UploadComponent = (function () {
-                function UploadComponent(service) {
+                function UploadComponent(service, router) {
                     this.service = service;
+                    this.router = router;
+                    this.isLoggedIn = false;
+                    this.isAdmin = false;
+                    if (localStorage.getItem("id")) {
+                        this.checkUser();
+                    }
+                    else {
+                        this.router.navigate(['Login']);
+                    }
                 }
+                UploadComponent.prototype.checkUser = function () {
+                    var _this = this;
+                    this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(function (data) {
+                        if (data.length > 0) {
+                            (data[0].session === localStorage.getItem("session")) ? _this.isLoggedIn = true : _this.isLoggedIn = false;
+                            (data[0].role === "admin") ? _this.isAdmin = true : _this.isAdmin = false;
+                        }
+                        else {
+                            _this.isLoggedIn = false;
+                            _this.isAdmin = false;
+                        }
+                    });
+                };
                 UploadComponent = __decorate([
                     core_1.Component({
                         selector: 'upload',
                         templateUrl: 'app/template/upload.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService])
+                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router])
                 ], UploadComponent);
                 return UploadComponent;
             }());

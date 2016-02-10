@@ -7,14 +7,17 @@
     <li class="nav-item">
       <a class="nav-link" [routerLink]="['Categories']">Categories</a>
     </li>
-    <li *ngIf="isAdmin" class="nav-item">
-      <a class="nav-link" [routerLink]="['Upload']">Admin</a>
+    <li *ngIf="isLoggedIn && isAdmin" class="nav-item">
+      <a class="nav-link" [routerLink]="['Upload']">Admin CP</a>
+    </li>
+    <li *ngIf="isLoggedIn && !isAdmin" class="nav-item">
+      <a class="nav-link" [routerLink]="['Upload']">User CP</a>
     </li>
     <li *ngIf="!isLoggedIn" class="nav-item">
       <a class="nav-link" [routerLink]="['Login']">Login</a>
     </li>
     <li *ngIf="isLoggedIn" class="nav-item">
-      <a class="nav-link" [routerLink]="['Logout']">Logout</a>
+      <a class="nav-link" (click)="checkUser()" [routerLink]="['Logout']">Logout</a>
     </li>
     <li *ngIf="!isLoggedIn" class="nav-item">
       <a class="nav-link" [routerLink]="['Register']">Register</a>

@@ -9,10 +9,4 @@ import {MongoAPIService} from './service/mongoapi.service';
     directives: [ROUTER_DIRECTIVES]
 })
 
-export class HomeComponent {
-
-	private isLoggedIn = false;
-	private isAdmin = false;
-
-	constructor(private service: MongoAPIService) {	}
-}
+export class HomeComponent { }
