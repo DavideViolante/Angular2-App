@@ -9,12 +9,12 @@
 
 	<tbody>
 		<tr>
-			<td *ngIf="isLoggedIn">
+			<td *ngIf="auth.loggedIn">
 				<div class="btn-group">
 					<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">Action</button>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" *ngIf="isLoggedIn" [routerLink]="['AddFile']">New file</a>
-						<a class="dropdown-item" *ngIf="isLoggedIn && isAdmin" [routerLink]="['AddUser']">New user</a>
+						<a class="dropdown-item" *ngIf="auth.loggedIn" [routerLink]="['AddFile']">New file</a>
+						<a class="dropdown-item" *ngIf="auth.loggedIn && isAdmin" [routerLink]="['AddUser']">New user</a>
 					</div>
 				</div>
 			</td>

@@ -3,6 +3,8 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
+import {AuthenticationComponent} from './authentication.component';
+
 @Component({
     selector: 'login',
     templateUrl: 'app/template/login.html',
@@ -10,13 +12,14 @@ import {MongoAPIService} from '../service/mongoapi.service';
 })
 
 export class LoginComponent {
-	private isLoggedIn = false;
+	private correctCredentials = false;
 	private wrongUsername = false;
 	private wrongPassword = false;
 
 	constructor(private service: MongoAPIService,
-				private router: Router) {
-		if (localStorage.getItem("id")) {
+				private router: Router,
+				private auth: AuthenticationComponent) {
+		/*if (localStorage.getItem("id")) {
 			this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
 				data => {
 					if (data[0].session === localStorage.getItem("session")) {
@@ -25,7 +28,7 @@ export class LoginComponent {
 					}
 				}
 			);
-		}
+		}*/
 	}
 
 	onSubmit(fileForm) {
@@ -37,11 +40,10 @@ export class LoginComponent {
 					localStorage.setItem("session", Math.random().toString(36).slice(2));
 					localStorage.setItem("id", data[0].id);
 					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe();
-					this.isLoggedIn = true;
+					this.auth.login();
+					this.correctCredentials = true;
 					setTimeout(() => {
 						this.router.navigate(['Home']);
-						// TO CHANGE
-						location.reload(); // cannot figure out how to update menu...
 					}, 2000);
 				} else {
 					this.wrongPassword = true;

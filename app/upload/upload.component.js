@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../service/mongoapi.service', './upload-home.component', './add-user.component', './add-file.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './upload-home.component', './add-user.component', './add-file.component', '../account/is-logged-in', '../account/authentication.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, upload_home_component_1, add_user_component_1, add_file_component_1;
+    var core_1, router_1, upload_home_component_1, add_user_component_1, add_file_component_1, is_logged_in_1, authentication_component_1;
     var UploadComponent;
     return {
         setters:[
@@ -19,9 +19,6 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (mongoapi_service_1_1) {
-                mongoapi_service_1 = mongoapi_service_1_1;
-            },
             function (upload_home_component_1_1) {
                 upload_home_component_1 = upload_home_component_1_1;
             },
@@ -30,34 +27,18 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
             },
             function (add_file_component_1_1) {
                 add_file_component_1 = add_file_component_1_1;
+            },
+            function (is_logged_in_1_1) {
+                is_logged_in_1 = is_logged_in_1_1;
+            },
+            function (authentication_component_1_1) {
+                authentication_component_1 = authentication_component_1_1;
             }],
         execute: function() {
             UploadComponent = (function () {
-                function UploadComponent(service, router) {
-                    this.service = service;
-                    this.router = router;
-                    this.isLoggedIn = false;
-                    this.isAdmin = false;
-                    if (localStorage.getItem("id")) {
-                        this.checkUser();
-                    }
-                    else {
-                        this.router.navigate(['Login']);
-                    }
+                function UploadComponent(auth) {
+                    this.auth = auth;
                 }
-                UploadComponent.prototype.checkUser = function () {
-                    var _this = this;
-                    this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(function (data) {
-                        if (data.length > 0) {
-                            (data[0].session === localStorage.getItem("session")) ? _this.isLoggedIn = true : _this.isLoggedIn = false;
-                            (data[0].role === "admin") ? _this.isAdmin = true : _this.isAdmin = false;
-                        }
-                        else {
-                            _this.isLoggedIn = false;
-                            _this.isAdmin = false;
-                        }
-                    });
-                };
                 UploadComponent = __decorate([
                     core_1.Component({
                         selector: 'upload',
@@ -68,8 +49,11 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                         { path: '/', name: 'UploadHome', component: upload_home_component_1.UploadHomeComponent, useAsDefault: true },
                         { path: '/addFile', name: 'AddFile', component: add_file_component_1.AddFileComponent },
                         { path: '/addUser', name: 'AddUser', component: add_user_component_1.AddUserComponent }
-                    ]), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.Router])
+                    ]),
+                    router_1.CanActivate(function (next, previous) {
+                        return is_logged_in_1.isLoggedIn(next, previous);
+                    }), 
+                    __metadata('design:paramtypes', [authentication_component_1.AuthenticationComponent])
                 ], UploadComponent);
                 return UploadComponent;
             }());

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './home.component', './account/login.component', './account/logout.component', './account/register.component', './upload/upload.component', './categories.component', './category.component', './file.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './home.component', './account/login.component', './account/logout.component', './account/register.component', './upload/upload.component', './categories.component', './category.component', './file.component', './account/authentication.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, home_component_1, login_component_1, logout_component_1, register_component_1, upload_component_1, categories_component_1, category_component_1, file_component_1;
+    var core_1, router_1, home_component_1, login_component_1, logout_component_1, register_component_1, upload_component_1, categories_component_1, category_component_1, file_component_1, authentication_component_1;
     var AppComponent;
     return {
         setters:[
@@ -18,9 +18,6 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
             },
             function (router_1_1) {
                 router_1 = router_1_1;
-            },
-            function (mongoapi_service_1_1) {
-                mongoapi_service_1 = mongoapi_service_1_1;
             },
             function (home_component_1_1) {
                 home_component_1 = home_component_1_1;
@@ -45,28 +42,15 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
             },
             function (file_component_1_1) {
                 file_component_1 = file_component_1_1;
+            },
+            function (authentication_component_1_1) {
+                authentication_component_1 = authentication_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(service) {
-                    this.service = service;
-                    this.isLoggedIn = false;
-                    this.isAdmin = false;
-                    this.checkUser();
+                function AppComponent(auth) {
+                    this.auth = auth;
                 }
-                AppComponent.prototype.checkUser = function () {
-                    var _this = this;
-                    this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(function (data) {
-                        if (data.length > 0) {
-                            (data[0].session === localStorage.getItem("session")) ? _this.isLoggedIn = true : _this.isLoggedIn = false;
-                            (data[0].role === "admin") ? _this.isAdmin = true : _this.isAdmin = false;
-                        }
-                        else {
-                            _this.isLoggedIn = false;
-                            _this.isAdmin = false;
-                        }
-                    });
-                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
@@ -81,9 +65,9 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                         { path: '/upload/...', name: 'Upload', component: upload_component_1.UploadComponent },
                         { path: '/category', name: 'Categories', component: categories_component_1.CategoriesComponent },
                         { path: '/category/:catname', name: 'Category', component: category_component_1.CategoryComponent },
-                        { path: '/category/:catname/:fileid/:filename', name: 'File', component: file_component_1.FileComponent }
+                        { path: '/category/:catname/:fileid/:filename', name: 'File', component: file_component_1.FileComponent },
                     ]), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService])
+                    __metadata('design:paramtypes', [authentication_component_1.AuthenticationComponent])
                 ], AppComponent);
                 return AppComponent;
             }());
@@ -91,4 +75,24 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
         }
     }
 });
+/*    private isLoggedIn = false;
+    private isAdmin = false;
+
+    constructor(private service: MongoAPIService) {
+        this.checkUser();
+     }
+
+    checkUser() {
+        this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
+            data => {
+                if (data.length > 0) {
+                    (data[0].session === localStorage.getItem("session")) ? this.isLoggedIn = true : this.isLoggedIn = false;
+                    (data[0].role === "admin") ? this.isAdmin = true : this.isAdmin = false;
+                } else {
+                    this.isLoggedIn = false;
+                    this.isAdmin = false;
+                }
+            }
+        );
+    }*/
 //# sourceMappingURL=app.component.js.map

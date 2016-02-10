@@ -6,4 +6,8 @@ import {AppComponent}     from './app.component';
 
 import {MongoAPIService}  from './service/mongoapi.service';
 
-bootstrap(AppComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, MongoAPIService]);
+import {appInjector} from './app-injector';
+import {AuthenticationComponent} from './account/authentication.component';
+import 'rxjs/Rx';
+
+bootstrap(AppComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, MongoAPIService, AuthenticationComponent]).then((appRef) => appInjector(appRef.injector));

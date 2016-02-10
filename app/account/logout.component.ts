@@ -1,6 +1,8 @@
 import {Component} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
+import {AuthenticationComponent} from './authentication.component';
+
 @Component({
     selector: 'logout',
     template: `<div class="alert alert-success" role="alert">
@@ -11,9 +13,9 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 export class LogoutComponent {
 
-	constructor(private router: Router) { 
-		localStorage.removeItem("session");
-		localStorage.removeItem("id");
+	constructor(private router: Router,
+				private auth: AuthenticationComponent) {
+		this.auth.logout(); 
 		setTimeout(() => this.router.navigate(['Home']), 2000);
 	}
 }

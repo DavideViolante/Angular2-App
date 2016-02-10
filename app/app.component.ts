@@ -12,6 +12,8 @@ import {CategoriesComponent} from './categories.component';
 import {CategoryComponent} from './category.component';
 import {FileComponent} from './file.component';
 
+import {AuthenticationComponent} from './account/authentication.component';
+
 @Component({
     selector: 'app',
     templateUrl: 'app/template/home.html',
@@ -26,11 +28,15 @@ import {FileComponent} from './file.component';
     { path: '/upload/...', name: 'Upload', component: UploadComponent },
     { path: '/category', name: 'Categories', component: CategoriesComponent },
     { path: '/category/:catname', name: 'Category', component: CategoryComponent },
-    { path: '/category/:catname/:fileid/:filename', name: 'File', component: FileComponent }
+    { path: '/category/:catname/:fileid/:filename', name: 'File', component: FileComponent },
 ])
 
 export class AppComponent {
-    private isLoggedIn = false;
+
+    constructor(private auth: AuthenticationComponent) { }
+
+}
+/*    private isLoggedIn = false;
     private isAdmin = false;
 
     constructor(private service: MongoAPIService) {
@@ -49,6 +55,6 @@ export class AppComponent {
                 }
             }
         );
-    }
+    }*/
 
-}
+

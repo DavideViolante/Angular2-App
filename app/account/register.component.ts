@@ -16,7 +16,7 @@ export class RegisterComponent {
 
 	constructor(private service: MongoAPIService,
 				private router: Router) { 
-		if (localStorage.getItem("id")) {
+		/*if (localStorage.getItem("id")) {
 			this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
 				data => {
 					if (data[0].id === +localStorage.getItem("id") &&
@@ -24,7 +24,7 @@ export class RegisterComponent {
 						this.router.navigate(['Home']);
 				}
 			);
-		}
+		}*/
 	}
 
 	onSubmit(userForm) {
