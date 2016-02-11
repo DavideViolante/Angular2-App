@@ -9,6 +9,8 @@ import 'rxjs/add/operator/map';
 
 export class MongoAPIService {
 
+	// API DOCS: http://docs.mongolab.com/data-api/
+
 	private mongoURL: string = "https://api.mongolab.com/api/1/databases/masterthesis/collections/";
 	private apiKey: string = "DrWjz1L1mpb4g0701x7BS7VAC-vxBlpr";
 

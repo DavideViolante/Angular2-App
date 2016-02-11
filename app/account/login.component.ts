@@ -15,21 +15,11 @@ export class LoginComponent {
 	private correctCredentials = false;
 	private wrongUsername = false;
 	private wrongPassword = false;
+	private formSubmitted = false;
 
 	constructor(private service: MongoAPIService,
 				private router: Router,
-				private auth: AuthenticationComponent) {
-		/*if (localStorage.getItem("id")) {
-			this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
-				data => {
-					if (data[0].session === localStorage.getItem("session")) {
-						this.isLoggedIn = true;
-						this.router.navigate(['Home']);
-					}
-				}
-			);
-		}*/
-	}
+				private auth: AuthenticationComponent) { }
 
 	onSubmit(fileForm) {
 		this.service.mongoSelect("users", "{username:'" + fileForm.username + "'}").subscribe(
@@ -42,6 +32,7 @@ export class LoginComponent {
 					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe();
 					this.auth.login();
 					this.correctCredentials = true;
+					this.formSubmitted = true;
 					setTimeout(() => {
 						this.router.navigate(['Home']);
 					}, 2000);

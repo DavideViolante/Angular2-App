@@ -25,6 +25,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
             MongoAPIService = (function () {
                 function MongoAPIService(http) {
                     this.http = http;
+                    // API DOCS: http://docs.mongolab.com/data-api/
                     this.mongoURL = "https://api.mongolab.com/api/1/databases/masterthesis/collections/";
                     this.apiKey = "DrWjz1L1mpb4g0701x7BS7VAC-vxBlpr";
                 }
