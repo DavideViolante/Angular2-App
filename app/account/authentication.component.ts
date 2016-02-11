@@ -5,13 +5,12 @@ import {MongoAPIService} from '../service/mongoapi.service';
 
 @Component({
     selector: 'authentication',
-    template: '',
-    providers: [MongoAPIService]
+    template: ''
 })
 
 export class AuthenticationComponent {
     private loggedIn;
-    private isAdmin
+    private isAdmin;
 
     constructor(private service: MongoAPIService) {
         this.loggedIn = false;

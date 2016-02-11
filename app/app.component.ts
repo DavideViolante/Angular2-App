@@ -36,25 +36,3 @@ export class AppComponent {
     constructor(private auth: AuthenticationComponent) { }
 
 }
-/*    private isLoggedIn = false;
-    private isAdmin = false;
-
-    constructor(private service: MongoAPIService) {
-        this.checkUser();
-     }
-
-    checkUser() {
-        this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
-            data => {
-                if (data.length > 0) {
-                    (data[0].session === localStorage.getItem("session")) ? this.isLoggedIn = true : this.isLoggedIn = false;
-                    (data[0].role === "admin") ? this.isAdmin = true : this.isAdmin = false;
-                } else {
-                    this.isLoggedIn = false;
-                    this.isAdmin = false;
-                }
-            }
-        );
-    }*/
-
-

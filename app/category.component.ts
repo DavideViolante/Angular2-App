@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ComponentInstruction, CanReuse, Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from './service/mongoapi.service';
 
@@ -16,7 +16,7 @@ import {FilterPipe} from './pipe/filter-pipe';
     directives: [ROUTER_DIRECTIVES]
 })
 
-export class CategoryComponent {
+export class CategoryComponent implements CanReuse {
 
 	private files = new Array<Object>();
 	private catname = "";
@@ -33,30 +33,40 @@ export class CategoryComponent {
 	private noMorePrev = true;
 
 	constructor(private service: MongoAPIService,
-				private routeParams: RouteParams,
-				private router: Router) {
+		private routeParams: RouteParams,
+		private router: Router) {
 
 		this.catname = this.routeParams.get("catname");
 
 		// Counting the total number of files
 		this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => {
-				this.setTotFiles(data);
+				this.totFiles = data;
 				if ((this.skip + this.filesPerPage) <= this.totFiles)
 					this.noMoreNext = false;
 			}
 		);
-		
-		//this.files.push({ dummy: 1 });
+
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => this.files = data
 		);
 
+		if (this.routeParams.get("sortname")) {
+			this.routeParams.get("sortname") === "asc" ? this.sortByName = 1 : this.sortByName = -1;
+		}
+		if (this.routeParams.get("sortdls")) {
+			this.routeParams.get("sortdls") === "asc" ? this.sortByDLS = -1 : this.sortByDLS = 1;
+		}
+		// gotta figure out how to make this work...
+		/*if (this.routeParams.get("page")) {
+			var page = +this.routeParams.get("page");
+			for (var i = 1; i < page; i++)
+				this.nextPage();
+		}*/
 	}
 
-	setTotFiles(totFiles) {
-		this.totFiles = totFiles;
-	}
+	// Don't reload the component when clicking sorting buttons
+	routerCanReuse(next: ComponentInstruction, prev: ComponentInstruction) { return true; }
 
 	firstPageValues() {
 		this.skip = 0;
@@ -65,29 +75,43 @@ export class CategoryComponent {
 	}
 	
 	nextPage() {
-		if ((this.skip + this.filesPerPage) <= this.totFiles)
+		if ((this.skip + this.filesPerPage) <= this.totFiles) {
 			this.skip += this.filesPerPage;
+			//this.router.navigate(['Category', { catname: this.catname, page: this.skip / this.filesPerPage + 1 }]);
 			if ((this.skip + this.filesPerPage) >= this.totFiles) // Last page
 				this.noMoreNext = true;
+		}
 		this.noMorePrev = false;
 	}
 	prevPage() {
-		// Back on first page
 		if (this.skip - this.filesPerPage === 0) this.noMorePrev = true;
 		this.skip -= this.filesPerPage;
+		//this.router.navigate(['Category', { catname: this.catname, page: this.skip / this.filesPerPage + 1 }]);
 		this.noMoreNext = false;
 	}
 
 	changeSortByName() {
-		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
 		// Back on first page
 		this.firstPageValues();
+		if (this.sortByName > 0) {
+			this.sortByName = -1;
+			this.router.navigate(['Category', { catname: this.catname, sortname: "desc" }]);
+		} else {
+			this.sortByName = 1;
+			this.router.navigate(['Category', { catname: this.catname, sortname: "asc" }]);
+		}
 		
 	}
 	changeSortByDLS() {
-		this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
 		// Back on first page
 		this.firstPageValues();
+		if (this.sortByDLS < 0) {
+			this.sortByDLS = 1;
+			this.router.navigate(['Category', { catname: this.catname, sortdls: "asc" }]);
+		} else {
+			this.sortByDLS = -1;
+			this.router.navigate(['Category', { catname: this.catname, sortdls: "desc" }]);
+		}
 	}
 }
 

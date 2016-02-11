@@ -57,44 +57,70 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     this.catname = this.routeParams.get("catname");
                     // Counting the total number of files
                     this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(function (data) {
-                        _this.setTotFiles(data);
+                        _this.totFiles = data;
                         if ((_this.skip + _this.filesPerPage) <= _this.totFiles)
                             _this.noMoreNext = false;
                     });
-                    //this.files.push({ dummy: 1 });
                     this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(function (data) { return _this.files = data; });
+                    if (this.routeParams.get("sortname")) {
+                        this.routeParams.get("sortname") === "asc" ? this.sortByName = 1 : this.sortByName = -1;
+                    }
+                    if (this.routeParams.get("sortdls")) {
+                        this.routeParams.get("sortdls") === "asc" ? this.sortByDLS = -1 : this.sortByDLS = 1;
+                    }
+                    // gotta figure out how to make this work...
+                    /*if (this.routeParams.get("page")) {
+                        var page = +this.routeParams.get("page");
+                        for (var i = 1; i < page; i++)
+                            this.nextPage();
+                    }*/
                 }
-                CategoryComponent.prototype.setTotFiles = function (totFiles) {
-                    this.totFiles = totFiles;
-                };
+                // Don't reload the component when clicking sorting buttons
+                CategoryComponent.prototype.routerCanReuse = function (next, prev) { return true; };
                 CategoryComponent.prototype.firstPageValues = function () {
                     this.skip = 0;
                     this.noMorePrev = true;
                     (this.totFiles < this.filesPerPage) ? this.noMoreNext = true : this.noMoreNext = false;
                 };
                 CategoryComponent.prototype.nextPage = function () {
-                    if ((this.skip + this.filesPerPage) <= this.totFiles)
+                    if ((this.skip + this.filesPerPage) <= this.totFiles) {
                         this.skip += this.filesPerPage;
-                    if ((this.skip + this.filesPerPage) >= this.totFiles)
-                        this.noMoreNext = true;
+                        //this.router.navigate(['Category', { catname: this.catname, page: this.skip / this.filesPerPage + 1 }]);
+                        if ((this.skip + this.filesPerPage) >= this.totFiles)
+                            this.noMoreNext = true;
+                    }
                     this.noMorePrev = false;
                 };
                 CategoryComponent.prototype.prevPage = function () {
-                    // Back on first page
                     if (this.skip - this.filesPerPage === 0)
                         this.noMorePrev = true;
                     this.skip -= this.filesPerPage;
+                    //this.router.navigate(['Category', { catname: this.catname, page: this.skip / this.filesPerPage + 1 }]);
                     this.noMoreNext = false;
                 };
                 CategoryComponent.prototype.changeSortByName = function () {
-                    this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
                     // Back on first page
                     this.firstPageValues();
+                    if (this.sortByName > 0) {
+                        this.sortByName = -1;
+                        this.router.navigate(['Category', { catname: this.catname, sortname: "desc" }]);
+                    }
+                    else {
+                        this.sortByName = 1;
+                        this.router.navigate(['Category', { catname: this.catname, sortname: "asc" }]);
+                    }
                 };
                 CategoryComponent.prototype.changeSortByDLS = function () {
-                    this.sortByDLS < 0 ? this.sortByDLS = 1 : this.sortByDLS = -1;
                     // Back on first page
                     this.firstPageValues();
+                    if (this.sortByDLS < 0) {
+                        this.sortByDLS = 1;
+                        this.router.navigate(['Category', { catname: this.catname, sortdls: "asc" }]);
+                    }
+                    else {
+                        this.sortByDLS = -1;
+                        this.router.navigate(['Category', { catname: this.catname, sortdls: "desc" }]);
+                    }
                 };
                 CategoryComponent = __decorate([
                     core_1.Component({
