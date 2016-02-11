@@ -35,24 +35,38 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                     this.service = service;
                     this.routeParams = routeParams;
                     this.file = new file_model_1.File();
+                    this.fileid = "";
                     this.catname = "";
                     this.cats = null;
                     this.isSelected = false;
                     this.isEditing = false;
                     this.editingComplete = false;
                     // get the file clicked from the URL
-                    var fileid = this.routeParams.get("fileid");
+                    this.fileid = this.routeParams.get("fileid");
                     this.catname = this.routeParams.get("catname");
                     // get the file from the ID
-                    this.service.mongoSelect('files', '{id:' + fileid + '}').subscribe(function (data) {
+                    this.service.mongoSelect('files', '{id:' + this.fileid + '}').subscribe(function (data) {
                         _this.file = data[0];
                         _this.mainScreen = data[0].imgurl[0];
                     });
                     this.service.mongoSelect('cats', '').subscribe(function (data) { return _this.cats = data; });
+                    this.service.mongoDelete("files_copy", "{id:12}").subscribe();
                 }
                 FileComponent.prototype.setMainScreen = function (screen) {
                     this.mainScreen = screen;
                     this.isSelected = true;
+                };
+                FileComponent.prototype.liked = function (file) {
+                    this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: file.likes + 1 }).subscribe();
+                    file.likes++;
+                };
+                FileComponent.prototype.disliked = function (file) {
+                    this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: file.dislikes + 1 }).subscribe();
+                    file.dislikes++;
+                };
+                FileComponent.prototype.downloaded = function (file) {
+                    this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dls: file.dls + 1 }).subscribe();
+                    file.dls++;
                 };
                 FileComponent.prototype.editFile = function () {
                     this.isEditing = true;

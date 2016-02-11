@@ -29,13 +29,41 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Author:</td><td>{{file.author}}</td>
+			<td>
+				<i class="fa fa-user"></i> Author/s:
+			</td>
+			<td>
+				<ul class="authorList"><li *ngFor="#author of file.authors">{{author}}, </li></ul>
+			</td>
 		</tr>
 		<tr>
-			<td>Downloads:</td><td>{{file.dls | number}}</td>
+			<td>
+				<i class="fa fa-download"></i> Downloads:
+			</td>
+			<td>
+				{{file.dls | number}}
+			</td>
 		</tr>
 		<tr>
-			<td>URL:</td><td><a target="_blank" href="{{file.url}}">{{file.url}}</a></td>
+			<td>
+				<i class="fa fa-thumbs-up"></i> Rating: 
+			</td>
+			<td>
+				<button type="button" class="btn btn-success-outline" (click)="liked(file)"><i class="fa fa-thumbs-up"></i> {{file.likes}}</button> <button type="button" class="btn btn-danger-outline" (click)="disliked(file)"><i class="fa fa-thumbs-down"></i> {{file.dislikes}}</button>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<i class="fa fa-link"></i> URL:
+			</td>
+			<td>
+				<a target="_blank" href="{{file.url}}">{{file.url}}</a>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="text-center">
+				<button type="button" class="btn btn-primary btn-lg" (click)="downloaded(file)"><i class="fa fa-download"></i> Download</button>
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -65,7 +93,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Category:</td>
+				<td width="20%"><i class="fa fa-list-ul"></i> Category:</td>
 				<td>
 					<div *ngIf="cats" [ngClass]="{'has-success':cat.valid}">
 						<select class="form-control" [(ngModel)]="file.cat" ngControl="cat" #cat="ngForm" required>
@@ -76,15 +104,15 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Author:</td>
+				<td><i class="fa fa-user"></i> Author/s:</td>
 				<td>
-					<div [ngClass]="{'has-success':author.valid}">
-						<input class="form-control" type="text" [(ngModel)]="file.author" ngControl="author" #author="ngForm" required />
+					<div>
+						<input class="form-control" type="text" [(ngModel)]="file.authors" ngControl="authors" #authors="ngForm" required />
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td>Downloads:</td>
+				<td><i class="fa fa-download"></i> Downloads:</td>
 				<td>
 					<div [ngClass]="{'has-success':dls.valid}">
 						<input class="form-control" type="number" [(ngModel)]="file.dls" ngControl="dls" #dls="ngForm" required readonly />
@@ -92,7 +120,22 @@
 				</td>
 			</tr>
 			<tr>
-				<td>URL:</td>
+				<td>
+					<i class="fa fa-thumbs-up"></i> Rating: 
+				</td>
+				<td>
+				<div class="input-group col-xs-2">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-up"></i></span>
+					<input class="form-control" type="number" [(ngModel)]="file.likes" ngControl="likes" #likes="ngForm" required readonly />
+				</div>
+				<div class="input-group col-xs-2">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-down"></i></span>
+					<input class="form-control" type="number" [(ngModel)]="file.dislikes" ngControl="dislikes" #dislikes="ngForm" required readonly />
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td><i class="fa fa-link"></i> URL:</td>
 				<td>
 					<a target="_blank" href="{{file.url}}">{{file.url}}</a>
 				</td>

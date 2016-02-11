@@ -33,10 +33,12 @@ System.register(['angular2/core', 'angular2/router', '../service/mongoapi.servic
                 }
                 AddFileComponent.prototype.onSubmit = function (fileForm) {
                     var _this = this;
-                    console.log(fileForm);
                     this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(function (data) {
                         // the new file will have maxID+1
                         fileForm.id = data[0].id + 1;
+                        fileForm.dls = 0;
+                        fileForm.likes = 0;
+                        fileForm.dislikes = 0;
                         _this.service.mongoInsert("files", fileForm).subscribe();
                         _this.formSubmitted = true;
                     });

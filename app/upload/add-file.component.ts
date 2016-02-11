@@ -20,11 +20,13 @@ export class AddFileComponent {
 	}
 
 	onSubmit(fileForm) {
-		console.log(fileForm);
 		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
 			data => {
 				// the new file will have maxID+1
 				fileForm.id = data[0].id + 1;
+				fileForm.dls = 0;
+				fileForm.likes = 0;
+				fileForm.dislikes = 0;
 				this.service.mongoInsert("files", fileForm).subscribe();
 				this.formSubmitted = true;
 			}

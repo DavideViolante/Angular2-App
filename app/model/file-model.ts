@@ -4,6 +4,8 @@ export class File {
 	//private dls: number,
 	private imgurl: Array<string> = [];
 
+	private likes: number;
+
 	private name: string;
 	private cat: string;
 
@@ -30,5 +32,9 @@ export class File {
 
 	getCat() { return this.cat; }
 	setCat(cat) { this.cat = cat; }
+
+	setLikes(likes) {
+		this.likes = likes;
+	}
 
 }

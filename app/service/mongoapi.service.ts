@@ -57,4 +57,13 @@ export class MongoAPIService {
 			{ headers: headers }
 		).map(res => res.json());
 	}
+
+	mongoDelete(collection: string, fileID: string) {
+		var headers = new Headers();
+		headers.append("Content-Type", "application/json");
+		return this.http.put(this.mongoURL + collection + '?q=' + fileID + '&apiKey=' + this.apiKey, //{"_id":123}
+			JSON.stringify( [ {} ] ), // an empty array deletes the file/s matching the query
+			{ headers: headers }
+		).map(res => res.json());
+	}
 }

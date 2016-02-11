@@ -62,6 +62,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
                     JSON.stringify({ "$set": newValueObj }), //{ "x": 3 }
                     { headers: headers }).map(function (res) { return res.json(); });
                 };
+                MongoAPIService.prototype.mongoDelete = function (collection, fileID) {
+                    var headers = new http_2.Headers();
+                    headers.append("Content-Type", "application/json");
+                    return this.http.put(this.mongoURL + collection + '?q=' + fileID + '&apiKey=' + this.apiKey, //{"_id":123}
+                    JSON.stringify([{}]), // an empty array deletes the file/s matching the query
+                    { headers: headers }).map(function (res) { return res.json(); });
+                };
                 MongoAPIService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])
