@@ -69,15 +69,17 @@ img.fileThumbImg {
     margin: 5px;
     width: 20%;
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.9;
     transition: box-shadow 250ms;
     border-radius: 4px;
 }
 img.fileThumbImg:hover {
+    opacity: 1.0;
     box-shadow: 0 0 7px #000;
 }
 img.isSelected {
     opacity: 1.0;
+    box-shadow: 0 0 7px #000;
 }
 
 div.fileThumbImgs {

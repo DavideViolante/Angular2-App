@@ -1,13 +1,16 @@
 export class File {
 	private id: number;
-	private authors: Array<string> = [];
-	//private dls: number,
-	private imgurl: Array<string> = [];
-
-	private likes: number;
-
 	private name: string;
 	private cat: string;
+	private authors: Array<string> = [];
+	private dls: number;
+	private likes: number;
+	private dislikes: number;
+	private imgurl: Array<string> = [];
+	private youtubeurl: Array<string> = [];
+	private dlurl: string;
+
+
 
 	constructor(id?: number, authors?: Array<string>, imgurl?: Array<string>, name?: string, cat?: string) {
 		this.id = id;

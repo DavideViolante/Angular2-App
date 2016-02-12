@@ -5,6 +5,7 @@ import {MongoAPIService} from './service/mongoapi.service';
 
 import {InitCasePipe} from './pipe/init-case-pipe';
 import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
+import {NoDecimalValues} from './pipe/no-decimal-values-pipe';
 import {SortByNamePipe} from './pipe/sort-by-name-pipe';
 import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
 import {FilterPipe} from './pipe/filter-pipe';
@@ -12,7 +13,7 @@ import {FilterPipe} from './pipe/filter-pipe';
 @Component({
     selector: 'category',
     templateUrl: 'app/template/category.html',
-    pipes: [InitCasePipe, TrimLowerCasePipe, SortByNamePipe, SortByDLSPipe, FilterPipe],
+    pipes: [InitCasePipe, TrimLowerCasePipe, NoDecimalValues, SortByNamePipe, SortByDLSPipe, FilterPipe],
     directives: [ROUTER_DIRECTIVES]
 })
 

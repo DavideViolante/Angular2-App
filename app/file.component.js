@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './model/file-model', './pipe/init-case-pipe', './service/mongoapi.service'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './model/file-model', './pipe/init-case-pipe', './service/mongoapi.service', './account/authentication.component'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, file_model_1, init_case_pipe_1, mongoapi_service_1;
+    var core_1, router_1, file_model_1, init_case_pipe_1, mongoapi_service_1, authentication_component_1;
     var FileComponent;
     return {
         setters:[
@@ -27,13 +27,18 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
             },
             function (mongoapi_service_1_1) {
                 mongoapi_service_1 = mongoapi_service_1_1;
+            },
+            function (authentication_component_1_1) {
+                authentication_component_1 = authentication_component_1_1;
             }],
         execute: function() {
             FileComponent = (function () {
-                function FileComponent(service, routeParams) {
+                function FileComponent(service, routeParams, router, auth) {
                     var _this = this;
                     this.service = service;
                     this.routeParams = routeParams;
+                    this.router = router;
+                    this.auth = auth;
                     this.file = new file_model_1.File();
                     this.fileid = "";
                     this.catname = "";
@@ -76,6 +81,8 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                 };
                 FileComponent.prototype.isEditingDone = function (fileEdited) {
                     var _this = this;
+                    if (typeof fileEdited.authors === "string")
+                        fileEdited.authors = fileEdited.authors.replace(/, /g, ",").split(',');
                     this.service.mongoUpdate("files", "{id:" + fileEdited.id + "}", fileEdited).subscribe();
                     this.isEditing = false;
                     this.editingComplete = true;
@@ -84,9 +91,12 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                 FileComponent.prototype.deleteFile = function (fileid) {
                     var _this = this;
                     if (window.confirm("Are you sure you want to permanently delete this file?")) {
-                        this.service.mongoSelect("files_copy", "{id:" + fileid + "}").subscribe(function (data) { return _this.service.mongoDelete("files_copy", data[0]._id.$oid).subscribe(); });
+                        this.service.mongoSelect("files", "{id:" + fileid + "}").subscribe(function (data) { return _this.service.mongoDelete("files", data[0]._id.$oid).subscribe(); });
                         this.fileDeleted = true;
-                        setTimeout(function () { return _this.fileDeleted = false; }, 3000);
+                        setTimeout(function () {
+                            _this.fileDeleted = false;
+                            _this.router.navigate(['Category', { catname: _this.catname }]);
+                        }, 2500);
                     }
                     else {
                         this.fileDeleted = false;
@@ -99,7 +109,7 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                         pipes: [init_case_pipe_1.InitCasePipe],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams])
+                    __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams, router_1.Router, authentication_component_1.AuthenticationComponent])
                 ], FileComponent);
                 return FileComponent;
             }());

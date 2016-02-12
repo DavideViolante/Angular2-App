@@ -7,6 +7,8 @@ import {InitCasePipe} from './pipe/init-case-pipe';
 
 import {MongoAPIService} from './service/mongoapi.service';
 
+import {AuthenticationComponent} from './account/authentication.component';
+
 @Component({
     selector: 'file',
     templateUrl: 'app/template/file.html',
@@ -30,7 +32,9 @@ export class FileComponent {
 	private fileDeleted = false;
 
 	constructor(private service: MongoAPIService, 				
-				private routeParams: RouteParams) {
+				private routeParams: RouteParams,
+				private router: Router,
+				private auth: AuthenticationComponent) {
 
 		// get the file clicked from the URL
 		this.fileid = this.routeParams.get("fileid");
@@ -78,6 +82,8 @@ export class FileComponent {
 	}
 
 	isEditingDone(fileEdited) {
+		if(typeof fileEdited.authors === "string") // if the authors array was edited using the input form
+			fileEdited.authors = fileEdited.authors.replace(/, /g,",").split(',');
 		this.service.mongoUpdate("files", "{id:"+fileEdited.id+"}", fileEdited).subscribe();
 		this.isEditing = false;
 		this.editingComplete = true;
@@ -86,11 +92,14 @@ export class FileComponent {
 
 	deleteFile(fileid) {
 		if(window.confirm("Are you sure you want to permanently delete this file?")) {
-			this.service.mongoSelect("files_copy", "{id:" + fileid + "}").subscribe(
-				data => this.service.mongoDelete("files_copy", data[0]._id.$oid).subscribe()
+			this.service.mongoSelect("files", "{id:" + fileid + "}").subscribe(
+				data => this.service.mongoDelete("files", data[0]._id.$oid).subscribe()
 			);
 			this.fileDeleted = true;
-			setTimeout(() => this.fileDeleted = false, 3000);
+			setTimeout(() => {
+				this.fileDeleted = false;
+				this.router.navigate(['Category', { catname: this.catname }]);
+			}, 2500);
 		} else {
 			this.fileDeleted = false;
 		}

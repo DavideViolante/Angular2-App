@@ -12,7 +12,7 @@
 		<li class="nav-item">
 			<div class="btn-group" role="group">
 				<button type="button" class="btn btn-secondary" (click)="prevPage()" [disabled]="noMorePrev || query.length>1"><i class="fa fa-arrow-left"></i></button>
-				<button type="button" class="btn btn-secondary">Page {{skip/filesPerPage+1 | number:'1.0-0'}}/{{totFiles/(filesPerPage+1) | number:'1.0-0'}}</button>
+				<button type="button" class="btn btn-secondary">Page {{skip/filesPerPage+1}}/{{(totFiles/filesPerPage+0.9) | noDecimalValues}}</button>
 				<button type="button" class="btn btn-secondary" (click)="nextPage()" [disabled]="noMoreNext || query.length>1"><i class="fa fa-arrow-right"></i></button>
 			</div>
 		</li>
@@ -34,7 +34,7 @@
 			<div *ngIf="i>=skip && i<(skip+filesPerPage)" class="col-md-4 thumbImg" style="background-image:url({{file.imgurl[0]}})" >
 				<div class="infoBg">
 					{{file.name}}<br />
-					<i class="fa fa-user"></i> {{file.author}} &nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;&nbsp;&nbsp;
 					<i class="fa fa-download"></i> {{file.dls | number}}
 				</div>
 			</div>

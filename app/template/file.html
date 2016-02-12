@@ -2,14 +2,14 @@
 	<i class="fa fa-check-circle"></i> File edited successfully!
 </div>
 <div *ngIf="fileDeleted" class="alert alert-success" role="alert">
-	<i class="fa fa-check-circle"></i> File deleted successfully!
+	<i class="fa fa-check-circle"></i> File deleted successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
 </div>
 
 <table *ngIf="!isEditing" class="table table-bordered table-striped">
 	<thead class="thead-default">
 		<tr>
 			<th colspan="2" class="text-center fileTitle">
-				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button type="button" class="pull-right btn btn-danger" style="margin-left:5px" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button><button type="button" class="pull-right btn btn-primary" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button>
+				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" style="margin-left:5px" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button><button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button>
 			</th>
 		</tr>
 	</thead>
@@ -54,7 +54,7 @@
 				<i class="fa fa-thumbs-up"></i> Rating: 
 			</td>
 			<td>
-				<button type="button" class="btn btn-success-outline" (click)="liked(file)"><i class="fa fa-thumbs-up"></i> {{file.likes}}</button> <button type="button" class="btn btn-danger-outline" (click)="disliked(file)"><i class="fa fa-thumbs-down"></i> {{file.dislikes}}</button>
+				<button type="button" class="btn btn-success-outline" (click)="liked(file)" [disabled]="!auth.loggedIn"><i class="fa fa-thumbs-up"></i> {{file.likes}}</button> <button type="button" class="btn btn-danger-outline" (click)="disliked(file)" [disabled]="!auth.loggedIn"><i class="fa fa-thumbs-down"></i> {{file.dislikes}}</button>
 			</td>
 		</tr>
 		<tr>
@@ -81,22 +81,26 @@
 				<th colspan="2">
 					<button type="button" class="pull-right btn btn-warning" (click)="isEditingCancel()">Cancel</button>
 					<button type="submit" class="pull-right btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid" style="margin-right:7px">Save</button>
-					<br /><br />
-					<div [ngClass]="{'has-success':name.valid}">
-						<input class="form-control" type="text" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required />
-					</div>
 				</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr>
+				<td width="20%"><i class="fa fa-file"></i> Name:</td>
+				<td>
+					<div [ngClass]="{'has-success':name.valid}">
+						<input class="form-control" type="text" [(ngModel)]="file.name" ngControl="name" #name="ngForm" required />
+					</div>
+				</td>
+			</tr>
+			<!-- <tr>
 				<td colspan="2">
 					<span *ngFor="#image of file.imgurl">
 						<img class="fileThumbImg" [src]="image" alt="{{file.name}} screenshot" />
 					</span>
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td width="20%"><i class="fa fa-list-ul"></i> Category:</td>
 				<td>
@@ -111,8 +115,8 @@
 			<tr>
 				<td><i class="fa fa-user"></i> Author/s:</td>
 				<td>
-					<div>
-						<input class="form-control" type="text" [(ngModel)]="file.authors" ngControl="authors" #authors="ngForm" required />
+					<div [ngClass]="{'has-success':authors.valid}">
+						<input class="form-control" type="text" [(ngModel)]="file.authors" ngControl="authors" #authors="ngForm" required /> <small>Insert the authors separated by comma.</small>
 					</div>
 				</td>
 			</tr>
@@ -120,7 +124,7 @@
 				<td><i class="fa fa-download"></i> Downloads:</td>
 				<td>
 					<div [ngClass]="{'has-success':dls.valid}">
-						<input class="form-control" type="number" [(ngModel)]="file.dls" ngControl="dls" #dls="ngForm" required readonly />
+						<input class="form-control" type="number" min="0" [(ngModel)]="file.dls" ngControl="dls" #dls="ngForm" required />
 					</div>
 				</td>
 			</tr>
@@ -129,13 +133,13 @@
 					<i class="fa fa-thumbs-up"></i> Rating: 
 				</td>
 				<td>
-				<div class="input-group col-xs-2">
+				<div class="input-group col-xs-3">
 					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-up"></i></span>
-					<input class="form-control" type="number" [(ngModel)]="file.likes" ngControl="likes" #likes="ngForm" required readonly />
+					<input class="form-control" type="number" min="0" [(ngModel)]="file.likes" ngControl="likes" #likes="ngForm" required />
 				</div>
-				<div class="input-group col-xs-2">
+				<div class="input-group col-xs-3">
 					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-down"></i></span>
-					<input class="form-control" type="number" [(ngModel)]="file.dislikes" ngControl="dislikes" #dislikes="ngForm" required readonly />
+					<input class="form-control" type="number" min="0" [(ngModel)]="file.dislikes" ngControl="dislikes" #dislikes="ngForm" required />
 				</div>
 				</td>
 			</tr>

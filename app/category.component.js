@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './pipe/init-case-pipe', './pipe/trim-lowercase-pipe', './pipe/sort-by-name-pipe', './pipe/sort-by-dls-pipe', './pipe/filter-pipe'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './service/mongoapi.service', './pipe/init-case-pipe', './pipe/trim-lowercase-pipe', './pipe/no-decimal-values-pipe', './pipe/sort-by-name-pipe', './pipe/sort-by-dls-pipe', './pipe/filter-pipe'], function(exports_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1, sort_by_name_pipe_1, sort_by_dls_pipe_1, filter_pipe_1;
+    var core_1, router_1, mongoapi_service_1, init_case_pipe_1, trim_lowercase_pipe_1, no_decimal_values_pipe_1, sort_by_name_pipe_1, sort_by_dls_pipe_1, filter_pipe_1;
     var CategoryComponent;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
             },
             function (trim_lowercase_pipe_1_1) {
                 trim_lowercase_pipe_1 = trim_lowercase_pipe_1_1;
+            },
+            function (no_decimal_values_pipe_1_1) {
+                no_decimal_values_pipe_1 = no_decimal_values_pipe_1_1;
             },
             function (sort_by_name_pipe_1_1) {
                 sort_by_name_pipe_1 = sort_by_name_pipe_1_1;
@@ -126,7 +129,7 @@ System.register(['angular2/core', 'angular2/router', './service/mongoapi.service
                     core_1.Component({
                         selector: 'category',
                         templateUrl: 'app/template/category.html',
-                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe, sort_by_name_pipe_1.SortByNamePipe, sort_by_dls_pipe_1.SortByDLSPipe, filter_pipe_1.FilterPipe],
+                        pipes: [init_case_pipe_1.InitCasePipe, trim_lowercase_pipe_1.TrimLowerCasePipe, no_decimal_values_pipe_1.NoDecimalValues, sort_by_name_pipe_1.SortByNamePipe, sort_by_dls_pipe_1.SortByDLSPipe, filter_pipe_1.FilterPipe],
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [mongoapi_service_1.MongoAPIService, router_1.RouteParams, router_1.Router])
