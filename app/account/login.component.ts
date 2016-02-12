@@ -5,6 +5,8 @@ import {MongoAPIService} from '../service/mongoapi.service';
 
 import {AuthenticationComponent} from './authentication.component';
 
+import * as bcrypt from 'bcryptjs';
+
 @Component({
     selector: 'login',
     templateUrl: 'app/template/login.html',
@@ -26,7 +28,7 @@ export class LoginComponent {
 			data => {
 				if (data.length === 0) {
 					this.wrongUsername = true;
-				} else if (this.simpleHash(fileForm.password) === data[0].password) {
+				} else if (bcrypt.compareSync(fileForm.password, data[0].password)) {
 					localStorage.setItem("session", Math.random().toString(36).slice(2));
 					localStorage.setItem("id", data[0].id);
 					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe();
@@ -41,17 +43,5 @@ export class LoginComponent {
 				}
 			}
 		);
-	}
-
-	// TO CHANGE
-	simpleHash(psw: string): string {
-		var hash = 0, i, chr, len;
-		if (psw.length === 0) return hash.toString();
-		for (i = 0, len = psw.length; i < len; i++) {
-			chr = psw.charCodeAt(i);
-			hash = ((hash << 5) - hash) + chr;
-			hash |= 0;
-		}
-		return hash.toString();
 	}
 }

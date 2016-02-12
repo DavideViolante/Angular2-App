@@ -3,6 +3,8 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
+import * as bcrypt from 'bcryptjs';
+
 @Component({
     selector: 'add-user',
     templateUrl: 'app/template/addUser.html',
@@ -26,8 +28,8 @@ export class AddUserComponent {
 					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
 						data => {
 							userForm.id = data[0].id + 1; // the new user will have maxID+1
-							userForm.password = this.simpleHash(userForm.password);
 							userForm.session = "";
+							userForm.password = bcrypt.hashSync(userForm.password, bcrypt.genSaltSync(10));
 							this.service.mongoInsert("users", userForm).subscribe();
 						}
 					);
@@ -36,17 +38,4 @@ export class AddUserComponent {
 			}
 		);
 	}
-
-	// TO CHANGE
-	simpleHash(psw: string) : string {
-		var hash = 0, i, chr, len;
-		if (psw.length === 0) return hash.toString();
-		for (i = 0, len = psw.length; i < len; i++) {
-			chr = psw.charCodeAt(i);
-			hash = ((hash << 5) - hash) + chr;
-			hash |= 0;
-		}
-		return hash.toString();
-	}
-
 }

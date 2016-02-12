@@ -3,6 +3,8 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
 
+import * as bcrypt from 'bcryptjs';
+
 @Component({
     selector: 'register',
     templateUrl: 'app/template/register.html',
@@ -15,17 +17,7 @@ export class RegisterComponent {
 	private passwordTooShort = false;
 
 	constructor(private service: MongoAPIService,
-				private router: Router) { 
-		/*if (localStorage.getItem("id")) {
-			this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
-				data => {
-					if (data[0].id === +localStorage.getItem("id") &&
-						data[0].session === localStorage.getItem("session"))
-						this.router.navigate(['Home']);
-				}
-			);
-		}*/
-	}
+				private router: Router) { }
 
 	onSubmit(userForm) {
 		this.service.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
@@ -40,8 +32,8 @@ export class RegisterComponent {
 						data => {
 							userForm.id = data[0].id + 1; // the new user will have maxID+1
 							userForm.role = "user";
-							userForm.session = "";
-							userForm.password = this.simpleHash(userForm.password);
+							userForm.session = "";	
+							userForm.password = bcrypt.hashSync(userForm.password, bcrypt.genSaltSync(10));
 							this.service.mongoInsert("users", userForm).subscribe();
 						}
 					);
@@ -53,17 +45,4 @@ export class RegisterComponent {
 		this.usernameAlreadyExists = false;
 		this.passwordTooShort = false;
 	}
-
-	// TO CHANGE
-	simpleHash(psw: string): string {
-		var hash = 0, i, chr, len;
-		if (psw.length === 0) return hash.toString();
-		for (i = 0, len = psw.length; i < len; i++) {
-			chr = psw.charCodeAt(i);
-			hash = ((hash << 5) - hash) + chr;
-			hash |= 0;
-		}
-		return hash.toString();
-	}
-
 }
