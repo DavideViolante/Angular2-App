@@ -27,6 +27,8 @@ export class FileComponent {
 	private isEditing = false;
 	private editingComplete = false;
 
+	private fileDeleted = false;
+
 	constructor(private service: MongoAPIService, 				
 				private routeParams: RouteParams) {
 
@@ -45,8 +47,6 @@ export class FileComponent {
 		this.service.mongoSelect('cats', '').subscribe(
 			data => this.cats = data
 		);
-
-		this.service.mongoDelete("files_copy", "{id:12}").subscribe();
 
 	}
 
@@ -81,6 +81,18 @@ export class FileComponent {
 		this.service.mongoUpdate("files", "{id:"+fileEdited.id+"}", fileEdited).subscribe();
 		this.isEditing = false;
 		this.editingComplete = true;
-		setTimeout(() => this.editingComplete = false, 2500);
+		setTimeout(() => this.editingComplete = false, 3000);
+	}
+
+	deleteFile(fileid) {
+		if(window.confirm("Are you sure you want to permanently delete this file?")) {
+			this.service.mongoSelect("files_copy", "{id:" + fileid + "}").subscribe(
+				data => this.service.mongoDelete("files_copy", data[0]._id.$oid).subscribe()
+			);
+			this.fileDeleted = true;
+			setTimeout(() => this.fileDeleted = false, 3000);
+		} else {
+			this.fileDeleted = false;
+		}
 	}
 }

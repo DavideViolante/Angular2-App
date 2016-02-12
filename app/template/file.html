@@ -1,11 +1,16 @@
 <div *ngIf="editingComplete" class="alert alert-success" role="alert">
 	<i class="fa fa-check-circle"></i> File edited successfully!
 </div>
+<div *ngIf="fileDeleted" class="alert alert-success" role="alert">
+	<i class="fa fa-check-circle"></i> File deleted successfully!
+</div>
 
 <table *ngIf="!isEditing" class="table table-bordered table-striped">
 	<thead class="thead-default">
 		<tr>
-			<th colspan="2" class="text-center fileTitle"><button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button type="button" class="pull-right btn btn-primary" (click)="editFile()">Edit file</button></th>
+			<th colspan="2" class="text-center fileTitle">
+				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button type="button" class="pull-right btn btn-danger" style="margin-left:5px" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button><button type="button" class="pull-right btn btn-primary" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button>
+			</th>
 		</tr>
 	</thead>
 

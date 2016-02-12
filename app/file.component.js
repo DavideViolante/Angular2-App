@@ -41,6 +41,7 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                     this.isSelected = false;
                     this.isEditing = false;
                     this.editingComplete = false;
+                    this.fileDeleted = false;
                     // get the file clicked from the URL
                     this.fileid = this.routeParams.get("fileid");
                     this.catname = this.routeParams.get("catname");
@@ -50,7 +51,6 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                         _this.mainScreen = data[0].imgurl[0];
                     });
                     this.service.mongoSelect('cats', '').subscribe(function (data) { return _this.cats = data; });
-                    this.service.mongoDelete("files_copy", "{id:12}").subscribe();
                 }
                 FileComponent.prototype.setMainScreen = function (screen) {
                     this.mainScreen = screen;
@@ -79,7 +79,18 @@ System.register(['angular2/core', 'angular2/router', './model/file-model', './pi
                     this.service.mongoUpdate("files", "{id:" + fileEdited.id + "}", fileEdited).subscribe();
                     this.isEditing = false;
                     this.editingComplete = true;
-                    setTimeout(function () { return _this.editingComplete = false; }, 2500);
+                    setTimeout(function () { return _this.editingComplete = false; }, 3000);
+                };
+                FileComponent.prototype.deleteFile = function (fileid) {
+                    var _this = this;
+                    if (window.confirm("Are you sure you want to permanently delete this file?")) {
+                        this.service.mongoSelect("files_copy", "{id:" + fileid + "}").subscribe(function (data) { return _this.service.mongoDelete("files_copy", data[0]._id.$oid).subscribe(); });
+                        this.fileDeleted = true;
+                        setTimeout(function () { return _this.fileDeleted = false; }, 3000);
+                    }
+                    else {
+                        this.fileDeleted = false;
+                    }
                 };
                 FileComponent = __decorate([
                     core_1.Component({
