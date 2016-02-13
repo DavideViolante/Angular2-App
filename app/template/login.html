@@ -9,17 +9,17 @@
 			<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
 				<div class="input-group" [ngClass]="{'has-success':username.valid}">
 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
-						<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" required>
+						<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" [disabled]="formSubmitted && correctCredentials" required>
 				</div>
 				<br />
 				
 				<div class="input-group" [ngClass]="{'has-success':pswEl.value.length>5}">
 					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-						<input #pswEl type="password" class="form-control" placeholder="Password" ngControl="password" #password="ngForm" required>
+						<input #pswEl type="password" class="form-control" placeholder="Password" ngControl="password" #password="ngForm" [disabled]="formSubmitted && correctCredentials" required>
 				</div>
 				<br />
 
-				<button type="submit" class="btn center-block" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Login</button>
+				<button type="submit" class="btn center-block" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid || (formSubmitted && correctCredentials)">Login</button>
 			</form>
 
 			<br />

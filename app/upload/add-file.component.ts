@@ -1,7 +1,9 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {MongoAPIService} from '../service/mongoapi.service';
+
+import {FileModel} from '../model/file-model';
 
 @Component({
     selector: 'add-file',
@@ -12,23 +14,32 @@ import {MongoAPIService} from '../service/mongoapi.service';
 export class AddFileComponent {
 	private cats = new Array<string>();
 	private formSubmitted = false;
+	private file: FileModel;
 
-	constructor(private service: MongoAPIService) {
+	constructor(private service: MongoAPIService,
+				private router: Router) {
 		this.service.mongoSelect('cats', '').subscribe(
 			data => this.cats = data
 		);
 	}
 
 	onSubmit(fileForm) {
+		// the new file will have maxID+1
 		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
 			data => {
-				// the new file will have maxID+1
-				fileForm.id = data[0].id + 1;
-				fileForm.dls = 0;
-				fileForm.likes = 0;
-				fileForm.dislikes = 0;
-				this.service.mongoInsert("files", fileForm).subscribe();
+				if (fileForm.authors.indexOf(",") < 0) // if there is only 1 author
+					fileForm.authors = [fileForm.authors];
+				else 
+					fileForm.authors = fileForm.authors.replace(/, /g, ",").split(',');
+				this.file = new FileModel(data[0].id + 1, fileForm.name, fileForm.cat, fileForm.authors);
+
+				this.service.mongoInsert("files", this.file).subscribe();
 				this.formSubmitted = true;
+				setTimeout(() => {
+					this.formSubmitted = false;
+					this.router.navigate(['../../Upload']);
+				}, 2000);
+
 			}
 		);
 	}

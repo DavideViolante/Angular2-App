@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {File} from './model/file-model';
+import {FileModel} from './model/file-model';
 
 import {InitCasePipe} from './pipe/init-case-pipe';
 
@@ -18,7 +18,7 @@ import {AuthenticationComponent} from './account/authentication.component';
 
 export class FileComponent {
 
-	private file = new File();
+	private file = new FileModel();
 	private fileid = "";
 	private catname = "";
 	private cats = null;
@@ -30,6 +30,7 @@ export class FileComponent {
 	private editingComplete = false;
 
 	private fileDeleted = false;
+	private fileNotDeleted = false;
 
 	constructor(private service: MongoAPIService, 				
 				private routeParams: RouteParams,
@@ -93,7 +94,7 @@ export class FileComponent {
 	deleteFile(fileid) {
 		if(window.confirm("Are you sure you want to permanently delete this file?")) {
 			this.service.mongoSelect("files", "{id:" + fileid + "}").subscribe(
-				data => this.service.mongoDelete("files", data[0]._id.$oid).subscribe()
+				data => data ? this.service.mongoDelete("files", data[0]._id.$oid).subscribe() : this.fileNotDeleted = true
 			);
 			this.fileDeleted = true;
 			setTimeout(() => {

@@ -29,10 +29,13 @@ export class LoginComponent {
 				if (data.length === 0) {
 					this.wrongUsername = true;
 				} else if (bcrypt.compareSync(fileForm.password, data[0].password)) {
+					localStorage.removeItem("id"); localStorage.removeItem("session");
 					localStorage.setItem("session", Math.random().toString(36).slice(2));
 					localStorage.setItem("id", data[0].id);
-					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe();
-					this.auth.login();
+					this.service.mongoUpdate("users", "{id:" + data[0].id + "}", { session: localStorage.getItem("session") }).subscribe(
+						data => false,
+						error => console.log(error),
+						() => this.auth.login());
 					this.correctCredentials = true;
 					this.formSubmitted = true;
 					setTimeout(() => {

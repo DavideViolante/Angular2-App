@@ -4,12 +4,15 @@
 <div *ngIf="fileDeleted" class="alert alert-success" role="alert">
 	<i class="fa fa-check-circle"></i> File deleted successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
 </div>
+<div *ngIf="fileNotDeleted" class="alert alert-danger" role="alert">
+	<i class="fa fa-exclamation-circle"></i> File not deleted, please try again! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+</div>
 
 <table *ngIf="!isEditing" class="table table-bordered table-striped">
 	<thead class="thead-default">
 		<tr>
 			<th colspan="2" class="text-center fileTitle">
-				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" style="margin-left:5px" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button><button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button>
+				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" style="margin-left:5px" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button>
 			</th>
 		</tr>
 	</thead>
@@ -106,8 +109,9 @@
 				<td>
 					<div *ngIf="cats" [ngClass]="{'has-success':cat.valid}">
 						<select class="form-control" [(ngModel)]="file.cat" ngControl="cat" #cat="ngForm" required>
-							<option value="" disabled>Select the category</option>
-							<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
+							<optgroup label="Select the category">
+								<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
+							</optgroup>
 						</select>
 					</div>
 				</td>

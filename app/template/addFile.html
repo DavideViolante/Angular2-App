@@ -14,17 +14,18 @@
 			</div>
 			<br />
 
-			<div class="input-group" [ngClass]="{'has-success':author.valid}">
+			<div class="input-group" [ngClass]="{'has-success':authors.valid}">
 				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Author" ngControl="author" #author="ngForm" required>
+					<input type="text" class="form-control" placeholder="Author 1, Author 2, ..." ngControl="authors" #authors="ngForm" required>
 			</div>
 			<br />
 
 			<div class="input-group" [ngClass]="{'has-success':cat.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-list"></i></span>
 					<select class="form-control" ngControl="cat" #cat="ngForm" required>
-						<option value="" disabled>Select the category</option>
-						<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
+						<optgroup label="Select the category">
+							<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
+						</optgroup>
 					</select>
 			</div>
 			<br />
@@ -39,7 +40,7 @@
 	</div>
 
 	<div [hidden]="!formSubmitted" class="alert alert-success" role="alert">
-		<i class="fa fa-check-circle"></i> File added successfully!
+		<i class="fa fa-check-circle"></i> File added successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
 	</div>
 
 </div>
