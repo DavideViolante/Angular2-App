@@ -27,12 +27,10 @@ export class AddFileComponent {
 		// the new file will have maxID+1
 		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
 			data => {
-				if (fileForm.authors.indexOf(",") < 0) // if there is only 1 author
-					fileForm.authors = [fileForm.authors];
-				else 
-					fileForm.authors = fileForm.authors.replace(/, /g, ",").split(',');
+				// if there is only 1 author
+				if 	(fileForm.authors.indexOf(",") < 0) fileForm.authors = [fileForm.authors];
+				else fileForm.authors = fileForm.authors.replace(/, /g, ",").split(',');
 				this.file = new FileModel(data[0].id + 1, fileForm.name, fileForm.cat, fileForm.authors);
-
 				this.service.mongoInsert("files", this.file).subscribe();
 				this.formSubmitted = true;
 				setTimeout(() => {

@@ -4,12 +4,12 @@
 	</div>
 	<div class="card-block">
 
-	<div class="col-md-5 col-centered">
+	<div class="col-md-4 col-centered">
 
 		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
 			<div class="input-group" [ngClass]="{'has-success':username.valid}">
 				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" required>
+					<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" autofocus required>
 			</div>
 			<br />
 			

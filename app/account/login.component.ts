@@ -40,7 +40,7 @@ export class LoginComponent {
 					this.formSubmitted = true;
 					setTimeout(() => {
 						this.router.navigate(['Home']);
-					}, 2000);
+					}, 1000);
 				} else {
 					this.wrongPassword = true;
 				}

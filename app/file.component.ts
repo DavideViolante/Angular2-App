@@ -3,8 +3,6 @@ import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {FileModel} from './model/file-model';
 
-import {InitCasePipe} from './pipe/init-case-pipe';
-
 import {MongoAPIService} from './service/mongoapi.service';
 
 import {AuthenticationComponent} from './account/authentication.component';
@@ -12,7 +10,6 @@ import {AuthenticationComponent} from './account/authentication.component';
 @Component({
     selector: 'file',
     templateUrl: 'app/template/file.html',
-    pipes: [InitCasePipe],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -21,13 +18,14 @@ export class FileComponent {
 	private file = new FileModel();
 	private fileid = "";
 	private catname = "";
-	private cats = null;
+	private cats = new Array<string>();
 
 	private mainScreen;
 	private isSelected = false;
 
 	private isEditing = false;
 	private editingComplete = false;
+	private fileNotEdited = false;
 
 	private fileDeleted = false;
 	private fileNotDeleted = false;
@@ -60,18 +58,18 @@ export class FileComponent {
 		this.isSelected = true;
 	}
 
-	liked(file) {
-		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: file.likes + 1 }).subscribe();
-		file.likes++;
+	liked(likes) {
+		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: likes + 1 }).subscribe();
+		this.file.likes++;
 	}
-	disliked(file) {
-		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: file.dislikes + 1 }).subscribe();
-		file.dislikes++;
+	disliked(dislikes) {
+		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: dislikes + 1 }).subscribe();
+		this.file.dislikes++;
 	}
 
-	downloaded(file) {
-		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dls: file.dls + 1 }).subscribe();
-		file.dls++;
+	downloaded(dls) {
+		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dls: dls + 1 }).subscribe();
+		this.file.dls++;
 	} 
 
 	editFile() {
@@ -80,6 +78,8 @@ export class FileComponent {
 
 	isEditingCancel() {
 		this.isEditing = false;
+		this.fileNotEdited = true;
+		setTimeout(() => this.fileNotEdited = false, 3000);
 	}
 
 	isEditingDone(fileEdited) {

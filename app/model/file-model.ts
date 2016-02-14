@@ -1,11 +1,15 @@
+import {Injectable} from 'angular2/core';
+
+@Injectable();
+
 export class FileModel {
 	private id: number;
 	private name: string;
 	private cat: string;
 	private authors: Array<string> = [];
-	private dls: number;
-	private likes: number;
-	private dislikes: number;
+	dls: number;
+	likes: number;
+	dislikes: number;
 	private imgurl: Array<string> = [];
 	//private youtubeurl: Array<string> = [];
 	private url: string;
@@ -36,5 +40,4 @@ export class FileModel {
 	/*addImgUrl(url: string) {
 		this.imgurl.push(url);
 	}*/
-
 }
