@@ -4,12 +4,6 @@
 	</button>
 	<i class="fa fa-check-circle"></i> File edited successfully!
 </div>
-<div *ngIf="fileNotEdited" class="alert alert-warning alert-dismissible fade in" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	<i class="fa fa-exclamation-circle"></i> File editing cancelled!
-</div>
 <div *ngIf="fileDeleted" class="alert alert-success" role="alert">
 	<i class="fa fa-check-circle"></i> File deleted successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
 </div>
@@ -21,7 +15,7 @@
 	<thead class="thead-default">
 		<tr>
 			<th colspan="2" class="text-center fileTitle">
-				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" style="margin-left:5px" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button>
+				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button>
 			</th>
 		</tr>
 	</thead>
@@ -74,7 +68,7 @@
 				<i class="fa fa-link"></i> URL:
 			</td>
 			<td>
-				<a target="_blank" href="{{file.url}}">{{file.url}}</a>
+				<a target="_blank" href="{{file.dlurl}}">{{file.dlurl}}</a>
 			</td>
 		</tr>
 		<tr>
@@ -159,7 +153,7 @@
 			<tr>
 				<td><i class="fa fa-link"></i> URL:</td>
 				<td>
-					<a target="_blank" href="{{file.url}}">{{file.url}}</a>
+					<a target="_blank" href="{{file.dlurl}}">{{file.dlurl}}</a>
 				</td>
 			</tr>
 		</tbody>

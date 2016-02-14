@@ -8,12 +8,13 @@ import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
 import {NoDecimalValues} from './pipe/no-decimal-values-pipe';
 import {SortByNamePipe} from './pipe/sort-by-name-pipe';
 import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
+import {SortByRatingPipe} from './pipe/sort-by-rating-pipe';
 import {FilterPipe} from './pipe/filter-pipe';
 
 @Component({
     selector: 'category',
-    templateUrl: 'app/template/category.html',
-    pipes: [InitCasePipe, TrimLowerCasePipe, NoDecimalValues, SortByNamePipe, SortByDLSPipe, FilterPipe],
+    templateUrl: 'app/category.html',
+    pipes: [InitCasePipe, TrimLowerCasePipe, NoDecimalValues, SortByNamePipe, SortByDLSPipe, SortByRatingPipe, FilterPipe],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -24,6 +25,7 @@ export class CategoryComponent implements CanReuse {
 
 	private sortByName = 1; // ASCending order
 	private sortByDLS = 0; // no order
+	private sortByRating = 0;
 
 	private query = "";
 
@@ -34,10 +36,11 @@ export class CategoryComponent implements CanReuse {
 	private noMorePrev = true;
 
 	constructor(private service: MongoAPIService,
-		private routeParams: RouteParams,
-		private router: Router) {
+				private routeParams: RouteParams,
+				private router: Router) {
 
 		this.catname = this.routeParams.get("catname");
+		this.catname = this.toTitleCase(this.catname);
 
 		// Counting the total number of files
 		this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(
@@ -58,6 +61,9 @@ export class CategoryComponent implements CanReuse {
 		if (this.routeParams.get("sortdls")) {
 			this.routeParams.get("sortdls") === "asc" ? this.sortByDLS = -1 : this.sortByDLS = 1;
 		}
+		if (this.routeParams.get("sortrating")) {
+			this.routeParams.get("sortrating") === "asc" ? this.sortByRating = -1 : this.sortByRating = 1;
+		}
 		// gotta figure out how to make this work...
 		/*if (this.routeParams.get("page")) {
 			var page = +this.routeParams.get("page");
@@ -68,6 +74,10 @@ export class CategoryComponent implements CanReuse {
 
 	// Don't reload the component when clicking sorting buttons
 	routerCanReuse(next: ComponentInstruction, prev: ComponentInstruction) { return true; }
+
+	toTitleCase(str) {
+    	return str.replace(/\w\S*/g, (s) => { return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase(); });
+	}
 
 	firstPageValues() {
 		this.skip = 0;
@@ -101,7 +111,6 @@ export class CategoryComponent implements CanReuse {
 			this.sortByName = 1;
 			this.router.navigate(['Category', { catname: this.catname, sortname: "asc" }]);
 		}
-		
 	}
 	changeSortByDLS() {
 		// Back on first page
@@ -112,6 +121,17 @@ export class CategoryComponent implements CanReuse {
 		} else {
 			this.sortByDLS = -1;
 			this.router.navigate(['Category', { catname: this.catname, sortdls: "desc" }]);
+		}
+	}
+	changeSortByRating() {
+		// Back on first page
+		this.firstPageValues();
+		if (this.sortByRating < 0) {
+			this.sortByRating = 1;
+			this.router.navigate(['Category', { catname: this.catname, sortrating: "asc" }]);
+		} else {
+			this.sortByRating = -1;
+			this.router.navigate(['Category', { catname: this.catname, sortrating: "desc" }]);
 		}
 	}
 }

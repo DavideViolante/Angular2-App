@@ -7,7 +7,7 @@ import {FileModel} from '../model/file-model';
 
 @Component({
     selector: 'add-file',
-    templateUrl: 'app/template/addFile.html',
+    templateUrl: 'app/upload/add-file.html',
     directives: [ROUTER_DIRECTIVES]
 })
 

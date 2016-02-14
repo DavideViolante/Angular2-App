@@ -4,22 +4,24 @@ import {Router, RouteConfig, ROUTER_DIRECTIVES, ComponentInstruction, CanActivat
 import {MongoAPIService} from '../service/mongoapi.service';
 
 import {UploadHomeComponent} from './upload-home.component';
-import {AddUserComponent} from './add-user.component';
 import {AddFileComponent} from './add-file.component';
+import {AddUserComponent} from './add-user.component';
+import {AddCategoryComponent} from './add-category.component';
 
 import {isLoggedIn} from '../account/is-logged-in';
 import {AuthenticationComponent} from '../account/authentication.component';
 
 @Component({
     selector: 'upload',
-    templateUrl: 'app/template/upload.html',
+    templateUrl: 'app/upload/upload.html',
     directives: [ROUTER_DIRECTIVES]
 })
 
 @RouteConfig([
 	{ path: '/', name: 'UploadHome', component: UploadHomeComponent, useAsDefault: true},
-	{ path: '/addFile', name: 'AddFile', component: AddFileComponent },
-	{ path: '/addUser', name: 'AddUser', component: AddUserComponent }
+	{ path: '/add-file', name: 'AddFile', component: AddFileComponent },
+	{ path: '/add-user', name: 'AddUser', component: AddUserComponent },
+	{ path: '/add-category', name: 'AddCategory', component: AddCategoryComponent }
 ])
 
 @CanActivate((next: ComponentInstruction, previous: ComponentInstruction) => {

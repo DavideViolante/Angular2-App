@@ -1,0 +1,32 @@
+<div class="card text-xs-center">
+	<div class="card-header">
+		Add category
+	</div>
+	<div class="card-block">
+
+	<div class="col-md-5 col-centered">
+
+		<form (ngSubmit)="onSubmit(catForm.form.value)" #catForm="ngForm">
+			<div class="input-group" [ngClass]="{'has-success':name.valid}">
+				<span class="input-group-addon"><i class="fa fa-file"></i></span>
+					<input type="text" class="form-control" placeholder="Name" ngControl="name" #name="ngForm" required>
+			</div>
+			<br />
+
+			<button type="submit" class="btn" [ngClass]="{'btn-primary':catForm.form.valid}" [disabled]="!catForm.form.valid">Add category</button>
+			<button type="reset" class="btn btn-warning">Reset</button>
+
+		</form>
+
+		<br />
+
+	</div>
+
+	<div [hidden]="!formSubmitted" class="alert alert-success alert-dismissible fade in" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<i class="fa fa-check-circle"></i> Category added successfully!
+	</div>
+
+</div>

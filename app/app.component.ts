@@ -16,7 +16,7 @@ import {AuthenticationComponent} from './account/authentication.component';
 
 @Component({
     selector: 'app',
-    templateUrl: 'app/template/home.html',
+    templateUrl: 'app/app.html',
     directives: [ROUTER_DIRECTIVES]
 })
 

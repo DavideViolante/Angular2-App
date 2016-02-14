@@ -7,7 +7,7 @@ import * as bcrypt from 'bcryptjs';
 
 @Component({
     selector: 'register',
-    templateUrl: 'app/template/register.html',
+    templateUrl: 'app/account/register.html',
     directives: [ROUTER_DIRECTIVES]
 })
 

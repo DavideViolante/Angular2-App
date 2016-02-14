@@ -1,0 +1,49 @@
+<div *ngIf="editingComplete" class="alert alert-success alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<i class="fa fa-check-circle"></i> Category edited successfully!
+</div>
+<div *ngIf="catDeleted" class="alert alert-success" role="alert">
+	<i class="fa fa-check-circle"></i> Category deleted successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+</div>
+<div *ngIf="catNotDeleted" class="alert alert-danger" role="alert">
+	<i class="fa fa-exclamation-circle"></i> Category not deleted, please try again! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+</div>
+
+<table class="table table-bordered table-hover">
+	<thead class="thead-default">
+		<tr>
+			<th>
+				<a href="javascript:false" (click)="changeSort()">Category</a> 
+				<i class="fa fa-sort"></i>
+			</th>
+		</tr>
+	</thead>
+
+	<tbody *ngIf="!cats">
+		<tr>
+			<td colspan="2"><i class="fa fa-spinner fa-spin"></i> Loading...</td>
+		</tr>
+	</tbody>
+
+	<tbody *ngIf="cats">
+		<tr *ngFor="#cat of cats | sortByName:sortByName">
+			<td *ngIf="!isEditing">
+				<a [routerLink]="['Category', {catname: cat.name | trimLowerCase}]">{{cat.name}}</a>
+				<button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editCategory(cat)"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteCategory(cat.id)"><i class="fa fa-trash"></i></button>
+			</td>
+		</tr>
+		<tr *ngIf="isEditing">
+			<td>
+				<form (ngSubmit)="isEditingDone(cat)" #catFormEdit="ngForm">
+					<div class="col-xs-4">
+						<input class="form-control" type="text" [(ngModel)]="cat.name" ngControl="name" #name="ngForm" required />
+					</div>
+					<button type="button" class="pull-right btn btn-warning" (click)="isEditingCancel()">Cancel</button>
+					<button type="submit" class="pull-right btn" [ngClass]="{'btn-primary':catFormEdit.form.valid}" [disabled]="!catFormEdit.form.valid" style="margin-right:7px">Save</button>
+				</form>
+			</td>
+		</tr>
+	</tbody>
+</table>

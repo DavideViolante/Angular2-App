@@ -9,7 +9,7 @@ import {AuthenticationComponent} from './account/authentication.component';
 
 @Component({
     selector: 'file',
-    templateUrl: 'app/template/file.html',
+    templateUrl: 'app/file.html',
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -25,7 +25,6 @@ export class FileComponent {
 
 	private isEditing = false;
 	private editingComplete = false;
-	private fileNotEdited = false;
 
 	private fileDeleted = false;
 	private fileNotDeleted = false;
@@ -78,8 +77,6 @@ export class FileComponent {
 
 	isEditingCancel() {
 		this.isEditing = false;
-		this.fileNotEdited = true;
-		setTimeout(() => this.fileNotEdited = false, 3000);
 	}
 
 	isEditingDone(fileEdited) {

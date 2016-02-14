@@ -7,7 +7,7 @@ import * as bcrypt from 'bcryptjs';
 
 @Component({
     selector: 'add-user',
-    templateUrl: 'app/template/addUser.html',
+    templateUrl: 'app/upload/add-user.html',
     directives: [ROUTER_DIRECTIVES]
 })
 

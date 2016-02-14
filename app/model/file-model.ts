@@ -12,7 +12,7 @@ export class FileModel {
 	dislikes: number;
 	private imgurl: Array<string> = [];
 	//private youtubeurl: Array<string> = [];
-	private url: string;
+	private dlurl: string;
 
 	constructor(id?: number, name?: string, cat?: string, authors?: Array<string>) {
 		this.id = id;
@@ -25,7 +25,7 @@ export class FileModel {
 		this.dls = 0;
 		this.likes = 0;
 		this.dislikes = 0;
-		this.url = "";
+		this.dlurl = "";
 	}
 
 	getID() { return this.id; }

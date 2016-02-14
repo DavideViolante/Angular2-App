@@ -9,7 +9,7 @@ import * as bcrypt from 'bcryptjs';
 
 @Component({
     selector: 'login',
-    templateUrl: 'app/template/login.html',
+    templateUrl: 'app/account/login.html',
     directives: [ROUTER_DIRECTIVES]    
 })
 
