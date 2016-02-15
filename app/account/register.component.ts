@@ -1,6 +1,8 @@
 import {Component} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
+import {UserModel} from '../model/user-model';
+
 import {MongoAPIService} from '../service/mongoapi.service';
 
 import * as bcrypt from 'bcryptjs';
@@ -12,6 +14,7 @@ import * as bcrypt from 'bcryptjs';
 })
 
 export class RegisterComponent {
+	private user: UserModel;
 	private formSubmitted = false;
 	private usernameAlreadyExists = false;
 	private passwordTooShort = false;
@@ -30,11 +33,13 @@ export class RegisterComponent {
 					// Select the max user ID
 					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
 						data => {
-							userForm.id = data[0].id + 1; // the new user will have maxID+1
-							userForm.role = "user";
-							userForm.session = "";	
-							userForm.password = bcrypt.hashSync(userForm.password, bcrypt.genSaltSync(10));
-							this.service.mongoInsert("users", userForm).subscribe();
+							this.user = new UserModel(data[0].id + 1, // the new user will have maxID+1
+													  userForm.username,
+													  bcrypt.hashSync(userForm.password, bcrypt.genSaltSync(10)),
+													  userForm.email,
+													  "user", // role
+													  "");	  // session
+							this.service.mongoInsert("users", this.user).subscribe();
 						}
 					);
 					this.formSubmitted = true;

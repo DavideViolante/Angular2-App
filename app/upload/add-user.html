@@ -28,9 +28,10 @@
 			<div class="input-group" [ngClass]="{'has-success':role.valid}">
 				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-users"></i></span>
 					<select class="form-control" ngControl="role" #role="ngForm" required>
-						<option value="" disabled>Select the role</option>
-						<option value="user">User</option>
-						<option value="admin">Admin</option>
+						<optgroup label="Select the role">
+							<option value="user">User</option>
+							<option value="admin">Admin</option>
+						</optgroup>
 					</select>
 			</div>
 			<br />

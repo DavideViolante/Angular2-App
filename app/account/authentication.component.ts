@@ -44,6 +44,6 @@ export class AuthenticationComponent {
     }
 
     check() {
-        return Observable.of(this.loggedIn, this.isAdmin);
+        return Observable.of(this.loggedIn);
     }
 }
