@@ -7,15 +7,12 @@
 <div *ngIf="fileDeleted" class="alert alert-success" role="alert">
 	<i class="fa fa-check-circle"></i> File deleted successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
 </div>
-<div *ngIf="fileNotDeleted" class="alert alert-danger" role="alert">
-	<i class="fa fa-exclamation-circle"></i> File not deleted, please try again! Redirecting... <i class="fa fa-spinner fa-spin"></i>
-</div>
 
 <table *ngIf="!isEditing" class="table table-bordered table-striped">
 	<thead class="thead-default">
 		<tr>
 			<th colspan="2" class="text-center fileTitle">
-				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteFile(file.id)"><i class="fa fa-trash"></i></button>
+				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteFile(file)"><i class="fa fa-trash"></i></button>
 			</th>
 		</tr>
 	</thead>
@@ -40,10 +37,10 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td width="20%">
 				<i class="fa fa-user"></i> Author/s:
 			</td>
-			<td>
+			<td width="80%">
 				<ul class="authorList"><li *ngFor="#author of file.authors">{{author}}, </li></ul>
 			</td>
 		</tr>
@@ -64,16 +61,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<i class="fa fa-link"></i> URL:
-			</td>
-			<td>
-				<a target="_blank" href="{{file.dlurl}}">{{file.dlurl}}</a>
-			</td>
-		</tr>
-		<tr>
 			<td colspan="2" class="text-center">
-				<button type="button" class="btn btn-primary btn-lg" (click)="downloaded(file.dls)"><i class="fa fa-download"></i> Download</button>
+				<a class="dlurl" target="_blank" href="{{file.dlurl}}"><button type="button" class="btn btn-primary btn-lg" (click)="downloaded(file.dls)"><i class="fa fa-download"></i> Download</button></a>
 			</td>
 		</tr>
 	</tbody>
@@ -100,13 +89,14 @@
 					</div>
 				</td>
 			</tr>
-			<!-- <tr>
-				<td colspan="2">
-					<span *ngFor="#image of file.imgurl">
-						<img class="fileThumbImg" [src]="image" alt="{{file.name}} screenshot" />
-					</span>
+			<tr>
+				<td><i class="fa fa-file"></i> Images:</td>
+				<td>
+					<div [ngClass]="{'has-success':imgurl.valid}">
+						 <textarea rows="4" class="form-control imgurlEdit" [(ngModel)]="file.imgurl" ngControl="imgurl" #imgurl="ngForm" required></textarea>
+					</div>
 				</td>
-			</tr> -->
+			</tr>
 			<tr>
 				<td width="20%"><i class="fa fa-list-ul"></i> Category:</td>
 				<td>
@@ -153,7 +143,9 @@
 			<tr>
 				<td><i class="fa fa-link"></i> URL:</td>
 				<td>
-					<a target="_blank" href="{{file.dlurl}}">{{file.dlurl}}</a>
+					<div [ngClass]="{'has-success':dlurl.valid}">
+						<input class="form-control" type="url" [(ngModel)]="file.dlurl" ngControl="dlurl" #dlurl="ngForm" required />
+					</div>
 				</td>
 			</tr>
 		</tbody>

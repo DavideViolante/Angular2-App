@@ -15,6 +15,7 @@ export class AddFileComponent {
 	private cats = new Array<string>();
 	private formSubmitted = false;
 	private file: FileModel;
+	private imgurlCount = [1];
 
 	constructor(private service: MongoAPIService,
 				private router: Router) {
@@ -23,6 +24,10 @@ export class AddFileComponent {
 		);
 	}
 
+	addImgurlForm() { this.imgurlCount.push(1); }
+
+	removeImgurlForm() { this.imgurlCount.pop(); }
+
 	onSubmit(fileForm) {
 		// the new file will have maxID+1
 		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
@@ -30,7 +35,17 @@ export class AddFileComponent {
 				// if there is only 1 author
 				if 	(fileForm.authors.indexOf(",") < 0) fileForm.authors = [fileForm.authors];
 				else fileForm.authors = fileForm.authors.replace(/, /g, ",").split(',');
-				this.file = new FileModel(data[0].id + 1, fileForm.name, fileForm.cat, fileForm.authors);
+
+				fileForm.imgurl = [];
+				var i = 0, cond = false;
+				do {
+					fileForm.imgurl.push(fileForm["imgurl" + i]);
+					i++;
+					// check if next url doesn't exist, if so, stop
+					if (!fileForm["imgurl" + i]) cond = true;
+				} while (!cond);
+
+				this.file = new FileModel(data[0].id + 1, fileForm.name, fileForm.cat, fileForm.authors, fileForm.imgurl, fileForm.dlurl);
 				this.service.mongoInsert("files", this.file).subscribe();
 				this.formSubmitted = true;
 				setTimeout(() => {

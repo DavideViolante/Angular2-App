@@ -30,6 +30,20 @@ ul {
     margin: 0px 0px 0px -40px;
 }
 
+div.buttonPlusMinus {
+    padding: 0;
+    width: 100px;
+}
+
+div.imgurlInput {
+    margin-bottom: 10px;
+}
+
+input.imgurlEdit {
+    display: inline;
+    width: 75%;
+}
+
 div.thumbImg {
     height: 250px;
     background-size: cover;

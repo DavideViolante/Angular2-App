@@ -10,22 +10,21 @@ export class FileModel {
 	dls: number;
 	likes: number;
 	dislikes: number;
-	private imgurl: Array<string> = [];
+	imgurl: Array<string> = [];
 	//private youtubeurl: Array<string> = [];
 	private dlurl: string;
 
-	constructor(id?: number, name?: string, cat?: string, authors?: Array<string>) {
+	constructor(id?: number, name?: string, cat?: string, authors?: Array<string>, imgurl?: Array<string>, dlurl?: string) {
 		this.id = id;
 		this.name = name;
 		this.cat = cat;
 		this.authors = authors;
-		//this.imgurl = imgurl;
-		this.imgurl = [];
+		this.imgurl = imgurl;
+		this.dlurl = dlurl;
 
 		this.dls = 0;
 		this.likes = 0;
 		this.dislikes = 0;
-		this.dlurl = "";
 	}
 
 	getID() { return this.id; }

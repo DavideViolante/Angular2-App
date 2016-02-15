@@ -79,27 +79,26 @@ export class FileComponent {
 		this.isEditing = false;
 	}
 
-	isEditingDone(fileEdited) {
-		if(typeof fileEdited.authors === "string") // if the authors array was edited using the input form
-			fileEdited.authors = fileEdited.authors.replace(/, /g,",").split(',');
-		this.service.mongoUpdate("files", "{id:"+fileEdited.id+"}", fileEdited).subscribe();
+	isEditingDone(file) {
+		if (typeof file.authors === "string") // if the authors array was edited using the input form
+			file.authors = file.authors.replace(/, /g, ",").split(',');
+		if (typeof file.imgurl === "string") // if the imgurl array was edited using the textarea form
+			file.imgurl = file.imgurl.replace(/, /g, ",").split(',');
+
+		this.service.mongoUpdate("files", "{id:"+file.id+"}", file).subscribe();
 		this.isEditing = false;
 		this.editingComplete = true;
 		setTimeout(() => this.editingComplete = false, 3000);
 	}
 
-	deleteFile(fileid) {
-		if(window.confirm("Are you sure you want to permanently delete this file?")) {
-			this.service.mongoSelect("files", "{id:" + fileid + "}").subscribe(
-				data => data ? this.service.mongoDelete("files", data[0]._id.$oid).subscribe() : this.fileNotDeleted = true
-			);
+	deleteFile(file) {
+		if (window.confirm("Are you sure you want to permanently delete this file?")) {
+			this.service.mongoDelete("files", file._id.$oid).subscribe();
 			this.fileDeleted = true;
 			setTimeout(() => {
 				this.fileDeleted = false;
 				this.router.navigate(['Category', { catname: this.catname }]);
 			}, 2500);
-		} else {
-			this.fileDeleted = false;
 		}
 	}
 }
