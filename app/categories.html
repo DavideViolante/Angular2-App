@@ -28,10 +28,10 @@
 	</tbody>
 
 	<tbody *ngIf="cats">
-		<tr *ngFor="#cat of cats | sortByName:sortByName">
+		<tr *ngFor="#cat of cats | sort:nameOrder:'name'">
 			<td *ngIf="!isEditing">
 				<a [routerLink]="['Category', {catname: cat.name | trimLowerCase}]">{{cat.name}}</a>
-				<button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editCategory(cat)"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteCategory(cat.id)"><i class="fa fa-trash"></i></button>
+				<button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editCategory(cat)"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteCategory(cat.id)"><i class="fa fa-trash"></i> Delete</button>
 			</td>
 		</tr>
 		<tr *ngIf="isEditing">

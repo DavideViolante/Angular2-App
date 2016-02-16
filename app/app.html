@@ -11,6 +11,9 @@
             <a class="nav-link" [routerLink]="['Upload']">Control Panel</a>
         </li>
         <li *ngIf="auth.loggedIn" class="nav-item">
+            <a class="nav-link" [routerLink]="['Profile']">Profile</a>
+        </li>
+        <li *ngIf="auth.loggedIn" class="nav-item">
             <a class="nav-link" [routerLink]="['Logout']">Logout</a>
         </li>
         <li *ngIf="!auth.loggedIn" class="nav-item">

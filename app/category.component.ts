@@ -6,15 +6,13 @@ import {MongoAPIService} from './service/mongoapi.service';
 import {InitCasePipe} from './pipe/init-case-pipe';
 import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
 import {NoDecimalValues} from './pipe/no-decimal-values-pipe';
-import {SortByNamePipe} from './pipe/sort-by-name-pipe';
-import {SortByDLSPipe} from './pipe/sort-by-dls-pipe';
-import {SortByRatingPipe} from './pipe/sort-by-rating-pipe';
+import {SortPipe} from './pipe/sort-pipe';
 import {FilterPipe} from './pipe/filter-pipe';
 
 @Component({
     selector: 'category',
     templateUrl: 'app/category.html',
-    pipes: [InitCasePipe, TrimLowerCasePipe, NoDecimalValues, SortByNamePipe, SortByDLSPipe, SortByRatingPipe, FilterPipe],
+    pipes: [InitCasePipe, TrimLowerCasePipe, NoDecimalValues, SortPipe, FilterPipe],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -23,9 +21,9 @@ export class CategoryComponent implements CanReuse {
 	private files = new Array<Object>();
 	private catname = "";
 
-	private sortByName = 1; // ASCending order
-	private sortByDLS = 0; // no order
-	private sortByRating = 0;
+	private nameOrder = 1; // ASCending order
+	private dlsOrder = 0; // no order
+	private ratingOrder = 0;
 
 	private query = "";
 
@@ -56,13 +54,19 @@ export class CategoryComponent implements CanReuse {
 		);
 
 		if (this.routeParams.get("sortname")) {
-			this.routeParams.get("sortname") === "asc" ? this.sortByName = 1 : this.sortByName = -1;
+			this.ratingOrder = 0;
+			this.dlsOrder = 0;
+			this.routeParams.get("sortname") === "asc" ? this.nameOrder = 1 : this.nameOrder = -1;
 		}
 		if (this.routeParams.get("sortdls")) {
-			this.routeParams.get("sortdls") === "asc" ? this.sortByDLS = -1 : this.sortByDLS = 1;
+			this.nameOrder = 0;
+			this.ratingOrder = 0;
+			this.routeParams.get("sortdls") === "desc" ? this.dlsOrder = -1 : this.dlsOrder = 1;
 		}
 		if (this.routeParams.get("sortrating")) {
-			this.routeParams.get("sortrating") === "asc" ? this.sortByRating = -1 : this.sortByRating = 1;
+			this.nameOrder = 0;
+			this.dlsOrder = 0;
+			this.routeParams.get("sortrating") === "desc" ? this.ratingOrder = -1 : this.ratingOrder = 1;
 		}
 		// gotta figure out how to make this work...
 		/*if (this.routeParams.get("page")) {
@@ -79,10 +83,22 @@ export class CategoryComponent implements CanReuse {
     	return str.replace(/\w\S*/g, (s) => { return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase(); });
 	}
 
+	changeFilesPerPage(n) {
+		this.filesPerPage = n;
+		this.firstPageValues();
+	}
+
+	resetForSearch() {
+		this.skip = 0;
+		this.noMorePrev = true;
+		this.filesPerPage = 9;
+		(this.totFiles <= this.filesPerPage) ? this.noMoreNext = true : this.noMoreNext = false;
+	}
+
 	firstPageValues() {
 		this.skip = 0;
 		this.noMorePrev = true;
-		(this.totFiles < this.filesPerPage) ? this.noMoreNext = true : this.noMoreNext = false;
+		(this.totFiles <= this.filesPerPage) ? this.noMoreNext = true : this.noMoreNext = false;
 	}
 	
 	nextPage() {
@@ -101,36 +117,42 @@ export class CategoryComponent implements CanReuse {
 		this.noMoreNext = false;
 	}
 
-	changeSortByName() {
+	switchNameOrder() {
 		// Back on first page
 		this.firstPageValues();
-		if (this.sortByName > 0) {
-			this.sortByName = -1;
+		this.ratingOrder = 0;
+		this.dlsOrder = 0;
+		if (this.nameOrder > 0) {
+			this.nameOrder = -1;
 			this.router.navigate(['Category', { catname: this.catname, sortname: "desc" }]);
 		} else {
-			this.sortByName = 1;
+			this.nameOrder = 1;
 			this.router.navigate(['Category', { catname: this.catname, sortname: "asc" }]);
 		}
 	}
-	changeSortByDLS() {
+	switchDlsOrder() {
 		// Back on first page
 		this.firstPageValues();
-		if (this.sortByDLS < 0) {
-			this.sortByDLS = 1;
+		this.ratingOrder = 0;
+		this.nameOrder = 0;
+		if (this.dlsOrder < 0) {
+			this.dlsOrder = 1;
 			this.router.navigate(['Category', { catname: this.catname, sortdls: "asc" }]);
 		} else {
-			this.sortByDLS = -1;
+			this.dlsOrder = -1;
 			this.router.navigate(['Category', { catname: this.catname, sortdls: "desc" }]);
 		}
 	}
-	changeSortByRating() {
+	switchRatingOrder() {
 		// Back on first page
 		this.firstPageValues();
-		if (this.sortByRating < 0) {
-			this.sortByRating = 1;
+		this.nameOrder = 0;
+		this.dlsOrder = 0;
+		if (this.ratingOrder < 0) {
+			this.ratingOrder = 1;
 			this.router.navigate(['Category', { catname: this.catname, sortrating: "asc" }]);
 		} else {
-			this.sortByRating = -1;
+			this.ratingOrder = -1;
 			this.router.navigate(['Category', { catname: this.catname, sortrating: "desc" }]);
 		}
 	}

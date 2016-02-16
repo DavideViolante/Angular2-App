@@ -1,0 +1,76 @@
+<div [hidden]="!emailChanged" class="alert alert-success alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<i class="fa fa-check-circle"></i> Email changed successfully!
+</div>
+<div [hidden]="!passwordChanged" class="alert alert-success alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<i class="fa fa-check-circle"></i> Password changed successfully!
+</div>
+
+<table class="table table-bordered">
+	<thead class="thead-default">
+		<tr>
+			<th colspan="3">
+				Profile
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td width="20%">
+				<i class="fa fa-user"></i> Username: 
+			</td>
+			<td width="80%" colspan="2">
+				{{user.username}}
+			</td>
+		</tr>
+		<tr>
+			<td width="20%">
+				<i class="fa fa-lock"></i> Password: 
+			</td>
+			<td width="50%">
+				<span *ngIf="!changingPassword"><i class="fa fa-lock"></i></span>
+				<div *ngIf="changingPassword" class="input-group col-md-8">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+					<input #pswEl type="password" class="form-control" placeholder="New password" [value]="" (input)="user.password=$event.target.value" aria-describedby="basic-addon1">
+					<span class="input-group-addon" (click)="pswEl.type==='password' ? pswEl.type='text' : pswEl.type='password'" title="Show/Hide">
+		        	<i *ngIf="pswEl.type==='password'" class="fa fa-eye"></i>
+		        	<i *ngIf="pswEl.type==='text'" class="fa fa-eye-slash"></i>
+		        	</span>
+				</div>
+			</td>
+			<td width="30%">
+				<button *ngIf="!changingPassword" type="button" class="btn btn-warning" (click)="changePassword()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="changingPassword" type="button" class="btn btn-warning" (click)="changePassword()"><i class="fa fa-close"></i> Cancel</button> <button *ngIf="changingPassword" type="button" class="btn btn-success" (click)="changePasswordDone(user.password)"><i class="fa fa-check"></i> OK</button> 
+			</td>
+		</tr>
+		<tr>
+			<td width="20%">
+				<i class="fa fa-envelope"></i> Email: 
+			</td>
+			<td width="50%">
+				<span *ngIf="!changingEmail">{{user.email}}</span>
+				<div *ngIf="changingEmail" class="input-group col-md-8">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
+					<input type="email" class="form-control" placeholder="New email" [(ngModel)]="user.email" aria-describedby="basic-addon1">
+				</div>
+			</td>
+			<td width="30%">
+				<button *ngIf="!changingEmail" type="button" class="btn btn-warning" (click)="changeEmail()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="changingEmail" type="button" class="btn btn-warning" (click)="changeEmail()"><i class="fa fa-close"></i> Cancel</button> <button *ngIf="changingEmail" type="button" class="btn btn-success" (click)="changeEmailDone(user.email)"><i class="fa fa-check"></i> OK</button> 
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<i class="fa fa-list-alt"></i> Role: 
+			</td>
+			<td colspan="2">
+				{{user.role}}
+			</td>
+		</tr>
+	</tbody>
+</table>
+

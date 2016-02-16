@@ -3,22 +3,39 @@
 	<ul class="nav navbar-nav">
 		<li class="nav-item" style="margin-left:10px">
 			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-secondary" (click)="changeSortByName()">Name <i class="fa fa-sort"></i></button>
-				<button type="button" class="btn btn-secondary" (click)="changeSortByDLS()">Downloads <i class="fa fa-sort"></i></button><button type="button" class="btn btn-secondary" (click)="changeSortByRating()">Rating <i class="fa fa-sort"></i></button>
+				<button type="button" class="btn btn-secondary" (click)="switchNameOrder()">Name <i class="fa fa-sort"></i></button>
+				<button type="button" class="btn btn-secondary" (click)="switchDlsOrder()">Downloads <i class="fa fa-sort"></i></button><button type="button" class="btn btn-secondary" (click)="switchRatingOrder()">Rating <i class="fa fa-sort"></i></button>
 			</div>
 		</li>
+		<li>
+			<div class="input-group col-md-4">
+				<input [(ngModel)]="query" (click)="resetForSearch()" type="text" class="form-control" placeholder="Search">
+				<span class="input-group-addon search-input"><i class="fa fa-search"></i></span>
+			</div>
+		</li>
+		<li>
+			<div class="btn-group">
+				<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-th"></i> Showing <strong>{{filesPerPage}}</strong> files
+				</button>
+				<div class="dropdown-menu">
+					<div class="dropdown-item" (click)="changeFilesPerPage(3)">3</div>
+					<div class="dropdown-item" (click)="changeFilesPerPage(9)">9</div>
+					<div class="dropdown-item" (click)="changeFilesPerPage(18)">18</div>
+					<div class="dropdown-item" (click)="changeFilesPerPage(27)">27</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</nav>
+
+<nav class="navbar navbar-light bg-faded">
+	<ul class="nav navbar-nav pagesCenter">
 		<li class="nav-item">
 			<div class="btn-group" role="group">
 				<button type="button" class="btn btn-secondary" (click)="prevPage()" [disabled]="noMorePrev || query.length>1"><i class="fa fa-arrow-left"></i></button>
 				<button type="button" class="btn btn-secondary">Page {{skip/filesPerPage+1}}/{{(totFiles/filesPerPage+0.9) | noDecimalValues}}</button>
 				<button type="button" class="btn btn-secondary" (click)="nextPage()" [disabled]="noMoreNext || query.length>1"><i class="fa fa-arrow-right"></i></button>
-			</div>
-		</li>
-		<li class="nav-item">&nbsp;</li>
-		<li>
-			<div class="input-group">
-				<span class="input-group-addon search-input"><i class="fa fa-search"></i></span>
-				<input [(ngModel)]="query" (click)="firstPageValues()" type="text" class="form-control" placeholder="Search">
 			</div>
 		</li>
 	</ul>
@@ -27,7 +44,7 @@
 
 <div class="row container">
 	<div *ngIf="files.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
-	<span *ngFor="#file of files | filter:query | sortByName:sortByName | sortByDLS:sortByDLS | sortByRating:sortByRating #i=index">
+	<span *ngFor="#file of files | filter:query | sort:nameOrder:'name' | sort:dlsOrder:'dls' | sort:ratingOrder:'likes'; #i=index">
 		<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
 			<div *ngIf="i>=skip && i<(skip+filesPerPage)" class="col-md-4 thumbImg" style="background-image:url({{file.imgurl[0]}})" >
 				<div class="infoBg">
@@ -35,9 +52,20 @@
 					<i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;&nbsp;
 					<i class="fa fa-download"></i> {{file.dls | number}} &nbsp;&nbsp;&nbsp;
 					<i class="fa fa-thumbs-up"></i> {{file.likes | number}}
-
 				</div>
 			</div>
 		</a>
 	</span>
 </div>
+
+<nav *ngIf="filesPerPage>3" class="navbar navbar-light bg-faded">
+	<ul class="nav navbar-nav pagesCenter">
+		<li class="nav-item">
+			<div class="btn-group" role="group">
+				<button type="button" class="btn btn-secondary" (click)="prevPage()" [disabled]="noMorePrev || query.length>1"><i class="fa fa-arrow-left"></i></button>
+				<button type="button" class="btn btn-secondary">Page {{skip/filesPerPage+1}}/{{(totFiles/filesPerPage+0.9) | noDecimalValues}}</button>
+				<button type="button" class="btn btn-secondary" (click)="nextPage()" [disabled]="noMoreNext || query.length>1"><i class="fa fa-arrow-right"></i></button>
+			</div>
+		</li>
+	</ul>
+</nav>

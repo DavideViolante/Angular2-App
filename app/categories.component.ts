@@ -4,13 +4,13 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {MongoAPIService} from './service/mongoapi.service';
 import {AuthenticationComponent} from './account/authentication.component';
 
-import {SortByNamePipe} from './pipe/sort-by-name-pipe';
+import {SortPipe} from './pipe/sort-pipe';
 import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
 
 @Component({
     selector: 'categories',
     templateUrl: 'app/categories.html',
-    pipes: [SortByNamePipe, TrimLowerCasePipe],
+    pipes: [SortPipe, TrimLowerCasePipe],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -19,7 +19,7 @@ export class CategoriesComponent {
 	private cats = null;
 	private cat = null;
 
-	private sortByName = 1;
+	private nameOrder = 1;
 
 	private isEditing = false;
 	private editingComplete = false;
@@ -35,7 +35,7 @@ export class CategoriesComponent {
 	}
 
 	changeSort() {
-		this.sortByName > 0 ? this.sortByName = -1 : this.sortByName = 1;
+		this.nameOrder > 0 ? this.nameOrder = -1 : this.nameOrder = 1;
 	}
 
 	editCategory(cat) {

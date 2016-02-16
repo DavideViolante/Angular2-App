@@ -73,6 +73,11 @@ ul.authorList li {
     display: inline;
 }
 
+ul.pagesCenter {
+    margin: 0 auto;
+    display: table;
+}
+
 img.fileMainScreen {
     border-radius: 5px;
 }

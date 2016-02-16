@@ -12,7 +12,7 @@
 	<thead class="thead-default">
 		<tr>
 			<th colspan="2" class="text-center fileTitle">
-				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteFile(file)"><i class="fa fa-trash"></i></button>
+				<button class="btn btn-primary pull-left" type="button" title="Back" [routerLink]="['Category', {catname: catname}]"><i class="fa fa-arrow-left"></i></button> {{file.name}} <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-primary" style="margin-left:5px" (click)="editFile()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="auth.loggedIn && auth.isAdmin" type="button" class="pull-right btn btn-danger" (click)="deleteFile(file)"><i class="fa fa-trash"></i> Delete</button>
 			</th>
 		</tr>
 	</thead>
@@ -74,8 +74,8 @@
 		<thead class="thead-default">
 			<tr>
 				<th colspan="2">
-					<button type="button" class="pull-right btn btn-warning" (click)="isEditingCancel()">Cancel</button>
-					<button type="submit" class="pull-right btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid" style="margin-right:7px">Save</button>
+					<button type="button" class="pull-right btn btn-warning" (click)="isEditingCancel()"><i class="fa fa-close"></i> Cancel</button>
+					<button type="submit" class="pull-right btn" [ngClass]="{'btn-primary':fileFormEdit.form.valid}" [disabled]="!fileFormEdit.form.valid" style="margin-right:7px"><i class="fa fa-floppy-o"></i> Save</button>
 				</th>
 			</tr>
 		</thead>
@@ -120,7 +120,7 @@
 			<tr>
 				<td><i class="fa fa-download"></i> Downloads:</td>
 				<td>
-					<div class="col-xs-3">
+					<div class="col-xs-3" [ngClass]="{'has-success':dls.valid}">
 						<input class="form-control" type="number" min="0" [(ngModel)]="file.dls" ngControl="dls" #dls="ngForm" required />
 					</div>
 				</td>
@@ -130,11 +130,11 @@
 					<i class="fa fa-thumbs-up"></i> Rating: 
 				</td>
 				<td>
-					<div class="input-group col-xs-3">
+					<div class="input-group col-xs-3" [ngClass]="{'has-success':likes.valid}">
 						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-up"></i></span>
 						<input class="form-control" type="number" min="0" [(ngModel)]="file.likes" ngControl="likes" #likes="ngForm" required />
 					</div>
-					<div class="input-group col-xs-3">
+					<div class="input-group col-xs-3" [ngClass]="{'has-success':dislikes.valid}">
 						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-down"></i></span>
 						<input class="form-control" type="number" min="0" [(ngModel)]="file.dislikes" ngControl="dislikes" #dislikes="ngForm" required />
 					</div>
