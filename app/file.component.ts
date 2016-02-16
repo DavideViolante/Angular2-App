@@ -17,6 +17,7 @@ export class FileComponent {
 
 	private file = new FileModel();
 	private fileid = "";
+	private userid = localStorage.getItem("id");
 	private catname = "";
 	private cats = new Array<string>();
 
@@ -24,10 +25,12 @@ export class FileComponent {
 	private isSelected = false;
 
 	private isEditing = false;
-	private editingComplete = false;
+	private fileEdited = false;
 
 	private fileDeleted = false;
-	private fileNotDeleted = false;
+
+	private fileFaved = false;
+	private fileRated = false;
 
 	constructor(private service: MongoAPIService, 				
 				private routeParams: RouteParams,
@@ -43,6 +46,8 @@ export class FileComponent {
 			data => {
 				this.file = data[0];
 				this.mainScreen = data[0].imgurl[0];
+				(this.file.favs.indexOf(+this.userid) >= 0) ? this.fileFaved = true : this.fileFaved = false;
+				(this.file.likes.concat(this.file.dislikes).indexOf(+this.userid) >= 0) ? this.fileRated = true : this.fileRated = false;
 			}
 		);
 
@@ -57,13 +62,34 @@ export class FileComponent {
 		this.isSelected = true;
 	}
 
-	liked(likes) {
-		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: likes + 1 }).subscribe();
-		this.file.likes++;
-	}
-	disliked(dislikes) {
-		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: dislikes + 1 }).subscribe();
-		this.file.dislikes++;
+	rate(n) {
+		this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
+			data => {
+				if (data.length > 0) { // ok user exists
+					switch(n) {
+						case 1: { // thumbs up
+							this.file.likes.push(+localStorage.getItem("id"));
+							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: this.file.likes }).subscribe();
+							this.fileRated = true;
+							break;
+						}
+						case -1: { // thumbs down
+							this.file.dislikes.push(+localStorage.getItem("id"));
+							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: this.file.dislikes }).subscribe();
+							this.fileRated = true;
+							break;
+						}
+						case 0: { // favorite
+							this.file.favs.push(+localStorage.getItem("id"));
+							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { favs: this.file.favs }).subscribe();
+							this.fileFaved = true;
+							break;
+						}
+						default: false;
+					}
+				}
+			}
+		);
 	}
 
 	downloaded(dls) {
@@ -80,15 +106,21 @@ export class FileComponent {
 	}
 
 	isEditingDone(file) {
-		if (typeof file.authors === "string") // if the authors array was edited using the input form
+		if (typeof file.authors === "string") // if the authors array was edited
 			file.authors = file.authors.replace(/, /g, ",").split(',');
-		if (typeof file.imgurl === "string") // if the imgurl array was edited using the textarea form
+		if (typeof file.imgurl === "string") // if the imgurl array was edited
 			file.imgurl = file.imgurl.replace(/, /g, ",").split(',');
+		if (typeof file.likes === "string") // if the likes array was edited
+			file.likes === "" ? file.likes = [] : file.likes = file.likes.replace(/, /g, ",").split(',').map(Number);
+		if (typeof file.dislikes === "string") // if the dislikes array was edited
+			file.dislikes === "" ? file.dislikes = [] : file.dislikes = file.dislikes.replace(/, /g, ",").split(',').map(Number);
+		if (typeof file.favs === "string") // if the favs array was edited
+			file.favs === "" ? file.favs = [] : file.favs = file.favs.replace(/, /g, ",").split(',').map(Number);
 
 		this.service.mongoUpdate("files", "{id:"+file.id+"}", file).subscribe();
 		this.isEditing = false;
-		this.editingComplete = true;
-		setTimeout(() => this.editingComplete = false, 3000);
+		this.fileEdited = true;
+		setTimeout(() => this.fileEdited = false, 3000);
 	}
 
 	deleteFile(file) {

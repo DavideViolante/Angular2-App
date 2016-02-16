@@ -8,8 +8,9 @@ export class FileModel {
 	cat: string;
 	authors: Array<string> = [];
 	dls: number;
-	likes: number;
-	dislikes: number;
+	likes: Array<number> = [];
+	dislikes: Array<number> = [];
+	favs: Array<number> = [];
 	imgurl: Array<string> = [];
 	//private youtubeurl: Array<string> = [];
 	dlurl: string;
@@ -23,7 +24,8 @@ export class FileModel {
 		this.dlurl = dlurl;
 
 		this.dls = 0;
-		this.likes = 0;
-		this.dislikes = 0;
+		this.likes = [];
+		this.dislikes = [];
+		this.favs = [];
 	}
 }

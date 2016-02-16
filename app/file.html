@@ -1,4 +1,4 @@
-<div *ngIf="editingComplete" class="alert alert-success alert-dismissible fade in" role="alert">
+<div *ngIf="fileEdited" class="alert alert-success alert-dismissible fade in" role="alert">
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
@@ -57,7 +57,15 @@
 				<i class="fa fa-thumbs-up"></i> Rating: 
 			</td>
 			<td>
-				<button type="button" class="btn btn-success-outline" (click)="liked(file.likes)" [disabled]="!auth.loggedIn"><i class="fa fa-thumbs-up"></i> {{file.likes}}</button> <button type="button" class="btn btn-danger-outline" (click)="disliked(file.dislikes)" [disabled]="!auth.loggedIn"><i class="fa fa-thumbs-down"></i> {{file.dislikes}}</button>
+				<button type="button" class="btn" [ngClass]="{'btn-success':fileRated, 'btn-success-outline':!fileRated}" [disabled]="!auth.loggedIn || fileRated" (click)="rate(1)"><i class="fa fa-thumbs-up"></i> {{file.likes.length}}</button> <button type="button" class="btn" [ngClass]="{'btn-danger':fileRated, 'btn-danger-outline':!fileRated}" [disabled]="!auth.loggedIn || fileRated" (click)="rate(-1)"><i class="fa fa-thumbs-down"></i> {{file.dislikes.length}}</button>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<i class="fa fa-heart"></i> Favorite:
+			</td>
+			<td>
+				<button type="button" class="btn" [ngClass]="{'btn-danger':fileFaved, 'btn-danger-outline':!fileFaved}" [disabled]="!auth.loggedIn || fileFaved" (click)="rate(0)"><i class="fa fa-heart"></i> {{file.favs.length}}</button>
 			</td>
 		</tr>
 		<tr>
@@ -127,16 +135,34 @@
 			</tr>
 			<tr>
 				<td>
-					<i class="fa fa-thumbs-up"></i> Rating: 
+					<i class="fa fa-thumbs-up"></i> Likes: 
 				</td>
 				<td>
-					<div class="input-group col-xs-3" [ngClass]="{'has-success':likes.valid}">
+					<div class="input-group" [ngClass]="{'has-success':likes.valid}">
 						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-up"></i></span>
-						<input class="form-control" type="number" min="0" [(ngModel)]="file.likes" ngControl="likes" #likes="ngForm" required />
+						<input class="form-control" type="text" [(ngModel)]="file.likes" ngControl="likes" #likes="ngForm" />
 					</div>
-					<div class="input-group col-xs-3" [ngClass]="{'has-success':dislikes.valid}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<i class="fa fa-thumbs-down"></i> Dislikes: 
+				</td>
+				<td>
+					<div class="input-group" [ngClass]="{'has-success':dislikes.valid}">
 						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-thumbs-down"></i></span>
-						<input class="form-control" type="number" min="0" [(ngModel)]="file.dislikes" ngControl="dislikes" #dislikes="ngForm" required />
+						<input class="form-control" type="text" [(ngModel)]="file.dislikes" ngControl="dislikes" #dislikes="ngForm" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<i class="fa fa-heart"></i> Favorites: 
+				</td>
+				<td>
+					<div class="input-group" [ngClass]="{'has-success':favs.valid}">
+						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-heart"></i></span>
+						<input class="form-control" type="text" [(ngModel)]="file.favs" ngControl="favs" #favs="ngForm" />
 					</div>
 				</td>
 			</tr>
