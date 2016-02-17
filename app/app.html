@@ -1,26 +1,26 @@
 <nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand" [routerLink]="['Home']"><i class="fa fa-bars"></i></a>
+    <!-- <a class="navbar-brand" [routerLink]="['Home']"><i class="fa fa-bars"></i></a> -->
     <ul class="nav navbar-nav">
         <li class="nav-item active">
-            <a class="nav-link" [routerLink]="['Home']">Home</a>
+            <a class="nav-link" [routerLink]="['Home']"><i class="fa fa-home"></i> Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" [routerLink]="['Categories']">Categories</a>
+            <a class="nav-link" [routerLink]="['Categories']"><i class="fa fa-list-alt"></i> Categories</a>
         </li>
         <li *ngIf="auth.loggedIn" class="nav-item">
-            <a class="nav-link" [routerLink]="['Upload']">Control Panel</a>
+            <a class="nav-link" [routerLink]="['Profile']"><i class="fa fa-user"></i> Profile</a>
         </li>
         <li *ngIf="auth.loggedIn" class="nav-item">
-            <a class="nav-link" [routerLink]="['Profile']">Profile</a>
-        </li>
-        <li *ngIf="auth.loggedIn" class="nav-item">
-            <a class="nav-link" [routerLink]="['Logout']">Logout</a>
+            <a class="nav-link" [routerLink]="['Upload']"><i class="fa fa-cogs"></i> Control Panel</a>
         </li>
         <li *ngIf="!auth.loggedIn" class="nav-item">
-            <a class="nav-link" [routerLink]="['Login']">Login</a>
+            <a class="nav-link" [routerLink]="['Login']"><i class="fa fa-sign-in"></i> Login</a>
+        </li>
+        <li *ngIf="auth.loggedIn" class="nav-item">
+            <a class="nav-link" [routerLink]="['Logout']"><i class="fa fa-sign-out"></i> Logout</a>
         </li>
         <li *ngIf="!auth.loggedIn" class="nav-item">
-            <a class="nav-link" [routerLink]="['Register']">Register</a>
+            <a class="nav-link" [routerLink]="['Register']"><i class="fa fa-user-plus"></i> Register</a>
         </li>
     </ul>
 </nav>

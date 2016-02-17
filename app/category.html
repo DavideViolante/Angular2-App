@@ -45,7 +45,7 @@
 </nav>
 
 
-<div class="row container">
+<div class="container" style="background-color:#F7F7F9">
 	<div *ngIf="files.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
 	<span *ngFor="#file of files | filter:query:'name' | sort:nameOrder:'name' | sort:dlsOrder:'dls' | sort:ratingOrder:'likes' | sort:favsOrder:'favs'; #i=index">
 		<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">

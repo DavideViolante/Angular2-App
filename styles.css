@@ -69,8 +69,11 @@ a.linkInfo {
     color: #eee;
 }
 
-ul.authorList {
+ul {
     list-style: none;
+}
+
+ul.authorList {
     margin: 0;
     padding: 0;
 }
