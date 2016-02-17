@@ -3,13 +3,15 @@ import {Pipe} from 'angular2/core';
 @Pipe({ name: 'filter' })
 
 export class FilterPipe {
-	transform(array, query: string) {
-		if (query[0] === "" || query[0].length < 2) {
+	// args[0]: query
+	// args[1]: field
+	transform(array, args: string[]) {
+		if (args[0] === "" || args[0].length < 2) {
 			return array;
 		} else {
-			// if file name contains the query
+			// if the field contains the query
 			return array.filter(elem => 
-				elem.name.toLowerCase().indexOf(query[0].toLowerCase()) > -1);
+				elem[args[1]].toLowerCase().indexOf(args[0].toLowerCase()) > -1);
 		}
 	}
 }

@@ -4,62 +4,64 @@
 	</div>
 	<div class="card-block">
 
-	<div class="col-md-8 col-centered">
+		<div class="col-md-8 col-centered">
 
-		<form (ngSubmit)="onSubmit(fileForm.form.value)" #fileForm="ngForm">
+			<form (ngSubmit)="onSubmit(fileForm.form.value)" #fileForm="ngForm">
 
-			<div class="input-group" [ngClass]="{'has-success':name.valid}">
-				<span class="input-group-addon"><i class="fa fa-file"></i></span>
-					<input type="text" class="form-control" placeholder="Name" ngControl="name" #name="ngForm" required>
-			</div>
-			<br />
-
-			<div class="input-group" [ngClass]="{'has-success':authors.valid}">
-				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Author 1, Author 2, ..." ngControl="authors" #authors="ngForm" required>
-			</div>
-			<br />
-
-			<div class="input-group" [ngClass]="{'has-success':cat.valid}">
-				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-list"></i></span>
-					<select class="form-control" ngControl="cat" #cat="ngForm" required>
-						<optgroup label="Select the category">
-							<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
-						</optgroup>
-					</select>
-			</div>
-			<br />
-
-
-			<div class="row">
-				<div *ngFor="#c of imgurlCount; #i=index" class="input-group col-md-10 imgurlInput" [ngClass]="{'has-success':imgurl.valid}">
-					<span class="input-group-addon"><i class="fa fa-image"></i></span>
-						<input type="url" class="form-control" placeholder="Image URL" ngControl="imgurl{{i}}" #imgurl="ngForm" required>
-					<br />
+				<div class="input-group" [ngClass]="{'has-success':name.valid}">
+					<span class="input-group-addon"><i class="fa fa-file"></i></span>
+						<input type="text" class="form-control" placeholder="Name" ngControl="name" #name="ngForm" required>
 				</div>
-				<div class="col-md-3 buttonPlusMinus">
-					<button type="button" class="btn btn-success inline" (click)="addImgurlForm()" [disabled]="imgurlCount.length>=10"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-danger" (click)="removeImgurlForm()" [disabled]="imgurlCount.length<=1"><i class="fa fa-minus"></i></button>
-					<br /><br />
-				</div>
-			</div>
+				<br />
 
-			<div class="input-group" [ngClass]="{'has-success':dlurl.valid}">
-				<span class="input-group-addon"><i class="fa fa-link"></i></span>
-					<input type="url" class="form-control" placeholder="Download URL" ngControl="dlurl" #dlurl="ngForm" required>
-			</div>
+				<div class="input-group" [ngClass]="{'has-success':authors.valid}">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" class="form-control" placeholder="Author 1, Author 2, ..." ngControl="authors" #authors="ngForm" required>
+				</div>
+				<br />
+
+				<div class="input-group" [ngClass]="{'has-success':cat.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-list"></i></span>
+						<select class="form-control" ngControl="cat" #cat="ngForm" required>
+							<optgroup label="Select the category">
+								<option *ngFor="#cat of cats" [value]="cat.name">{{cat.name}}</option>
+							</optgroup>
+						</select>
+				</div>
+				<br />
+
+
+				<div class="row">
+					<div *ngFor="#c of imgurlCount; #i=index" class="input-group col-md-10 imgurlInput" [ngClass]="{'has-success':imgurl.valid}">
+						<span class="input-group-addon"><i class="fa fa-image"></i></span>
+							<input type="url" class="form-control" placeholder="Image URL" ngControl="imgurl{{i}}" #imgurl="ngForm" required>
+						<br />
+					</div>
+					<div class="col-md-3 buttonPlusMinus">
+						<button type="button" class="btn btn-success inline" (click)="addImgurlForm()" [disabled]="imgurlCount.length>=10"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-danger" (click)="removeImgurlForm()" [disabled]="imgurlCount.length<=1"><i class="fa fa-minus"></i></button>
+						<br /><br />
+					</div>
+				</div>
+
+				<div class="input-group" [ngClass]="{'has-success':dlurl.valid}">
+					<span class="input-group-addon"><i class="fa fa-link"></i></span>
+						<input type="url" class="form-control" placeholder="Download URL" ngControl="dlurl" #dlurl="ngForm" required>
+				</div>
+				<br />
+
+				<button type="submit" class="btn" [ngClass]="{'btn-primary':fileForm.form.valid}" [disabled]="!fileForm.form.valid">Submit</button>
+				<button type="reset" class="btn btn-warning">Reset</button>
+
+			</form>
+
 			<br />
 
-			<button type="submit" class="btn" [ngClass]="{'btn-primary':fileForm.form.valid}" [disabled]="!fileForm.form.valid">Submit</button>
-			<button type="reset" class="btn btn-warning">Reset</button>
+		</div>
 
-		</form>
-
-		<br />
-
-	</div>
-
-	<div [hidden]="!formSubmitted" class="alert alert-success" role="alert">
-		<i class="fa fa-check-circle"></i> File added successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+		<div [hidden]="!formSubmitted" class="alert alert-success" role="alert">
+			<i class="fa fa-check-circle"></i> File added successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+		</div>
+		
 	</div>
 
 </div>

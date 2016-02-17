@@ -15,8 +15,6 @@ import {FileComponent} from './file.component';
 
 import {AuthenticationComponent} from './account/authentication.component';
 
-//import {UserModel} from './model/user-model';
-
 @Component({
     selector: 'app',
     templateUrl: 'app/app.html',

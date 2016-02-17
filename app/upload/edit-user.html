@@ -1,0 +1,78 @@
+<div class="card text-xs-center">
+	<div class="card-header">
+		Edit user
+	</div>
+	<div class="card-block">
+		
+		<div class="input-group col-md-5 col-centered">
+			<span class="input-group-addon search-input"><i class="fa fa-search"></i></span>
+			<input class="form-control" type="text" [(ngModel)]="query" placeholder="Filter (2+ characters)">
+			<span class="input-group-addon search-input" (click)="resetSearch()"><i class="fa fa-times"></i></span>
+		</div>
+		<br />
+
+		<div *ngIf="query.length>1" class="col-md-5 col-centered">
+			<ul>
+				<li><h4>Results:</h4></li>
+				<li *ngFor="#user of users | filter:query:'username'">
+					<a href="javascript:false" (click)="userClicked(user)">{{user.username}}</a>
+				</li>
+			</ul>
+			<form *ngIf="userSelected" (ngSubmit)="onSubmit(user)" #userForm="ngForm">
+				<div class="input-group" [ngClass]="{'has-success':id.valid}">
+					<span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
+						<input type="number" class="form-control" [(ngModel)]="user.id" placeholder="User ID" ngControl="id" #id="ngForm" required disabled>
+				</div>
+				<br />
+
+				<div class="input-group" [ngClass]="{'has-success':username.valid}">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" class="form-control" [(ngModel)]="user.username" placeholder="Username" ngControl="username" #username="ngForm" required>
+				</div>
+				<br />
+				
+				<div class="input-group" [ngClass]="{'has-success':password.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+						<input type="password" class="form-control" [(ngModel)]="user.password" placeholder="Password" ngControl="password" #password="ngForm" required disabled>
+				</div>
+				<br />
+
+				<div class="input-group" [ngClass]="{'has-success':email.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-at"></i></span>
+						<input type="email" class="form-control" [(ngModel)]="user.email" placeholder="Email" ngControl="email" #email="ngForm" required>
+				</div>
+				<br />
+
+				<div class="input-group" [ngClass]="{'has-success':role.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-users"></i></span>
+						<select class="form-control" [(ngModel)]="user.role" ngControl="role" #role="ngForm" required>
+							<optgroup label="Select the role">
+								<option value="user">User</option>
+								<option value="admin">Admin</option>
+							</optgroup>
+						</select>
+				</div>
+				<br />
+
+				<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Edit user</button>
+
+			</form>
+
+			<br />
+
+		</div>
+
+		<div [hidden]="!usernameAlreadyExists || formSubmitted" class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-circle"></i> Username already exists!
+		</div>
+
+		<div [hidden]="!formSubmitted" class="alert alert-success alert-dismissible fade in" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<i class="fa fa-check-circle"></i> User edited successfully!
+		</div>
+	
+	</div>
+
+</div>

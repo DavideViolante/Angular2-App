@@ -25,10 +25,10 @@ th.fileTitle {
     vertical-align: middle;
 }
 
-ul {
+/*ul {
     list-style: none;
     margin: 0px 0px 0px -40px;
-}
+}*/
 
 div.buttonPlusMinus {
     padding: 0;
@@ -69,13 +69,13 @@ a.linkInfo {
     color: #eee;
 }
 
+ul.authorList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 ul.authorList li {
     display: inline;
-}
-
-ul.pagesCenter {
-    margin: 0 auto;
-    display: table;
 }
 
 img.fileMainScreen {

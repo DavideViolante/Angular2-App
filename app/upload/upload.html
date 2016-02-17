@@ -12,6 +12,7 @@
 			<td>
 				<button type="button" class="btn btn-primary" *ngIf="auth.loggedIn" [routerLink]="['AddFile']">Add file <i class="fa fa-file-text"></i></button>
 				<button type="button" class="btn btn-primary" *ngIf="auth.loggedIn && auth.isAdmin" [routerLink]="['AddUser']">Add user <i class="fa fa-user-plus"></i></button>
+				<button type="button" class="btn btn-primary" *ngIf="auth.loggedIn && auth.isAdmin" [routerLink]="['EditUser']">Edit user <i class="fa fa-user-plus"></i></button>
 				<button type="button" class="btn btn-primary" *ngIf="auth.loggedIn && auth.isAdmin" [routerLink]="['AddCategory']">Add category <i class="fa fa-list-ul"></i></button>
 			</td>
 		</tr>

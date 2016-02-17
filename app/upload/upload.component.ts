@@ -6,6 +6,7 @@ import {MongoAPIService} from '../service/mongoapi.service';
 import {UploadHomeComponent} from './upload-home.component';
 import {AddFileComponent} from './add-file.component';
 import {AddUserComponent} from './add-user.component';
+import {EditUserComponent} from './edit-user.component';
 import {AddCategoryComponent} from './add-category.component';
 
 import {isLoggedIn} from '../account/is-logged-in';
@@ -21,6 +22,7 @@ import {AuthenticationComponent} from '../account/authentication.component';
 	{ path: '/', name: 'UploadHome', component: UploadHomeComponent, useAsDefault: true},
 	{ path: '/add-file', name: 'AddFile', component: AddFileComponent },
 	{ path: '/add-user', name: 'AddUser', component: AddUserComponent },
+	{ path: '/edit-user', name: 'EditUser', component: EditUserComponent },
 	{ path: '/add-category', name: 'AddCategory', component: AddCategoryComponent }
 ])
 

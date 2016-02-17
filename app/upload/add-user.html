@@ -4,56 +4,58 @@
 	</div>
 	<div class="card-block">
 
-	<div class="col-md-5 col-centered">
+		<div class="col-md-5 col-centered">
 
-		<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
-			<div class="input-group" [ngClass]="{'has-success':username.valid}">
-				<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" required>
-			</div>
+			<form (ngSubmit)="onSubmit(userForm.form.value)" #userForm="ngForm">
+				<div class="input-group" [ngClass]="{'has-success':username.valid}">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" class="form-control" placeholder="Username" ngControl="username" #username="ngForm" required>
+				</div>
+				<br />
+				
+				<div class="input-group" [ngClass]="{'has-success':password.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+						<input type="password" class="form-control" placeholder="Password" ngControl="password" #password="ngForm" required>
+				</div>
+				<br />
+
+				<div class="input-group" [ngClass]="{'has-success':email.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-at"></i></span>
+						<input type="email" class="form-control" placeholder="Email" ngControl="email" #email="ngForm" required>
+				</div>
+				<br />
+
+				<div class="input-group" [ngClass]="{'has-success':role.valid}">
+					<span class="input-group-addon" id="basic-addon1"><i class="fa fa-users"></i></span>
+						<select class="form-control" ngControl="role" #role="ngForm" required>
+							<optgroup label="Select the role">
+								<option value="user">User</option>
+								<option value="admin">Admin</option>
+							</optgroup>
+						</select>
+				</div>
+				<br />
+
+				<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Add user</button>
+				<button type="reset" class="btn btn-warning">Reset</button>
+
+			</form>
+
 			<br />
-			
-			<div class="input-group" [ngClass]="{'has-success':password.valid}">
-				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-					<input type="password" class="form-control" placeholder="Password" ngControl="password" #password="ngForm" required>
-			</div>
-			<br />
 
-			<div class="input-group" [ngClass]="{'has-success':email.valid}">
-				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-at"></i></span>
-					<input type="email" class="form-control" placeholder="Email" ngControl="email" #email="ngForm" required>
-			</div>
-			<br />
+		</div>
 
-			<div class="input-group" [ngClass]="{'has-success':role.valid}">
-				<span class="input-group-addon" id="basic-addon1"><i class="fa fa-users"></i></span>
-					<select class="form-control" ngControl="role" #role="ngForm" required>
-						<optgroup label="Select the role">
-							<option value="user">User</option>
-							<option value="admin">Admin</option>
-						</optgroup>
-					</select>
-			</div>
-			<br />
+		<div [hidden]="!usernameAlreadyExists || formSubmitted" class="alert alert-danger" role="alert">
+			<i class="fa fa-exclamation-circle"></i> Username already exists!
+		</div>
 
-			<button type="submit" class="btn" [ngClass]="{'btn-primary':userForm.form.valid}" [disabled]="!userForm.form.valid">Add user</button>
-			<button type="reset" class="btn btn-warning">Reset</button>
+		<div [hidden]="!formSubmitted" class="alert alert-success alert-dismissible fade in" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<i class="fa fa-check-circle"></i> User added successfully!
+		</div>
 
-		</form>
-
-		<br />
-
-	</div>
-
-	<div [hidden]="!usernameAlreadyExists || formSubmitted" class="alert alert-danger" role="alert">
-		<i class="fa fa-exclamation-circle"></i> Username already exists!
-	</div>
-
-	<div [hidden]="!formSubmitted" class="alert alert-success alert-dismissible fade in" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<i class="fa fa-check-circle"></i> User added successfully!
 	</div>
 
 </div>

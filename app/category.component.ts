@@ -24,6 +24,7 @@ export class CategoryComponent implements CanReuse {
 	private nameOrder = 1; // ASCending order
 	private dlsOrder = 0; // no order
 	private ratingOrder = 0;
+	private favsOrder = 0;
 
 	private query = "";
 
@@ -54,19 +55,20 @@ export class CategoryComponent implements CanReuse {
 		);
 
 		if (this.routeParams.get("sortname")) {
-			this.ratingOrder = 0;
-			this.dlsOrder = 0;
+			this.ratingOrder = this.dlsOrder = this.favsOrder = 0;
 			this.routeParams.get("sortname") === "asc" ? this.nameOrder = 1 : this.nameOrder = -1;
 		}
 		if (this.routeParams.get("sortdls")) {
-			this.nameOrder = 0;
-			this.ratingOrder = 0;
+			this.nameOrder = this.ratingOrder = this.favsOrder = 0;
 			this.routeParams.get("sortdls") === "desc" ? this.dlsOrder = -1 : this.dlsOrder = 1;
 		}
 		if (this.routeParams.get("sortrating")) {
-			this.nameOrder = 0;
-			this.dlsOrder = 0;
+			this.nameOrder = this.dlsOrder = this.favsOrder = 0;
 			this.routeParams.get("sortrating") === "desc" ? this.ratingOrder = -1 : this.ratingOrder = 1;
+		}
+		if (this.routeParams.get("sortfavs")) {
+			this.nameOrder = this.dlsOrder = this.ratingOrder = 0;
+			this.routeParams.get("sortfavs") === "desc" ? this.favsOrder = -1 : this.favsOrder = 1;
 		}
 		// gotta figure out how to make this work...
 		/*if (this.routeParams.get("page")) {
@@ -120,8 +122,7 @@ export class CategoryComponent implements CanReuse {
 	switchNameOrder() {
 		// Back on first page
 		this.firstPageValues();
-		this.ratingOrder = 0;
-		this.dlsOrder = 0;
+		this.ratingOrder = this.dlsOrder = this.favsOrder = 0;
 		if (this.nameOrder > 0) {
 			this.nameOrder = -1;
 			this.router.navigate(['Category', { catname: this.catname, sortname: "desc" }]);
@@ -133,8 +134,7 @@ export class CategoryComponent implements CanReuse {
 	switchDlsOrder() {
 		// Back on first page
 		this.firstPageValues();
-		this.ratingOrder = 0;
-		this.nameOrder = 0;
+		this.ratingOrder = this.nameOrder = this.favsOrder = 0;
 		if (this.dlsOrder < 0) {
 			this.dlsOrder = 1;
 			this.router.navigate(['Category', { catname: this.catname, sortdls: "asc" }]);
@@ -146,14 +146,26 @@ export class CategoryComponent implements CanReuse {
 	switchRatingOrder() {
 		// Back on first page
 		this.firstPageValues();
-		this.nameOrder = 0;
-		this.dlsOrder = 0;
+		this.nameOrder = this.dlsOrder = this.favsOrder = 0;
 		if (this.ratingOrder < 0) {
 			this.ratingOrder = 1;
 			this.router.navigate(['Category', { catname: this.catname, sortrating: "asc" }]);
 		} else {
 			this.ratingOrder = -1;
 			this.router.navigate(['Category', { catname: this.catname, sortrating: "desc" }]);
+		}
+	}
+
+	switchFavsOrder() {
+		// Back on first page
+		this.firstPageValues();
+		this.nameOrder = this.dlsOrder = this.ratingOrder = 0;
+		if (this.favsOrder < 0) {
+			this.favsOrder = 1;
+			this.router.navigate(['Category', { catname: this.catname, sortfavs: "asc" }]);
+		} else {
+			this.favsOrder = -1;
+			this.router.navigate(['Category', { catname: this.catname, sortfavs: "desc" }]);
 		}
 	}
 }
