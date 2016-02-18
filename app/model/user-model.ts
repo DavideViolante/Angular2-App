@@ -4,6 +4,7 @@ export class UserModel {
 	password: string;
 	email: string;
 	role: string;
+	joined: number;
 	session: string;
 
 	constructor(id?: number, username?: string, password?: string, email?: string, role?: string, session?: string) {
@@ -12,6 +13,7 @@ export class UserModel {
 		this.password = password;
 		this.email = email;
 		this.role = role;
+		this.joined = Date.now();
 		this.session = session;
 	}
 }

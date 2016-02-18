@@ -21,10 +21,9 @@ export class CategoryComponent implements CanReuse {
 	private files = new Array<Object>();
 	private catname = "";
 
-	private nameOrder = 1; // ASCending order
-	private dlsOrder = 0; // no order
-	private ratingOrder = 0;
-	private favsOrder = 0;
+	// 1: ASC, -1: DESC, 0: no sorting
+	private sortWay = 1;
+	private sortField = "name";
 
 	private query = "";
 
@@ -54,23 +53,13 @@ export class CategoryComponent implements CanReuse {
 			data => this.files = data
 		);
 
-		if (this.routeParams.get("sortname")) {
-			this.ratingOrder = this.dlsOrder = this.favsOrder = 0;
-			this.routeParams.get("sortname") === "asc" ? this.nameOrder = 1 : this.nameOrder = -1;
+		var par = this.routeParams.get("sort");
+		if(par) {
+			this.sortField = par.substr(0,par.length-1);
+			par.charAt(par.length-1) === "+" ? this.sortWay = 1 : this.sortWay = -1;
 		}
-		if (this.routeParams.get("sortdls")) {
-			this.nameOrder = this.ratingOrder = this.favsOrder = 0;
-			this.routeParams.get("sortdls") === "desc" ? this.dlsOrder = -1 : this.dlsOrder = 1;
-		}
-		if (this.routeParams.get("sortrating")) {
-			this.nameOrder = this.dlsOrder = this.favsOrder = 0;
-			this.routeParams.get("sortrating") === "desc" ? this.ratingOrder = -1 : this.ratingOrder = 1;
-		}
-		if (this.routeParams.get("sortfavs")) {
-			this.nameOrder = this.dlsOrder = this.ratingOrder = 0;
-			this.routeParams.get("sortfavs") === "desc" ? this.favsOrder = -1 : this.favsOrder = 1;
-		}
-		// gotta figure out how to make this work...
+
+		// TODO: add pages in url
 		/*if (this.routeParams.get("page")) {
 			var page = +this.routeParams.get("page");
 			for (var i = 1; i < page; i++)
@@ -119,55 +108,18 @@ export class CategoryComponent implements CanReuse {
 		this.noMoreNext = false;
 	}
 
-	switchNameOrder() {
-		// Back on first page
-		this.firstPageValues();
-		this.ratingOrder = this.dlsOrder = this.favsOrder = 0;
-		if (this.nameOrder > 0) {
-			this.nameOrder = -1;
-			this.router.navigate(['Category', { catname: this.catname, sortname: "desc" }]);
+	switchSort(field) {
+		this.firstPageValues();	// Back on first page
+		this.sortField = field;
+		if (this.sortWay < 0) {
+			this.sortWay = 1;
+			this.router.navigate(['Category', { catname: this.catname, sort: field+"+" }]);
 		} else {
-			this.nameOrder = 1;
-			this.router.navigate(['Category', { catname: this.catname, sortname: "asc" }]);
+			this.sortWay = -1;
+			this.router.navigate(['Category', { catname: this.catname, sort: field+"-" }]);
 		}
 	}
-	switchDlsOrder() {
-		// Back on first page
-		this.firstPageValues();
-		this.ratingOrder = this.nameOrder = this.favsOrder = 0;
-		if (this.dlsOrder < 0) {
-			this.dlsOrder = 1;
-			this.router.navigate(['Category', { catname: this.catname, sortdls: "asc" }]);
-		} else {
-			this.dlsOrder = -1;
-			this.router.navigate(['Category', { catname: this.catname, sortdls: "desc" }]);
-		}
-	}
-	switchRatingOrder() {
-		// Back on first page
-		this.firstPageValues();
-		this.nameOrder = this.dlsOrder = this.favsOrder = 0;
-		if (this.ratingOrder < 0) {
-			this.ratingOrder = 1;
-			this.router.navigate(['Category', { catname: this.catname, sortrating: "asc" }]);
-		} else {
-			this.ratingOrder = -1;
-			this.router.navigate(['Category', { catname: this.catname, sortrating: "desc" }]);
-		}
-	}
-
-	switchFavsOrder() {
-		// Back on first page
-		this.firstPageValues();
-		this.nameOrder = this.dlsOrder = this.ratingOrder = 0;
-		if (this.favsOrder < 0) {
-			this.favsOrder = 1;
-			this.router.navigate(['Category', { catname: this.catname, sortfavs: "asc" }]);
-		} else {
-			this.favsOrder = -1;
-			this.router.navigate(['Category', { catname: this.catname, sortfavs: "desc" }]);
-		}
-	}
+	
 }
 
 /*if (fileCache.cat.indexOf(this.catname) === -1)

@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {FileModel} from './model/file-model';
+import {CommentModel} from './model/comment-model';
 
 import {MongoAPIService} from './service/mongoapi.service';
 
@@ -19,7 +20,10 @@ export class FileComponent {
 	private fileid = "";
 	private userid = localStorage.getItem("id");
 	private catname = "";
-	private cats = new Array<string>();
+	private cats = [];
+	private comment = new CommentModel();
+	private commentBody = "";
+	private comments = [];
 
 	private mainScreen;
 	private isSelected = false;
@@ -42,7 +46,7 @@ export class FileComponent {
 		this.catname = this.routeParams.get("catname");
 
 		// get the file from the ID
-		this.service.mongoSelect('files', '{id:' + this.fileid + '}').subscribe(
+		this.service.mongoSelect("files", "{id:" + this.fileid + "}").subscribe(
 			data => {
 				this.file = data[0];
 				this.mainScreen = data[0].imgurl[0];
@@ -51,9 +55,15 @@ export class FileComponent {
 			}
 		);
 
-		this.service.mongoSelect('cats', '').subscribe(
+		this.service.mongoSelect("cats", "").subscribe(
 			data => this.cats = data
 		);
+
+		this.service.mongoSelect("comments", "{file:"+this.fileid+"}").subscribe(
+			data => this.comments = data
+		);
+
+		
 
 	}
 
@@ -95,6 +105,17 @@ export class FileComponent {
 	downloaded(dls) {
 		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dls: dls + 1 }).subscribe();
 		this.file.dls++;
+	}
+
+	commented(body) {
+		this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
+			data => {
+				this.comment = new CommentModel(+this.fileid, data[0].username, body);
+				this.service.mongoInsert("comments", this.comment).subscribe();
+				this.comments.push(this.comment);
+			}
+		);
+		this.commentBody = ""; // clear the textarea after sent
 	} 
 
 	editFile() {

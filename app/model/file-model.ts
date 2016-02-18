@@ -1,19 +1,17 @@
-import {Injectable} from 'angular2/core';
-
-@Injectable();
-
 export class FileModel {
 	id: number;
 	name: string;
 	cat: string;
-	authors: Array<string> = [];
-	dls: number;
-	likes: Array<number> = [];
-	dislikes: Array<number> = [];
-	favs: Array<number> = [];
-	imgurl: Array<string> = [];
-	//private youtubeurl: Array<string> = [];
+	authors = [];
+	imgurl = [];
 	dlurl: string;
+
+	dls: number;
+	likes = [];
+	dislikes = [];
+	favs = [];
+
+	added: number; // date in epoch format
 
 	constructor(id?: number, name?: string, cat?: string, authors?: Array<string>, imgurl?: Array<string>, dlurl?: string) {
 		this.id = id;
@@ -27,5 +25,7 @@ export class FileModel {
 		this.likes = [];
 		this.dislikes = [];
 		this.favs = [];
+
+		this.added = Date.now();
 	}
 }

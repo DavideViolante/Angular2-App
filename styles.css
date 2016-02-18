@@ -1,5 +1,5 @@
 body {
-    margin: 20px auto 20px auto;
+    margin: 20px auto 75px auto;
     max-width: 992px;
 }
 
@@ -49,6 +49,7 @@ div.thumbImg {
     background-size: cover;
     background-position: 50% 50%;
     opacity: 0.92;
+
 }
 
 div.thumbImg:hover {

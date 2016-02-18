@@ -46,6 +46,14 @@
 		</tr>
 		<tr>
 			<td>
+				<i class="fa fa-calendar"></i> Date added:
+			</td>
+			<td>
+				{{file.added | date:'short'}}
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<i class="fa fa-download"></i> Downloads:
 			</td>
 			<td>
@@ -73,9 +81,7 @@
 				<a class="dlurl" target="_blank" href="{{file.dlurl}}"><button type="button" class="btn btn-primary btn-lg" (click)="downloaded(file.dls)"><i class="fa fa-download"></i> Download</button></a>
 			</td>
 		</tr>
-	</tbody>
 </table>
-
 
 <form *ngIf="isEditing" (ngSubmit)="isEditingDone(file)" #fileFormEdit="ngForm">
 	<table class="table table-bordered table-striped">
@@ -98,7 +104,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><i class="fa fa-file"></i> Images:</td>
+				<td><i class="fa fa-image"></i> Images:</td>
 				<td>
 					<div [ngClass]="{'has-success':imgurl.valid}">
 						 <textarea rows="4" class="form-control imgurlEdit" [(ngModel)]="file.imgurl" ngControl="imgurl" #imgurl="ngForm" required></textarea>
@@ -177,3 +183,44 @@
 		</tbody>
 	</table>
 </form>
+
+
+<table *ngIf="comments.length>0" class="table table-bordered table-striped">
+	<thead class="thead-default">
+		<tr>
+			<th colspan="2">
+				<i class="fa fa-comments"></i> Comments ({{comments.length}})
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr *ngFor="#comment of comments">
+			<td colspan="2">
+				<strong>{{comment.user}}:</strong> {{comment.body}} <small class="pull-right">{{comment.added | date:'short'}}</small>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table table-bordered table-striped">
+	<thead class="thead-default">
+		<tr>
+			<th colspan="2">
+				<i class="fa fa-commenting"></i> New comment
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td width="90%">
+				<textarea class="form-control" rows="3" [(ngModel)]="commentBody" [disabled]="!auth.loggedIn" [placeholder]="!auth.loggedIn ? 'You need to be logged in to add new comments' : 'Insert your comment... (3+ characters)'"></textarea>
+			</td>
+			<td class="text-center">
+				<button type="button" class="btn btn-primary" (click)="commented(commentBody)" [disabled]="commentBody.length<3">Send</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+

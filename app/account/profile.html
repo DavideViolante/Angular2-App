@@ -20,7 +20,15 @@
 		</tr>
 	</thead>
 
-	<tbody>
+	<tbody *ngIf="!user.id">
+		<tr>
+			<td colspan="2">
+				<i class="fa fa-spinner fa-spin"></i> Loading...
+			</td>
+		</tr>
+	</tbody>
+
+	<tbody *ngIf="user.id">
 		<tr>
 			<td width="20%">
 				<i class="fa fa-user"></i> Username: 
@@ -61,6 +69,14 @@
 			</td>
 			<td width="30%">
 				<button *ngIf="!changingEmail" type="button" class="btn btn-warning" (click)="changeEmail()"><i class="fa fa-pencil"></i> Edit</button> <button *ngIf="changingEmail" type="button" class="btn btn-warning" (click)="changeEmail()"><i class="fa fa-close"></i> Cancel</button> <button *ngIf="changingEmail" type="button" class="btn btn-success" (click)="changeEmailDone(user.email)"><i class="fa fa-check"></i> OK</button> 
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<i class="fa fa-calendar"></i> Joined: 
+			</td>
+			<td colspan="2">
+				{{user.joined | date:'short'}}
 			</td>
 		</tr>
 		<tr>

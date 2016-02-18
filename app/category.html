@@ -11,9 +11,10 @@
 		<li class="nav-item" style="float:right">
 			<div class="btn-group" role="group">
 				<button type="button" class="btn btn-secondary" disabled>Sort</button>
-				<button type="button" class="btn btn-secondary" (click)="switchNameOrder()"><i class="fa fa-file"></i> Name <i class="fa fa-sort"></i></button>
-				<button type="button" class="btn btn-secondary" (click)="switchDlsOrder()"><i class="fa fa-download"></i> Downloads <i class="fa fa-sort"></i></button><button type="button" class="btn btn-secondary" (click)="switchRatingOrder()"><i class="fa fa-thumbs-up"></i> Rating <i class="fa fa-sort"></i></button>
-				<button type="button" class="btn btn-secondary" (click)="switchFavsOrder()"><i class="fa fa-heart"></i> Favs <i class="fa fa-sort"></i></button>
+				<button type="button" class="btn btn-secondary" (click)="switchSort('name')"><i class="fa fa-file"></i> Name <i class="fa fa-sort"></i></button>
+				<button type="button" class="btn btn-secondary" (click)="switchSort('dls')"><i class="fa fa-download"></i> Downloads <i class="fa fa-sort"></i></button>
+				<button type="button" class="btn btn-secondary" (click)="switchSort('added')"><i class="fa fa-calendar"></i> Date <i class="fa fa-sort"></i></button>
+				<button type="button" class="btn btn-secondary" (click)="switchSort('likes')"><i class="fa fa-thumbs-up"></i> Rating <i class="fa fa-sort"></i></button>
 			</div>
 		</li>
 	</ul>
@@ -47,9 +48,9 @@
 
 <div class="container" style="background-color:#F7F7F9">
 	<div *ngIf="files.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
-	<span *ngFor="#file of files | filter:query:'name' | sort:nameOrder:'name' | sort:dlsOrder:'dls' | sort:ratingOrder:'likes' | sort:favsOrder:'favs'; #i=index">
+	<span *ngFor="#file of files | filter:query:'name' | sort:sortWay:sortField; #i=index">
 		<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
-			<div *ngIf="i>=skip && i<(skip+filesPerPage)" class="col-md-4 thumbImg" style="background-image:url({{file.imgurl[0]}})" >
+			<div *ngIf="i>=skip && i<(skip+filesPerPage)" class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">
 				<div class="infoBg">
 					{{file.name}}<br />
 					<i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;
