@@ -9,6 +9,7 @@ import {LogoutComponent} from './account/logout.component';
 import {RegisterComponent} from './account/register.component';
 import {ProfileComponent} from './account/profile.component';
 import {UploadComponent} from './upload/upload.component';
+import {UserComponent} from './user.component';
 import {CategoriesComponent} from './categories.component';
 import {CategoryComponent} from './category.component';
 import {FileComponent} from './file.component';
@@ -28,6 +29,7 @@ import {AuthenticationComponent} from './account/authentication.component';
     { path: '/account/logout', name: 'Logout', component: LogoutComponent },
     { path: '/account/register', name: 'Register', component: RegisterComponent },
     { path: '/upload/...', name: 'Upload', component: UploadComponent },
+    { path: '/user/:userid/:username', name: 'User', component: UserComponent },
     { path: '/category', name: 'Categories', component: CategoriesComponent },
     { path: '/category/:catname', name: 'Category', component: CategoryComponent },
     { path: '/category/:catname/:fileid/:filename', name: 'File', component: FileComponent },

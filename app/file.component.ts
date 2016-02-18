@@ -8,9 +8,12 @@ import {MongoAPIService} from './service/mongoapi.service';
 
 import {AuthenticationComponent} from './account/authentication.component';
 
+import {FilterPipe} from './pipe/filter-pipe';
+
 @Component({
     selector: 'file',
     templateUrl: 'app/file.html',
+    pipes: [FilterPipe],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -18,21 +21,25 @@ export class FileComponent {
 
 	private file = new FileModel();
 	private fileid = "";
+	
 	private userid = localStorage.getItem("id");
+	
 	private catname = "";
 	private cats = [];
+	
 	private comment = new CommentModel();
 	private commentBody = "";
 	private comments = [];
+	private filterComments = "";
+	private antiFlood = false;
+	private antiFloodTime = 10*1000;
 
 	private mainScreen;
 	private isSelected = false;
 
 	private isEditing = false;
 	private fileEdited = false;
-
 	private fileDeleted = false;
-
 	private fileFaved = false;
 	private fileRated = false;
 
@@ -62,8 +69,6 @@ export class FileComponent {
 		this.service.mongoSelect("comments", "{file:"+this.fileid+"}").subscribe(
 			data => this.comments = data
 		);
-
-		
 
 	}
 
@@ -116,15 +121,12 @@ export class FileComponent {
 			}
 		);
 		this.commentBody = ""; // clear the textarea after sent
+		this.antiFlood = true;
+		setTimeout(() => this.antiFlood = false, this.antiFloodTime);
 	} 
 
-	editFile() {
-		this.isEditing = true;
-	}
-
-	isEditingCancel() {
-		this.isEditing = false;
-	}
+	editFile() { this.isEditing = true; }
+	isEditingCancel() { this.isEditing = false; }
 
 	isEditingDone(file) {
 		if (typeof file.authors === "string") // if the authors array was edited

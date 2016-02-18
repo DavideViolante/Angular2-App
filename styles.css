@@ -25,10 +25,13 @@ th.fileTitle {
     vertical-align: middle;
 }
 
-/*ul {
-    list-style: none;
-    margin: 0px 0px 0px -40px;
-}*/
+table.table-small td, table.table-small th {
+    padding: 0.6em;
+}
+
+table.table thead th {
+    vertical-align: middle;
+}
 
 div.buttonPlusMinus {
     padding: 0;

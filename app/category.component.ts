@@ -41,16 +41,21 @@ export class CategoryComponent implements CanReuse {
 		this.catname = this.toTitleCase(this.catname);
 
 		// Counting the total number of files
-		this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(
+		/*this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => {
 				this.totFiles = data;
 				if ((this.skip + this.filesPerPage) <= this.totFiles)
 					this.noMoreNext = false;
 			}
-		);
+		);*/
 
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
-			data => this.files = data
+			data => {
+				this.files = data;
+				this.totFiles = data.length;
+				if ((this.skip + this.filesPerPage) <= this.totFiles)
+					this.noMoreNext = false;
+			}
 		);
 
 		var par = this.routeParams.get("sort");

@@ -22,6 +22,9 @@
         <li *ngIf="!auth.loggedIn" class="nav-item">
             <a class="nav-link" [routerLink]="['Register']"><i class="fa fa-user-plus"></i> Register</a>
         </li>
+        <li *ngIf="!auth.loggedIn" class="nav-item">
+            <a class="nav-link" [routerLink]="['User', {userid:3, username:'ysup12'}]"><i class="fa fa-user-plus"></i> User test</a>
+        </li>
     </ul>
 </nav>
 

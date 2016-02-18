@@ -1,0 +1,104 @@
+<!-- <div [hidden]="!emailChanged" class="alert alert-success alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<i class="fa fa-check-circle"></i> Email changed successfully!
+</div>
+<div [hidden]="!passwordChanged" class="alert alert-success alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<i class="fa fa-check-circle"></i> Password changed successfully!
+</div>
+ -->
+<table class="table table-bordered table-small">
+	<thead class="thead-default">
+		<tr>
+			<th colspan="4">
+				{{user?.username}}'s profile
+			</th>
+		</tr>
+	</thead>
+
+	<tbody *ngIf="!user.id">
+		<tr>
+			<td colspan="4">
+				<i class="fa fa-spinner fa-spin"></i> Loading...
+			</td>
+		</tr>
+	</tbody>
+
+	<tbody *ngIf="user.id">
+		<tr>
+			<td width="15%">
+				<i class="fa fa-user"></i> Username: 
+			</td>
+			<td width="35%">
+				{{user.username}} <span class="label label-primary">{{user.role}}</span>
+			</td>
+			<td width="15%">
+				<i class="fa fa-envelope"></i> Email: 
+			</td>
+			<td width="35%">
+				<a href="mailto:{{user.email}}">{{user.email}}</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<i class="fa fa-map-marker"></i> Location: 
+			</td>
+			<td>
+				{{user.location}}
+			</td>
+			<td>
+				<i class="fa fa-birthday-cake"></i> Birthday: 
+			</td>
+			<td>
+				{{user.birthday | date:'shortDate'}}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<i class="fa fa-link"></i> Website: 
+			</td>
+			<td>
+				<a target="_blank" href="{{user.website}}">{{user.website}}</a>
+			</td>
+			<td>
+				<i class="fa fa-calendar"></i> Joined: 
+			</td>
+			<td>
+				{{user.joined | date:'short'}}
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<table class="table table-bordered">
+	<thead class="thead-default">
+		<tr>
+			<th>
+				{{user?.username}}'s files ({{uploads.length}})
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<div class="container" style="background-color:#F7F7F9">
+			<div *ngIf="uploads.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+			<span *ngFor="#file of uploads #i=index">
+				<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
+					<div class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">
+						<div class="infoBg">
+							{{file.name}}<br />
+							<i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;
+							<i class="fa fa-download"></i> {{file.dls | number}} &nbsp;&nbsp;
+							<i class="fa fa-thumbs-up"></i> {{file.likes.length}} &nbsp;&nbsp;
+							<i class="fa fa-heart"></i> {{file.favs.length}}
+						</div>
+					</div>
+				</a>
+			</span>
+		</div>
+	</tbody>
+</table>

@@ -185,17 +185,22 @@
 </form>
 
 
-<table *ngIf="comments.length>0" class="table table-bordered table-striped">
+<table *ngIf="comments.length>0" class="table table-bordered table-striped table-small">
 	<thead class="thead-default">
 		<tr>
-			<th colspan="2">
-				<i class="fa fa-comments"></i> Comments ({{comments.length}})
+			<th>
+				<i class="fa fa-comments"></i> Comments <small>({{comments.length}})</small>
+			</th>
+			<th>
+				<div class="pull-right">
+					<input [(ngModel)]="filterComments" type="text" class="form-control" style="font-weight:normal" placeholder="Filter" />
+				</div>
 			</th>
 		</tr>
 	</thead>
 
 	<tbody>
-		<tr *ngFor="#comment of comments">
+		<tr *ngFor="#comment of comments | filter:filterComments:'body':'user'">
 			<td colspan="2">
 				<strong>{{comment.user}}:</strong> {{comment.body}} <small class="pull-right">{{comment.added | date:'short'}}</small>
 			</td>
@@ -203,7 +208,7 @@
 	</tbody>
 </table>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered">
 	<thead class="thead-default">
 		<tr>
 			<th colspan="2">
@@ -218,7 +223,7 @@
 				<textarea class="form-control" rows="3" [(ngModel)]="commentBody" [disabled]="!auth.loggedIn" [placeholder]="!auth.loggedIn ? 'You need to be logged in to add new comments' : 'Insert your comment... (3+ characters)'"></textarea>
 			</td>
 			<td class="text-center">
-				<button type="button" class="btn btn-primary" (click)="commented(commentBody)" [disabled]="commentBody.length<3">Send</button>
+				<button type="button" class="btn btn-primary" (click)="commented(commentBody)" [disabled]="commentBody.length<3 || antiFlood">Send</button>
 			</td>
 		</tr>
 	</tbody>
