@@ -27,13 +27,13 @@
 		</div>
 
 		<div [hidden]="!wrongUsername && !wrongPassword || correctCredentials" class="alert alert-danger" role="alert">
-			<i class="fa fa-exclamation-circle"></i> Wrong username or password!
+			<i class="fa fa-exclamation-circle"></i> {{msgWrongCredentials}}
 		</div>
 		<div [hidden]="!correctCredentials" class="alert alert-success" role="alert">
-			<i class="fa fa-check-circle"></i> You successfully logged in! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+			<i class="fa fa-check-circle"></i> {{msgLoggedin}} <i class="fa fa-spinner fa-spin"></i>
 		</div>
 		<div [hidden]="!auth.loggedIn || formSubmitted" class="alert alert-success" role="alert">
-			<i class="fa fa-check-circle"></i> You seem to be already logged in. <a [routerLink]="['Logout']">Logout</a> or <a href="javascript:location.reload()">Refresh</a>
+			<i class="fa fa-check-circle"></i> {{msgAlreadyLoggedin}} <a [routerLink]="['Logout']">Logout</a> or <a href="javascript:location.reload()">Refresh</a>
 		</div>
 		
 

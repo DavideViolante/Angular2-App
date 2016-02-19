@@ -27,6 +27,10 @@ export class ProfileComponent {
 	private emailChanged = false;
 	private passwordChanged = false;
 
+	// Info messages
+	private msgEmailChanged = "Email changed successfully!";
+	private msgPswChanged = "Password changed successfully!";
+
 	constructor(private auth: AuthenticationComponent,
 				private service: MongoAPIService) {
 		this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(

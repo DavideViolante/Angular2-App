@@ -22,6 +22,10 @@ export class EditUserComponent {
 	private userSelected = false;
 	private query = "";
 
+	// Info messages
+	private msgUsernameAlreadyExists = "Username already exists!";
+	private msgUserEdited = "User edited successfully!";
+
 	constructor(private service: MongoAPIService,
 				private router: Router) {
 		this.service.mongoSelect("users", "").subscribe(

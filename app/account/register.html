@@ -37,13 +37,13 @@
 	</div>
 
 	<div [hidden]="!usernameAlreadyExists || formSubmitted" class="alert alert-danger" role="alert">
-		<i class="fa fa-exclamation-circle"></i> Username already exists!
+		<i class="fa fa-exclamation-circle"></i> {{msgUsernameAlreadyExists}}
 	</div>
 	<div [hidden]="!passwordTooShort || formSubmitted" class="alert alert-danger" role="alert">
-		<i class="fa fa-exclamation-circle"></i> The password must be 6+ characters long!
+		<i class="fa fa-exclamation-circle"></i> {{msgPswTooShort}}
 	</div>
 	<div [hidden]="!formSubmitted" class="alert alert-success" role="alert">
-		<i class="fa fa-check-circle"></i> You successfully registered! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+		<i class="fa fa-check-circle"></i> {{msgRegistered}} <i class="fa fa-spinner fa-spin"></i>
 	</div>
 
 </div>

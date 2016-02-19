@@ -19,6 +19,11 @@ export class RegisterComponent {
 	private usernameAlreadyExists = false;
 	private passwordTooShort = false;
 
+	// Info messages
+	private msgUsernameAlreadyExists = "Username already exists!";
+	private msgPswTooShort = "The password must be 6+ characters long!";
+	private msgRegistered = "You successfully registered! Redirecting...";
+
 	constructor(private service: MongoAPIService,
 				private router: Router) { }
 

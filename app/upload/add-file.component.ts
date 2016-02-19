@@ -17,6 +17,9 @@ export class AddFileComponent {
 	private file: FileModel;
 	private imgurlCount = [1];
 
+	// Info messages
+	private msgCategoryAdded = "Category added successfully!";
+
 	constructor(private service: MongoAPIService,
 				private router: Router) {
 		this.service.mongoSelect('cats', '').subscribe(

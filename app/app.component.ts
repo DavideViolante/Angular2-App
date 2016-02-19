@@ -8,7 +8,6 @@ import {RegisterComponent} from './account/register.component';
 import {ProfileComponent} from './account/profile.component';
 import {UploadComponent} from './upload/upload.component';
 import {UserComponent} from './user.component';
-import {UsernameComponent} from './username.component';
 import {CategoriesComponent} from './categories.component';
 import {CategoryComponent} from './category.component';
 import {FileComponent} from './file.component';
@@ -29,7 +28,6 @@ import {AuthenticationComponent} from './account/authentication.component';
     { path: '/account/register', name: 'Register', component: RegisterComponent },
     { path: '/upload/...', name: 'Upload', component: UploadComponent },
     { path: '/user/:username', name: 'User', component: UserComponent },
-    //{ path: '/user/:username', name: 'Username', component: UsernameComponent },
     { path: '/category', name: 'Categories', component: CategoriesComponent },
     { path: '/category/:catname', name: 'Category', component: CategoryComponent },
     { path: '/category/:catname/:fileid/:filename', name: 'File', component: FileComponent },

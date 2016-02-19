@@ -19,6 +19,11 @@ export class LoginComponent {
 	private wrongPassword = false;
 	private formSubmitted = false;
 
+	// Info messages
+	private msgWrongCredentials = "Wrong username or password!";
+	private msgLoggedin = "You successfully logged in! Redirecting...";
+	private msgAlreadyLoggedin = "You seem to be already logged in.";
+
 	constructor(private service: MongoAPIService,
 				private router: Router,
 				private auth: AuthenticationComponent) { }

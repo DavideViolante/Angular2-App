@@ -18,6 +18,10 @@ export class AddUserComponent {
 	private formSubmitted = false;
 	private usernameAlreadyExists = false;
 
+	// Info messages
+	private msgUsernameAlreadyExists = "Username already exists!";
+	private msgUserAdded = "User added successfully!";
+
 	constructor(private service: MongoAPIService,
 				private router: Router) { }
 
