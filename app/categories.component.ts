@@ -26,6 +26,10 @@ export class CategoriesComponent {
 	private catDeleted = false;
 	private catNotDeleted = false;
 
+	// Info messages
+	private msgCategoryEdited = "Category edited successfully!";
+	private msgCategoryDeleted = "Category deleted successfully! Redirecting...";
+
 	constructor(private service: MongoAPIService,
 				private router: Router,
 				private auth: AuthenticationComponent) {
@@ -57,9 +61,13 @@ export class CategoriesComponent {
 	deleteCategory(catid) {
 		if (window.confirm("Are you sure you want to permanently delete this file?")) {
 			this.service.mongoSelect("cats", "{id:" + catid + "}").subscribe(
-				data => data ? this.service.mongoDelete("cats", data[0]._id.$oid).subscribe() : this.catNotDeleted = true
+				data => {
+					if (data.length > 0) {
+						this.service.mongoDelete("cats", data[0]._id.$oid).subscribe()
+						this.catDeleted = true;
+					}
+				}
 			);
-			this.catDeleted = true;
 			setTimeout(() => {
 				this.catDeleted = false;
 				this.router.navigate(['Home']);

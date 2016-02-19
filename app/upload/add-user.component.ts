@@ -20,7 +20,7 @@ export class AddUserComponent {
 
 	// Info messages
 	private msgUsernameAlreadyExists = "Username already exists!";
-	private msgUserAdded = "User added successfully!";
+	private msgUserAdded = "User added successfully! Redirecting...";
 
 	constructor(private service: MongoAPIService,
 				private router: Router) { }

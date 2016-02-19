@@ -2,10 +2,10 @@
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<i class="fa fa-check-circle"></i> File edited successfully!
+	<i class="fa fa-check-circle"></i> {{msgFileEdited}}
 </div>
 <div *ngIf="fileDeleted" class="alert alert-success" role="alert">
-	<i class="fa fa-check-circle"></i> File deleted successfully! Redirecting... <i class="fa fa-spinner fa-spin"></i>
+	<i class="fa fa-check-circle"></i> {{msgFileDeleted}} <i class="fa fa-spinner fa-spin"></i>
 </div>
 
 <table *ngIf="!isEditing" class="table table-bordered table-striped">

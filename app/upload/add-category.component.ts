@@ -14,7 +14,7 @@ export class AddCategoryComponent {
 	private formSubmitted = false;
 
 	// Info messages
-	private msgFileAdded = "File added successfully! Redirecting...";
+	private msgCategoryAdded = "Category added successfully!";
 
 	constructor(private service: MongoAPIService) { }
 

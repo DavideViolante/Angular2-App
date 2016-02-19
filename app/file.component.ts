@@ -43,6 +43,10 @@ export class FileComponent {
 	private fileFaved = false;
 	private fileRated = false;
 
+	// Info messages
+	private msgFileEdited = "File edited successfully!";
+	private msgFileDeleted = "File deleted successfully! Redirecting...";
+
 	constructor(private service: MongoAPIService, 				
 				private routeParams: RouteParams,
 				private router: Router,
