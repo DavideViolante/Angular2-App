@@ -41,7 +41,7 @@
 				<i class="fa fa-user"></i> Author/s:
 			</td>
 			<td width="80%">
-				<ul class="authorList"><li *ngFor="#author of file.authors">{{author}}, </li></ul>
+				<ul class="authorList"><li *ngFor="#author of file.authors"><a [routerLink]="['User', {username: author}]">{{author}}</a>, </li></ul>
 			</td>
 		</tr>
 		<tr>

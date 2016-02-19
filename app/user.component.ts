@@ -26,14 +26,24 @@ export class UserComponent {
 	private sortWay = 1;
 	private sortField = "name";
 
+	private username = this.routeParams.get("username");
+
+	private userNotExist = false;
+
 	constructor(private service: MongoAPIService,
 				private routeParams: RouteParams) {
-		this.service.mongoSelect("users", "{id:" + this.routeParams.get("userid") + "}").subscribe(
-			data => this.user = data[0],
-			err => console.log(err),
-			() => this.service.mongoSelect("files", "{authors:'" + this.user.username + "'}").subscribe(
-				data => this.uploads = data
-			)
+		this.service.mongoSelect("users", "{username:'" + this.username + "'}").subscribe(
+			data => {
+				if (data.length > 0) {
+					this.user = data[0];
+				} else {
+					this.userNotExist = true;
+				}
+			}
+		);
+
+		this.service.mongoSelect("files", "{authors:'" + this.username + "'}").subscribe(
+			data => this.uploads = data
 		);
 	}
 

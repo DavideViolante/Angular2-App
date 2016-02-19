@@ -22,7 +22,7 @@ export class FileComponent {
 	private file = new FileModel();
 	private fileid = "";
 	
-	private userid = localStorage.getItem("id");
+	private userid = +localStorage.getItem("id");
 	
 	private catname = "";
 	private cats = [];
@@ -57,8 +57,8 @@ export class FileComponent {
 			data => {
 				this.file = data[0];
 				this.mainScreen = data[0].imgurl[0];
-				(this.file.favs.indexOf(+this.userid) >= 0) ? this.fileFaved = true : this.fileFaved = false;
-				(this.file.likes.concat(this.file.dislikes).indexOf(+this.userid) >= 0) ? this.fileRated = true : this.fileRated = false;
+				(this.file.favs.indexOf(this.userid) >= 0) ? this.fileFaved = true : this.fileFaved = false;
+				(this.file.likes.concat(this.file.dislikes).indexOf(this.userid) >= 0) ? this.fileRated = true : this.fileRated = false;
 			}
 		);
 
@@ -78,24 +78,24 @@ export class FileComponent {
 	}
 
 	rate(n) {
-		this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
+		this.service.mongoSelect("users", "{id:" + this.userid + "}").subscribe(
 			data => {
 				if (data.length > 0) { // ok user exists
 					switch(n) {
 						case 1: { // thumbs up
-							this.file.likes.push(+localStorage.getItem("id"));
+							this.file.likes.push(this.userid);
 							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: this.file.likes }).subscribe();
 							this.fileRated = true;
 							break;
 						}
 						case -1: { // thumbs down
-							this.file.dislikes.push(+localStorage.getItem("id"));
+							this.file.dislikes.push(this.userid);
 							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: this.file.dislikes }).subscribe();
 							this.fileRated = true;
 							break;
 						}
 						case 0: { // favorite
-							this.file.favs.push(+localStorage.getItem("id"));
+							this.file.favs.push(this.userid);
 							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { favs: this.file.favs }).subscribe();
 							this.fileFaved = true;
 							break;
@@ -113,7 +113,7 @@ export class FileComponent {
 	}
 
 	commented(body) {
-		this.service.mongoSelect("users", "{id:" + localStorage.getItem("id") + "}").subscribe(
+		this.service.mongoSelect("users", "{id:" + this.userid + "}").subscribe(
 			data => {
 				this.comment = new CommentModel(+this.fileid, data[0].username, body);
 				this.service.mongoInsert("comments", this.comment).subscribe();

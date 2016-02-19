@@ -34,7 +34,7 @@
 				<i class="fa fa-user"></i> Username: 
 			</td>
 			<td width="80%" colspan="2">
-				{{user.username}} <span [class.label-danger]="user.role==='admin'" class="label label-primary">{{user.role}}</span>
+				<a [routerLink]="['User', {username: user.username}]" title="Public profile">{{user.username}}</a> <span [class.label-danger]="user.role==='admin'" class="label label-primary">{{user.role}}</span>
 			</td>
 		</tr>
 		<tr>
