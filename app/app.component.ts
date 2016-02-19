@@ -1,7 +1,5 @@
 import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-
-import {MongoAPIService} from './service/mongoapi.service';
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './account/login.component';
@@ -37,6 +35,13 @@ import {AuthenticationComponent} from './account/authentication.component';
 
 export class AppComponent {
 
-    constructor(private auth: AuthenticationComponent) {}
+    private query = "";
+
+    constructor(private auth: AuthenticationComponent,
+                private router: Router) {}
+
+    onSubmit(query) {
+        this.router.navigate(["Home", { s: query }]);
+    }
 
 }

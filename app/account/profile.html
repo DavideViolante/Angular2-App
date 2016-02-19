@@ -34,7 +34,7 @@
 				<i class="fa fa-user"></i> Username: 
 			</td>
 			<td width="80%" colspan="2">
-				{{user.username}}
+				{{user.username}} <span [class.label-danger]="user.role==='admin'" class="label label-primary">{{user.role}}</span>
 			</td>
 		</tr>
 		<tr>
@@ -77,14 +77,6 @@
 			</td>
 			<td colspan="2">
 				{{user.joined | date:'short'}}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<i class="fa fa-list-alt"></i> Role: 
-			</td>
-			<td colspan="2">
-				{{user.role}}
 			</td>
 		</tr>
 	</tbody>

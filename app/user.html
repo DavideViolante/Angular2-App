@@ -1,21 +1,8 @@
-<!-- <div [hidden]="!emailChanged" class="alert alert-success alert-dismissible fade in" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	<i class="fa fa-check-circle"></i> Email changed successfully!
-</div>
-<div [hidden]="!passwordChanged" class="alert alert-success alert-dismissible fade in" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	<i class="fa fa-check-circle"></i> Password changed successfully!
-</div>
- -->
 <table class="table table-bordered table-small">
 	<thead class="thead-default">
 		<tr>
 			<th colspan="4">
-				{{user?.username}}'s profile
+				<i class="fa fa-user"></i> {{user?.username}}'s profile
 			</th>
 		</tr>
 	</thead>
@@ -34,7 +21,7 @@
 				<i class="fa fa-user"></i> Username: 
 			</td>
 			<td width="35%">
-				{{user.username}} <span class="label label-primary">{{user.role}}</span>
+				{{user.username}} <span [class.label-danger]="user.role==='admin'" class="label label-primary">{{user.role}}</span>
 			</td>
 			<td width="15%">
 				<i class="fa fa-envelope"></i> Email: 
@@ -79,26 +66,39 @@
 	<thead class="thead-default">
 		<tr>
 			<th>
-				{{user?.username}}'s files ({{uploads.length}})
+				<i class="fa fa-file"></i> {{user?.username}}'s files <small>({{uploads.length}})</small>
+			</th>
+			<th>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-secondary" disabled>Sort</button>
+					<button type="button" class="btn btn-secondary" (click)="switchSort('dls')"><i class="fa fa-download"></i> Downloads <i class="fa fa-sort"></i></button>
+					<button type="button" class="btn btn-secondary" (click)="switchSort('added')"><i class="fa fa-calendar"></i> Date <i class="fa fa-sort"></i></button>
+					<button type="button" class="btn btn-secondary" (click)="switchSort('likes')"><i class="fa fa-thumbs-up"></i> Rating <i class="fa fa-sort"></i></button>
+				</div>
+				<div class="pull-right">
+					<input [(ngModel)]="filterUploads" type="text" class="form-control" style="font-weight:normal" placeholder="Filter" />
+				</div>
 			</th>
 		</tr>
 	</thead>
 	<tbody>
-		<div class="container" style="background-color:#F7F7F9">
-			<div *ngIf="uploads.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
-			<span *ngFor="#file of uploads #i=index">
-				<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
-					<div class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">
-						<div class="infoBg">
-							{{file.name}}<br />
-							<i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;
-							<i class="fa fa-download"></i> {{file.dls | number}} &nbsp;&nbsp;
-							<i class="fa fa-thumbs-up"></i> {{file.likes.length}} &nbsp;&nbsp;
-							<i class="fa fa-heart"></i> {{file.favs.length}}
+		<tr>
+			<td colspan="2">
+				<div *ngIf="uploads.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+				<span *ngFor="#file of uploads | filter:filterUploads:'name' | sort:sortWay:sortField #i=index">
+					<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
+						<div class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">
+							<div class="infoBg">
+								{{file.name}}<br />
+								<i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;
+								<i class="fa fa-download"></i> {{file.dls | number}} &nbsp;&nbsp;
+								<i class="fa fa-thumbs-up"></i> {{file.likes.length}} &nbsp;&nbsp;
+								<i class="fa fa-heart"></i> {{file.favs.length}}
+							</div>
 						</div>
-					</div>
-				</a>
-			</span>
-		</div>
+					</a>
+				</span>
+			</td>
+		</tr>
 	</tbody>
 </table>

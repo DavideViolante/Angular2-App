@@ -26,6 +26,10 @@
             <a class="nav-link" [routerLink]="['User', {userid:3, username:'ysup12'}]"><i class="fa fa-user-plus"></i> User test</a>
         </li>
     </ul>
+    <form (ngSubmit)="onSubmit(query)" class="form-inline pull-xs-right">
+        <input class="form-control" type="text" [(ngModel)]="query" placeholder="Search (3+ characters)">
+        <button class="btn btn-secondary" type="submit" [disabled]="query.length<3"><i class="fa fa-search"></i> Search</button>
+    </form>
 </nav>
 
 <router-outlet></router-outlet>
