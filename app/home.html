@@ -3,10 +3,10 @@
         <a class="nav-link" href="javascript:false" (click)="latest()" [class.active]="clickedL">Latest files</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="javascript:false" (click)="mostDownloaded()" [class.active]="clickedMD">Most downloaded (week)</a>
+        <a class="nav-link" href="javascript:false" (click)="mostDownloaded()" [class.active]="clickedMD">Most downloaded</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="javascript:false" (click)="mostLiked()" [class.active]="clickedML">Most liked (week)</a>
+        <a class="nav-link" href="javascript:false" (click)="mostLiked()" [class.active]="clickedML">Most liked</a>
     </li>
 </ul>
 
@@ -18,16 +18,20 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-        <span *ngFor="#file of files #i=index">
+    <tbody *ngIf="files.length===0">
+        <i class="fa fa-spinner fa-spin"></i> Loading...
+    </tbody>
+    <tbody *ngIf="files">
+        <span *ngFor="#file of files | sort:sortWay:sortField #i=index">
             <a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
-                <div class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">
+                <div *ngIf="i<9" class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">
                     <div class="infoBg">
-                        {{file.name}}<br />
-                        <i class="fa fa-user"></i> {{file.authors[0]}} &nbsp;&nbsp;
-                        <i class="fa fa-download"></i> {{file.dls | number}} &nbsp;&nbsp;
-                        <i class="fa fa-thumbs-up"></i> {{file.likes.length}} &nbsp;&nbsp;
-                        <i class="fa fa-heart"></i> {{file.favs.length}}
+                        <strong>{{file.name}}</strong>
+                        <span class="pull-right"><i class="fa fa-calendar"></i> {{file.added | date:'shortDate'}}</span><br />
+                        <i class="fa fa-user"></i> {{file.authors[0]}}                    
+                        <span class="pull-right"><i class="fa fa-download"></i> {{file.dls | number}}</span><br />
+                        <i class="fa fa-thumbs-up"></i> {{file.likes.length}}
+                        <span class="pull-right"><i class="fa fa-heart"></i> {{file.favs.length}}</span>
                     </div>
                 </div>
             </a>
