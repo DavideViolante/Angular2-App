@@ -84,7 +84,6 @@
 	<tbody>
 		<tr>
 			<td colspan="2">
-				<div *ngIf="uploads.length===0"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
 				<span *ngFor="#file of uploads | filter:filterUploads:'name' | sort:sortWay:sortField #i=index">
 					<a class="linkInfo" [routerLink]="['File', {catname: file.cat, fileid: file.id, filename: file.name | trimLowerCase}]">
 						<div class="col-md-4 thumbImg" style="background-image: url({{file.imgurl[0]}}">

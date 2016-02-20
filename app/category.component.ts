@@ -40,15 +40,6 @@ export class CategoryComponent implements CanReuse {
 		this.catname = this.routeParams.get("catname");
 		this.catname = this.toTitleCase(this.catname);
 
-		// Counting the total number of files
-		/*this.service.mongoCount('files', '{cat:"' + this.catname + '"}').subscribe(
-			data => {
-				this.totFiles = data;
-				if ((this.skip + this.filesPerPage) <= this.totFiles)
-					this.noMoreNext = false;
-			}
-		);*/
-
 		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 			data => {
 				this.files = data;
