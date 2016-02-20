@@ -18,7 +18,7 @@ import {FilterPipe} from './pipe/filter-pipe';
 
 export class CategoryComponent implements CanReuse {
 
-	private files = new Array<Object>();
+	private files = [];
 	private catname = "";
 
 	// 1: ASC, -1: DESC, 0: no sorting
@@ -33,21 +33,28 @@ export class CategoryComponent implements CanReuse {
 	private noMoreNext = true;
 	private noMorePrev = true;
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private routeParams: RouteParams,
 				private router: Router) {
 
 		this.catname = this.routeParams.get("catname");
 		this.catname = this.toTitleCase(this.catname);
 
-		this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
-			data => {
-				this.files = data;
-				this.totFiles = data.length;
-				if ((this.skip + this.filesPerPage) <= this.totFiles)
-					this.noMoreNext = false;
-			}
-		);
+		if (this.db.files.length === 0) {
+			this.db.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
+				data => {
+					this.files = data;
+					this.totFiles = data.length;
+					if ((this.skip + this.filesPerPage) <= this.totFiles)
+						this.noMoreNext = false;
+				}
+			);
+		} else {
+			this.files = this.db.files.filter((e) => e.cat === this.catname);
+			this.totFiles = this.files.length;
+			if ((this.skip + this.filesPerPage) <= this.totFiles)
+				this.noMoreNext = false;
+		}
 
 		var par = this.routeParams.get("sort");
 		if(par) {
@@ -119,7 +126,7 @@ export class CategoryComponent implements CanReuse {
 }
 
 /*if (fileCache.cat.indexOf(this.catname) === -1)
-	this.service.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
+	this.db.mongoSelect('files', '{cat:"' + this.catname + '"}').subscribe(
 		data => {
 			this.files = data;
 			fileCache.files.push({ cat: this.catname, data: data });

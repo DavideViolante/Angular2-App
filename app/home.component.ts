@@ -26,20 +26,25 @@ export class HomeComponent {
 	private sortWay = -1;
 	private sortField = "added";
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private router: Router,
 				private routeParams: RouteParams) {
-		if (!this.searchParam || this.searchParam.length < 3) {
-			this.service.mongoSelect("files", "").subscribe(
+
+		if (this.db.files.length === 0) {
+			this.db.mongoSelect("files", "").subscribe(
 				data => this.files = data
 			);
+		} else {
+			this.files = this.db.files;
+		}
+
+		if (!this.searchParam || this.searchParam.length < 3) {
 			this.searching = false;
 		} else {
 			this.searching = true;
 			this.searchParam = this.searchParam.toLowerCase();
-			this.service.mongoSelect("files", "").subscribe(
-				data => this.files = data.filter((e) => e.name.toLowerCase().indexOf(this.searchParam) > -1)
-			);
+
+			this.files = this.files.filter((e) => e.name.toLowerCase().indexOf(this.searchParam) > -1);
 		}
 	}
 

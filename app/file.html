@@ -26,7 +26,7 @@
 	<tbody *ngIf="file.id">
 		<tr>
 			<td class="text-center" colspan="2">
-				<img class="center-block fileMainScreen" [src]="mainScreen" alt="{{file.name}} screenshot" />
+				<img class="center-block fileMainScreen" [src]="mainScreen || file.imgurl[0]" alt="{{file.name}} screenshot" />
 			</td>
 		</tr>
 		<tr>

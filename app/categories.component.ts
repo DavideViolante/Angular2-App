@@ -16,8 +16,8 @@ import {TrimLowerCasePipe} from './pipe/trim-lowercase-pipe';
 
 export class CategoriesComponent {
 
-	private cats = null;
-	private cat = null;
+	private cat = "";
+	private cats = [];
 
 	private nameOrder = 1;
 
@@ -30,12 +30,16 @@ export class CategoriesComponent {
 	private msgCategoryEdited = "Category edited successfully!";
 	private msgCategoryDeleted = "Category deleted successfully! Redirecting...";
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private router: Router,
 				private auth: AuthenticationComponent) {
-		this.service.mongoSelect('cats', '').subscribe(
-			data => this.cats = data
-		);
+		if (this.db.cats.length === 0) {
+			this.db.mongoSelect('cats', '').subscribe(
+				data => this.cats = data
+			);
+		} else {
+			this.cats = this.db.cats;
+		}
 	}
 
 	changeSort() {
@@ -52,7 +56,7 @@ export class CategoriesComponent {
 	}
 
 	isEditingDone(catEdited) {
-		this.service.mongoUpdate("cats", "{id:" + catEdited.id + "}", catEdited).subscribe();
+		this.db.mongoUpdate("cats", "{id:" + catEdited.id + "}", catEdited).subscribe();
 		this.isEditing = false;
 		this.editingComplete = true;
 		setTimeout(() => this.editingComplete = false, 3000);
@@ -60,10 +64,10 @@ export class CategoriesComponent {
 
 	deleteCategory(catid) {
 		if (window.confirm("Are you sure you want to permanently delete this file?")) {
-			this.service.mongoSelect("cats", "{id:" + catid + "}").subscribe(
+			this.db.mongoSelect("cats", "{id:" + catid + "}").subscribe(
 				data => {
 					if (data.length > 0) {
-						this.service.mongoDelete("cats", data[0]._id.$oid).subscribe()
+						this.db.mongoDelete("cats", data[0]._id.$oid).subscribe()
 						this.catDeleted = true;
 					}
 				}

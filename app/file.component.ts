@@ -47,7 +47,7 @@ export class FileComponent {
 	private msgFileEdited = "File edited successfully!";
 	private msgFileDeleted = "File deleted successfully! Redirecting...";
 
-	constructor(private service: MongoAPIService, 				
+	constructor(private db: MongoAPIService, 				
 				private routeParams: RouteParams,
 				private router: Router,
 				private auth: AuthenticationComponent) {
@@ -56,21 +56,31 @@ export class FileComponent {
 		this.fileid = this.routeParams.get("fileid");
 		this.catname = this.routeParams.get("catname");
 
-		// get the file from the ID
-		this.service.mongoSelect("files", "{id:" + this.fileid + "}").subscribe(
-			data => {
-				this.file = data[0];
-				this.mainScreen = data[0].imgurl[0];
-				(this.file.favs.indexOf(this.userid) >= 0) ? this.fileFaved = true : this.fileFaved = false;
-				(this.file.likes.concat(this.file.dislikes).indexOf(this.userid) >= 0) ? this.fileRated = true : this.fileRated = false;
-			}
-		);
+		if (this.db.files.length === 0) {
+			console.log("no cache");
+			this.db.mongoSelect("files", "{id:" + this.fileid + "}").subscribe(
+				data => {
+					this.file = data[0];
+					this.mainScreen = data[0].imgurl[0];
+					(this.file.favs.indexOf(this.userid) >= 0) ? this.fileFaved = true : this.fileFaved = false;
+					(this.file.likes.concat(this.file.dislikes).indexOf(this.userid) >= 0) ? this.fileRated = true : this.fileRated = false;
+				}
+			);
+		} else {
+			this.file = this.db.files.filter((e) => e.id === +this.fileid)[0];
+		}
 
-		this.service.mongoSelect("cats", "").subscribe(
-			data => this.cats = data
-		);
 
-		this.service.mongoSelect("comments", "{file:"+this.fileid+"}").subscribe(
+		if(this.db.cats.length === 0) {
+			this.db.mongoSelect("cats", "").subscribe(
+				data => this.cats = data
+			);
+		} else {
+			this.cats = this.db.cats;
+		}
+		
+
+		this.db.mongoSelect("comments", "{file:"+this.fileid+"}").subscribe(
 			data => this.comments = data
 		);
 
@@ -82,25 +92,25 @@ export class FileComponent {
 	}
 
 	rate(n) {
-		this.service.mongoSelect("users", "{id:" + this.userid + "}").subscribe(
+		this.db.mongoSelect("users", "{id:" + this.userid + "}").subscribe(
 			data => {
 				if (data.length > 0) { // ok user exists
 					switch(n) {
 						case 1: { // thumbs up
 							this.file.likes.push(this.userid);
-							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: this.file.likes }).subscribe();
+							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: this.file.likes }).subscribe();
 							this.fileRated = true;
 							break;
 						}
 						case -1: { // thumbs down
 							this.file.dislikes.push(this.userid);
-							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: this.file.dislikes }).subscribe();
+							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: this.file.dislikes }).subscribe();
 							this.fileRated = true;
 							break;
 						}
 						case 0: { // favorite
 							this.file.favs.push(this.userid);
-							this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { favs: this.file.favs }).subscribe();
+							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { favs: this.file.favs }).subscribe();
 							this.fileFaved = true;
 							break;
 						}
@@ -112,15 +122,15 @@ export class FileComponent {
 	}
 
 	downloaded(dls) {
-		this.service.mongoUpdate("files", "{id:" + this.fileid + "}", { dls: dls + 1 }).subscribe();
+		this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { dls: dls + 1 }).subscribe();
 		this.file.dls++;
 	}
 
 	commented(body) {
-		this.service.mongoSelect("users", "{id:" + this.userid + "}").subscribe(
+		this.db.mongoSelect("users", "{id:" + this.userid + "}").subscribe(
 			data => {
 				this.comment = new CommentModel(+this.fileid, data[0].username, body);
-				this.service.mongoInsert("comments", this.comment).subscribe();
+				this.db.mongoInsert("comments", this.comment).subscribe();
 				this.comments.push(this.comment);
 			}
 		);
@@ -144,7 +154,7 @@ export class FileComponent {
 		if (typeof file.favs === "string") // if the favs array was edited
 			file.favs === "" ? file.favs = [] : file.favs = file.favs.replace(/, /g, ",").split(',').map(Number);
 
-		this.service.mongoUpdate("files", "{id:"+file.id+"}", file).subscribe();
+		this.db.mongoUpdate("files", "{id:"+file.id+"}", file).subscribe();
 		this.isEditing = false;
 		this.fileEdited = true;
 		setTimeout(() => this.fileEdited = false, 3000);
@@ -152,7 +162,7 @@ export class FileComponent {
 
 	deleteFile(file) {
 		if (window.confirm("Are you sure you want to permanently delete this file?")) {
-			this.service.mongoDelete("files", file._id.$oid).subscribe();
+			this.db.mongoDelete("files", file._id.$oid).subscribe();
 			this.fileDeleted = true;
 			setTimeout(() => {
 				this.fileDeleted = false;

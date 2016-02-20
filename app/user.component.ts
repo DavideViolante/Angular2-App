@@ -31,20 +31,33 @@ export class UserComponent {
 	private userNotExist = false;
 
 	constructor(private service: MongoAPIService,
-				private routeParams: RouteParams) {
-		this.service.mongoSelect("users", "{username:'" + this.username + "'}").subscribe(
-			data => {
+				private routeParams: RouteParams,
+				private db: MongoAPIService) {
+
+		if (this.db.users.length === 0) {
+			this.db.mongoSelect("users", "{username:'" + this.username + "'}").subscribe(
+				data => {
 				if (data.length > 0) {
 					this.user = data[0];
 				} else {
 					this.userNotExist = true;
 				}
 			}
-		);
+			);
+		} else {
+			if(!this.db.users.filter((e) => e.username === this.username)[0]);
+				this.userNotExist = true;
+		}
 
-		this.service.mongoSelect("files", "{authors:'" + this.username + "'}").subscribe(
-			data => this.uploads = data
-		);
+		if(this.db.files.length === 0) {
+			this.service.mongoSelect("files", "{authors:'" + this.username + "'}").subscribe(
+				data => this.uploads = data
+			);
+		} else {
+			this.uploads = this.db.files.filter((e) => e.authors.indexOf(this.username) > -1);
+		}
+
+		
 	}
 
 	switchSort(field) {

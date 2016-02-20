@@ -14,7 +14,32 @@ export class MongoAPIService {
 	private mongoURL: string = "https://api.mongolab.com/api/1/databases/masterthesis/collections/";
 	private apiKey: string = "DrWjz1L1mpb4g0701x7BS7VAC-vxBlpr";
 
-	constructor(private http: Http) {}
+	cats = [];
+	files = [];
+	users = [];
+	totFiles = 0;
+
+	constructor(private http: Http) {
+		this.http.get(this.mongoURL + "cats" + '?apiKey=' + this.apiKey).map(res => res.json()).subscribe(
+			data => this.cats = data,
+			error => console.log("Error loading categories."),
+			() => console.log("Categories loaded.")
+		);
+		this.http.get(this.mongoURL + "files" + '?apiKey=' + this.apiKey).map(res => res.json()).subscribe(
+			data => {
+				this.files = data;
+				this.totFiles = this.files.length;
+			},
+			error => console.log("Error loading files."),
+			() => console.log("Files loaded.")
+		);
+		this.http.get(this.mongoURL + "users" + '?apiKey=' + this.apiKey).map(res => res.json()).subscribe(
+			data => this.users = data,
+			error => console.log("Error loading users."),
+			() => console.log("Users loaded.")
+		);
+
+	}
 
 	// f: fields to include: {id:1}  1 yes, 0 no
 	// s: sort direction: {id:-1}    1 ASC -1 DESC

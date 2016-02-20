@@ -18,7 +18,7 @@ export class AddFileComponent {
 	private imgurlCount = [1];
 
 	// Info messages
-	private msgCategoryAdded = "File added successfully! Redirecting...";
+	private msgFileAdded = "File added successfully! Redirecting...";
 
 	constructor(private service: MongoAPIService,
 				private router: Router) {
