@@ -13,6 +13,7 @@ import {CategoryComponent} from './category.component';
 import {FileComponent} from './file.component';
 
 import {AuthenticationComponent} from './account/authentication.component';
+import {MongoAPIService} from './service/mongoapi.service';
 
 @Component({
     selector: 'app',
@@ -35,10 +36,28 @@ import {AuthenticationComponent} from './account/authentication.component';
 
 export class AppComponent {
 
+    private appReady = false;
+    private refresh = false;
+    private msgRefresh= "Refresh";
     private query = "";
 
     constructor(private auth: AuthenticationComponent,
-                private router: Router) {}
+                private router: Router,
+                private db: MongoAPIService) {
+        
+        // Load the app when all necessary files from DB are loaded
+        var interval = setInterval(() => {
+            if(this.db.files.length > 0 && this.db.users.length > 0 && this.db.cats.length > 0) {
+                this.appReady = true;
+                clearInterval(interval);
+            }
+        },500);
+
+        // if the app is taking way too long to load
+        var timeout = setTimeout(() => {
+            this.refresh = true;
+        },7000);
+    }
 
     onSubmit(query) {
         this.router.navigate(["Home", { s: query }]);
