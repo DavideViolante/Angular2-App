@@ -6,6 +6,10 @@ import {MongoAPIService} from '../service/mongoapi.service';
 import {isLoggedIn} from '../account/is-logged-in';
 import {AuthenticationComponent} from '../account/authentication.component';
 
+import {FilterPipe} from '../pipe/filter-pipe';
+import {SortPipe} from '../pipe/sort-pipe';
+import {TrimLowerCasePipe} from '../pipe/trim-lowercase-pipe';
+
 import {UserModel} from '../model/user-model';
 
 import * as bcrypt from 'bcryptjs';
@@ -13,6 +17,7 @@ import * as bcrypt from 'bcryptjs';
 @Component({
     selector: 'upload',
     templateUrl: 'app/account/profile.html',
+    pipes: [FilterPipe, SortPipe, TrimLowerCasePipe],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -22,6 +27,10 @@ import * as bcrypt from 'bcryptjs';
 
 export class ProfileComponent {
 	private user = new UserModel();
+	private favFiles = [];
+	private filterFavFiles = "";
+	private sortField = "name";
+	private sortWay = 1;
 	private changingPassword = false;
 	private changingEmail = false;
 	private emailChanged = false;
@@ -43,6 +52,19 @@ export class ProfileComponent {
 		} else {
 			this.user = this.db.users.filter((e) => e.id === this.userid)[0];
 		}
+
+		if (this.db.files.length === 0) {
+			this.db.mongoSelect("files", "{favs:" + this.userid + "}").subscribe(
+				data => this.favFiles = data
+			);
+		} else {
+			this.favFiles = this.db.files.filter((e) => e.favs.indexOf(this.userid) > -1);
+		}
+	}
+
+	switchSort(field) {
+		this.sortField = field;
+		this.sortWay < 0 ? this.sortWay = 1 : this.sortWay = -1;
 	}
 
 	changePassword() {

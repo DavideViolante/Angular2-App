@@ -145,3 +145,7 @@ div.down-vote {
     height: 4px;
     background: red;
 }
+
+small.commentDate {
+    padding-right: 10px;
+}

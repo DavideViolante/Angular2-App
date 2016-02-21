@@ -63,13 +63,13 @@ export class CategoriesComponent {
 	}
 
 	deleteCategory(catid) {
-		if (window.confirm("Are you sure you want to permanently delete this file?")) {
+		if (confirm("Are you sure you want to permanently delete this file?")) {
 			this.db.mongoSelect("cats", "{id:" + catid + "}").subscribe(
 				data => {
 					if (data.length > 0) {
 						var pos = this.db.cats.map((e) => { return e.id }).indexOf(catid);
 						this.db.cats.splice(pos, 1);
-						this.db.mongoDelete("cats", data[0]._id.$oid).subscribe()
+						this.db.mongoDelete("cats", data[0]._id.$oid).subscribe();
 						this.catDeleted = true;
 					}
 				}

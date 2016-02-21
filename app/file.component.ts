@@ -138,7 +138,15 @@ export class FileComponent {
 		this.commentBody = ""; // clear the textarea after sent
 		this.antiFlood = true;
 		setTimeout(() => this.antiFlood = false, this.antiFloodTime);
-	} 
+	}
+
+	deleteComment(comment) {
+		if (confirm("Are you sure you want to permanently delete this comment?")) {
+			var pos = this.comments.map((e) => { return e.body }).indexOf(comment.body);
+			this.comments.splice(pos, 1);
+			this.db.mongoDelete("comments", comment._id.$oid).subscribe();
+		}
+	}
 
 	editFile() { this.isEditing = true; }
 	isEditingCancel() { this.isEditing = false; }
