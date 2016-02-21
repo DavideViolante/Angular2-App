@@ -50,6 +50,7 @@ export class AppComponent {
             if(this.db.files.length > 0 && this.db.users.length > 0 && this.db.cats.length > 0) {
                 this.appReady = true;
                 clearInterval(interval);
+                clearTimeout(timeout);
             }
         },500);
 
