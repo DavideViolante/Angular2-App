@@ -37,16 +37,21 @@ export class UserComponent {
 		if (this.db.users.length === 0) {
 			this.db.mongoSelect("users", "{username:'" + this.username + "'}").subscribe(
 				data => {
-				if (data.length > 0) {
-					this.user = data[0];
-				} else {
-					this.userNotExist = true;
+					if (data.length > 0) {
+						this.user = data[0];
+						this.userNotExist = false;
+					} else {
+						this.userNotExist = true;
+					}
 				}
-			}
 			);
 		} else {
-			if(!this.db.users.filter((e) => e.username === this.username)[0]);
+			if (this.db.users.map((e) => { return e.username }).indexOf(this.username) < 0) {
 				this.userNotExist = true;
+			} else {
+				this.user = this.db.users.filter((e) => e.username === this.username)[0];
+				this.userNotExist = false;
+			}
 		}
 
 		if(this.db.files.length === 0) {

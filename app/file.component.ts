@@ -57,7 +57,6 @@ export class FileComponent {
 		this.catname = this.routeParams.get("catname");
 
 		if (this.db.files.length === 0) {
-			console.log("no cache");
 			this.db.mongoSelect("files", "{id:" + this.fileid + "}").subscribe(
 				data => {
 					this.file = data[0];
@@ -68,6 +67,8 @@ export class FileComponent {
 			);
 		} else {
 			this.file = this.db.files.filter((e) => e.id === +this.fileid)[0];
+			(this.file.favs.indexOf(this.userid) >= 0) ? this.fileFaved = true : this.fileFaved = false;
+			(this.file.likes.concat(this.file.dislikes).indexOf(this.userid) >= 0) ? this.fileRated = true : this.fileRated = false;
 		}
 
 
@@ -98,20 +99,20 @@ export class FileComponent {
 					switch(n) {
 						case 1: { // thumbs up
 							this.file.likes.push(this.userid);
-							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: this.file.likes }).subscribe();
 							this.fileRated = true;
+							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { likes: this.file.likes }).subscribe();
 							break;
 						}
 						case -1: { // thumbs down
 							this.file.dislikes.push(this.userid);
-							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: this.file.dislikes }).subscribe();
 							this.fileRated = true;
+							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { dislikes: this.file.dislikes }).subscribe();
 							break;
 						}
 						case 0: { // favorite
 							this.file.favs.push(this.userid);
-							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { favs: this.file.favs }).subscribe();
 							this.fileFaved = true;
+							this.db.mongoUpdate("files", "{id:" + this.fileid + "}", { favs: this.file.favs }).subscribe();
 							break;
 						}
 						default: false;
@@ -162,6 +163,8 @@ export class FileComponent {
 
 	deleteFile(file) {
 		if (window.confirm("Are you sure you want to permanently delete this file?")) {
+			var pos = this.db.files.map((e) => { return e.id }).indexOf(this.fileid);
+			this.db.files.splice(pos, 1);
 			this.db.mongoDelete("files", file._id.$oid).subscribe();
 			this.fileDeleted = true;
 			setTimeout(() => {

@@ -1,19 +1,8 @@
-<div *ngIf="editingComplete" class="alert alert-success alert-dismissible fade in" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	<i class="fa fa-check-circle"></i> {{msgCategoryEdited}}
-</div>
-<div *ngIf="catDeleted" class="alert alert-success" role="alert">
-	<i class="fa fa-check-circle"></i> {{msgCategoryDeleted}} <i class="fa fa-spinner fa-spin"></i>
-</div>
-
 <table class="table table-bordered table-hover">
 	<thead class="thead-default">
 		<tr>
 			<th>
-				<a href="javascript:false" (click)="changeSort()">Category</a> 
-				<i class="fa fa-sort"></i>
+				<a href="javascript:false" (click)="changeSort()">Category</a> <i class="fa fa-sort"></i>
 			</th>
 		</tr>
 	</thead>
@@ -44,3 +33,13 @@
 		</tr>
 	</tbody>
 </table>
+
+<div *ngIf="editingComplete" class="alert alert-success alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<i class="fa fa-check-circle"></i> {{msgCategoryEdited}}
+</div>
+<div *ngIf="catDeleted" class="alert alert-success" role="alert">
+	<i class="fa fa-check-circle"></i> {{msgCategoryDeleted}}
+</div>

@@ -110,3 +110,22 @@ img.isSelected {
 div.fileThumbImgs {
     text-align: center;
 }
+
+div.vote {
+    display: inline-block;
+    width: 250px;
+    height: 4px;
+    opacity: 0.5;
+}
+
+div.up-vote {
+    float: left;
+    height: 4px;
+    background: green;
+}
+
+div.down-vote {
+    float: left;
+    height: 4px;
+    background: red;
+}

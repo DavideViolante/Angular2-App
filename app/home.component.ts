@@ -38,7 +38,7 @@ export class HomeComponent {
 			this.files = this.db.files;
 		}
 
-		if (!this.searchParam || this.searchParam.length < 3) {
+		if (!this.searchParam || this.searchParam.length < 2) {
 			this.searching = false;
 		} else {
 			this.searching = true;

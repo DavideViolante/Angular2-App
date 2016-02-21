@@ -22,17 +22,17 @@ export class AddUserComponent {
 	private msgUsernameAlreadyExists = "Username already exists!";
 	private msgUserAdded = "User added successfully! Redirecting...";
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private router: Router) { }
 
 	onSubmit(userForm) {
-		this.service.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
+		this.db.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
 			data => {
 				if (data.length > 0) {
 					this.usernameAlreadyExists = true;
 				} else {
 					// Select the max user ID
-					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
+					this.db.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
 						data => {
 							// the new user will have maxID+1
 							this.user = new UserModel(data[0].id + 1,
@@ -41,7 +41,8 @@ export class AddUserComponent {
 													  userForm.email,
 													  userForm.role,
 													  "");
-							this.service.mongoInsert("users", this.user).subscribe();
+							this.db.users.push(this.user);
+							this.db.mongoInsert("users", this.user).subscribe();
 						}
 					);
 					this.formSubmitted = true;

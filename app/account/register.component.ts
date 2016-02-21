@@ -24,11 +24,11 @@ export class RegisterComponent {
 	private msgPswTooShort = "The password must be 6+ characters long!";
 	private msgRegistered = "You successfully registered! Redirecting...";
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private router: Router) { }
 
 	onSubmit(userForm) {
-		this.service.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
+		this.db.mongoSelect("users", "{username:'" + userForm.username + "'}").subscribe(
 			data => {
 				if (data.length > 0) {
 					this.usernameAlreadyExists = true;
@@ -36,7 +36,7 @@ export class RegisterComponent {
 					this.passwordTooShort = true;
 				} else {
 					// Select the max user ID
-					this.service.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
+					this.db.mongoSelectOne("users", "{id:1}", "{id:-1}").subscribe(
 						data => {
 							this.user = new UserModel(data[0].id + 1, // the new user will have maxID+1
 													  userForm.username,
@@ -44,7 +44,8 @@ export class RegisterComponent {
 													  userForm.email,
 													  "user", // role
 													  "");	  // session
-							this.service.mongoInsert("users", this.user).subscribe();
+							this.db.users.push(this.user);
+							this.db.mongoInsert("users", this.user).subscribe();
 						}
 					);
 					this.formSubmitted = true;

@@ -16,14 +16,15 @@ export class AddCategoryComponent {
 	// Info messages
 	private msgCategoryAdded = "Category added successfully!";
 
-	constructor(private service: MongoAPIService) { }
+	constructor(private db: MongoAPIService) { }
 
 	onSubmit(catForm) {
 		// Select the max category ID
-		this.service.mongoSelectOne("cats", "{id:1}", "{id:-1}").subscribe(
+		this.db.mongoSelectOne("cats", "{id:1}", "{id:-1}").subscribe(
 			data => {
 				catForm.id = data[0].id + 1; // the new category will have maxID+1
-				this.service.mongoInsert("cats", catForm).subscribe();
+				this.db.cats.push(catForm);
+				this.db.mongoInsert("cats", catForm).subscribe();
 			}
 		);
 		this.formSubmitted = true;

@@ -20,11 +20,15 @@ export class AddFileComponent {
 	// Info messages
 	private msgFileAdded = "File added successfully! Redirecting...";
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private router: Router) {
-		this.service.mongoSelect('cats', '').subscribe(
-			data => this.cats = data
-		);
+		if (this.db.cats.length === 0) {
+			this.db.mongoSelect('cats', '').subscribe(
+				data => this.cats = data
+			);
+		} else {
+			this.cats = this.db.cats;
+		}
 	}
 
 	addImgurlForm() { this.imgurlCount.push(1); }
@@ -33,7 +37,7 @@ export class AddFileComponent {
 
 	onSubmit(fileForm) {
 		// the new file will have maxID+1
-		this.service.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
+		this.db.mongoSelectOne("files", "{id:1}", "{id:-1}").subscribe(
 			data => {
 				// if there is only 1 author
 				if 	(fileForm.authors.indexOf(",") < 0) fileForm.authors = [fileForm.authors];
@@ -49,7 +53,8 @@ export class AddFileComponent {
 				} while (!cond);
 
 				this.file = new FileModel(data[0].id + 1, fileForm.name, fileForm.cat, fileForm.authors, fileForm.imgurl, fileForm.dlurl);
-				this.service.mongoInsert("files", this.file).subscribe();
+				this.db.files.push(this.file);
+				this.db.mongoInsert("files", this.file).subscribe();
 				this.formSubmitted = true;
 				setTimeout(() => {
 					this.formSubmitted = false;

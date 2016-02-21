@@ -26,11 +26,15 @@ export class EditUserComponent {
 	private msgUsernameAlreadyExists = "Username already exists!";
 	private msgUserEdited = "User edited successfully! Redirecting...";
 
-	constructor(private service: MongoAPIService,
+	constructor(private db: MongoAPIService,
 				private router: Router) {
-		this.service.mongoSelect("users", "").subscribe(
-			data => this.users = data
-		);
+		if (this.db.users.length === 0) {
+			this.db.mongoSelect('users', '').subscribe(
+				data => this.users = data
+			);
+		} else {
+			this.users = this.db.users;
+		}
 	}
 
 	userClicked(user) {
@@ -44,7 +48,7 @@ export class EditUserComponent {
 	}
 
 	onSubmit(user) {
-		this.service.mongoSelect("users", "{username:'" + user.username + "'}").subscribe(
+		this.db.mongoSelect("users", "{username:'" + user.username + "'}").subscribe(
 			data => {
 				var ok = false;
 				if (data.length > 0) { // username wasn't changed
@@ -58,7 +62,10 @@ export class EditUserComponent {
 				}
 				if (ok) {
 					this.usernameAlreadyExists = false;
-					this.service.mongoUpdate("users", "{id:" + user.id + "}", user).subscribe();
+					/*var pos = this.db.users.map((e) => { return e.id }).indexOf(user.id);
+					this.db.users.splice(pos, 1);
+					this.db.users.push(user);*/
+					this.db.mongoUpdate("users", "{id:" + user.id + "}", user).subscribe();
 					this.formSubmitted = true;
 					setTimeout(() => {
 						this.formSubmitted = false;

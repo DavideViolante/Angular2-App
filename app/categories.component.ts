@@ -28,7 +28,7 @@ export class CategoriesComponent {
 
 	// Info messages
 	private msgCategoryEdited = "Category edited successfully!";
-	private msgCategoryDeleted = "Category deleted successfully! Redirecting...";
+	private msgCategoryDeleted = "Category deleted successfully!";
 
 	constructor(private db: MongoAPIService,
 				private router: Router,
@@ -67,6 +67,8 @@ export class CategoriesComponent {
 			this.db.mongoSelect("cats", "{id:" + catid + "}").subscribe(
 				data => {
 					if (data.length > 0) {
+						var pos = this.db.cats.map((e) => { return e.id }).indexOf(catid);
+						this.db.cats.splice(pos, 1);
 						this.db.mongoDelete("cats", data[0]._id.$oid).subscribe()
 						this.catDeleted = true;
 					}
@@ -74,7 +76,6 @@ export class CategoriesComponent {
 			);
 			setTimeout(() => {
 				this.catDeleted = false;
-				this.router.navigate(['Home']);
 			}, 2500);
 		} else {
 			this.catDeleted = false;

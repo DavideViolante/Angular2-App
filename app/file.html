@@ -65,7 +65,12 @@
 				<i class="fa fa-thumbs-up"></i> Rating: 
 			</td>
 			<td>
-				<button type="button" class="btn" [ngClass]="{'btn-success':fileRated, 'btn-success-outline':!fileRated}" [disabled]="!auth.loggedIn || fileRated" (click)="rate(1)"><i class="fa fa-thumbs-up"></i> {{file.likes.length}}</button> <button type="button" class="btn" [ngClass]="{'btn-danger':fileRated, 'btn-danger-outline':!fileRated}" [disabled]="!auth.loggedIn || fileRated" (click)="rate(-1)"><i class="fa fa-thumbs-down"></i> {{file.dislikes.length}}</button>
+				<button type="button" class="btn" [ngClass]="{'btn-success':fileRated, 'btn-success-outline':!fileRated}" [disabled]="!auth.loggedIn || fileRated" (click)="rate(1)"><i class="fa fa-thumbs-up"></i> {{file.likes.length}}</button> <button type="button" class="btn" [ngClass]="{'btn-danger':fileRated, 'btn-danger-outline':!fileRated}" [disabled]="!auth.loggedIn || fileRated" (click)="rate(-1)"><i class="fa fa-thumbs-down"></i> {{file.dislikes.length}}</button> &nbsp;&nbsp;&nbsp;
+				<div class="vote">
+					<div class="up-vote" style="width: {{file.likes.length/(file.likes.length+file.dislikes.length)*100 | number:'1.0-0'}}%"></div>
+					<div class="down-vote" style="width: {{100-file.likes.length/(file.likes.length+file.dislikes.length)*100 | number:'1.0-0'}}%"></div>
+				</div>
+				<small *ngIf="file.likes.length>0 || file.dislikes.length>0">{{file.likes.length/(file.likes.length+file.dislikes.length) | number:'1.2-2'}} </small>
 			</td>
 		</tr>
 		<tr>

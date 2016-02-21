@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody *ngIf="files.length===0">
-        <i class="fa fa-spinner fa-spin"></i> Loading...
+        No results.
     </tbody>
     <tbody *ngIf="files">
         <span *ngFor="#file of files | sort:sortWay:sortField #i=index">
