@@ -45,14 +45,14 @@ export class CategoryComponent implements CanReuse {
 				data => {
 					this.files = data;
 					this.totFiles = data.length;
-					if ((this.skip + this.filesPerPage) <= this.totFiles)
+					if ((this.skip + this.filesPerPage) < this.totFiles)
 						this.noMoreNext = false;
 				}
 			);
 		} else {
 			this.files = this.db.files.filter((e) => e.cat === this.catname);
 			this.totFiles = this.files.length;
-			if ((this.skip + this.filesPerPage) <= this.totFiles)
+			if ((this.skip + this.filesPerPage) < this.totFiles)
 				this.noMoreNext = false;
 		}
 

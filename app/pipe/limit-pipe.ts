@@ -7,7 +7,6 @@ import {Pipe} from 'angular2/core';
 export class LimitPipe {
 	// args[0]: limit
 	transform(array, args: string[]) {
-		console.log(array.slice(0, 9));
 		return array.slice(0, +args[0]);
 	}
 }
