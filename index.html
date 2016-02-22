@@ -4,7 +4,7 @@
     <!-- Set the base href -->
     <base href="/">
     
-    <title>Angular 2 App</title>
+    <title>Angular 2 Application - Davide Violante</title>
 
     <link rel="icon" href="favicon.png" type="image/png" />
 
@@ -31,12 +31,6 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- Three.JS -->
-    <!--   
-    <script src="node_modules/three/three.min.js"></script>
-    <script src="/app/OrbitControls.js"></script>
-    -->
-    
     <script>
       System.config({
         packages: {        
@@ -49,8 +43,8 @@
           bcryptjs: 'node_modules/bcryptjs/dist/bcrypt.min.js'
         }
       });
-      System.import('app/boot')
-            .then(null, console.error.bind(console));
+
+      System.import('app/boot').then(null, console.error.bind(console));
     </script>
 
   </head>

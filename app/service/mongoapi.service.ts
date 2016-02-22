@@ -25,13 +25,14 @@ export class MongoAPIService {
 			error => console.log("Error loading categories."),
 			() => console.log("Categories loaded.")
 		);
+		// it seems like that more than 1000 files are not fetched with API
 		this.http.get(this.mongoURL + "files" + '?apiKey=' + this.apiKey).map(res => res.json()).subscribe(
 			data => {
 				this.files = data;
 				this.totFiles = this.files.length;
 			},
 			error => console.log("Error loading files."),
-			() => console.log("Files loaded.")
+			() => console.log("Files loaded ("+this.totFiles+")")
 		);
 		this.http.get(this.mongoURL + "users" + '?apiKey=' + this.apiKey).map(res => res.json()).subscribe(
 			data => this.users = data,

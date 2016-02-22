@@ -57,7 +57,7 @@ export class AppComponent {
         // if the app is taking way too long to load
         var timeout = setTimeout(() => {
             this.refresh = true;
-        },7000);
+        },10000);
     }
 
     onSubmit(query) {
